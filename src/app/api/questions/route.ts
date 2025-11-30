@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get('search') || '';
     const category = searchParams.get('category') || '';
+    const sort = searchParams.get('sort') || 'newest'; // 'newest' or 'mostViewed'
     const page = parseInt(searchParams.get('page') || '1', 10);
     const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
 
@@ -54,8 +55,16 @@ export async function GET(request: NextRequest) {
       query = query.eq('category', category);
     }
 
+    // Apply sorting
+    if (sort === 'mostViewed') {
+      query = query.order('view_count', { ascending: false });
+    } else {
+      // Default: newest (created_at descending)
+      query = query.order('created_at', { ascending: false });
+    }
+
     // Apply pagination
-    query = query.order('created_at', { ascending: false }).range(offset, offset + pageSize - 1);
+    query = query.range(offset, offset + pageSize - 1);
 
     const { data: questions, error, count } = await query;
 

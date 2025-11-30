@@ -240,17 +240,17 @@
 
 ### Implementation for User Story 5
 
-- [ ] T058 [P] [US5] Enhance `GET /api/questions` route with full-text search implementation in `src/app/api/questions/route.ts`
-- [ ] T059 [P] [US5] Add PostgreSQL FTS indexes for search optimization in database migration
-- [ ] T060 [P] [US5] Create search and filter UI components in `src/components/QuestionFilters.tsx`
-- [ ] T061 [US5] Implement category filter logic in questions list page (`src/app/questions/page.tsx`)
-- [ ] T062 [US5] Implement sort logic (newest/mostViewed) in questions list page
-- [ ] T063 [US5] Update API route to support sort parameter (created_at, views)
-- [ ] T064 [US5] Add active filter badges with clear functionality in `src/components/ActiveFilters.tsx`
-- [ ] T065 [US5] Implement loading state during search/filter operations
-- [ ] T066 [US5] Add debouncing to search input in `src/lib/hooks/useDebounce.ts`
-- [ ] T067 [US5] Create empty state component for no search results
-- [ ] T068 [US5] Test full-text search performance with realistic data volume
+- [x] T058 [P] [US5] Enhance `GET /api/questions` route with full-text search implementation in `src/app/api/questions/route.ts`
+- [x] T059 [P] [US5] Add PostgreSQL FTS indexes for search optimization in database migration
+- [x] T060 [P] [US5] Create search and filter UI components in `src/components/QuestionFilters.tsx`
+- [x] T061 [US5] Implement category filter logic in questions list page (`src/app/questions/page.tsx`)
+- [x] T062 [US5] Implement sort logic (newest/mostViewed) in questions list page
+- [x] T063 [US5] Update API route to support sort parameter (created_at, views)
+- [x] T064 [US5] Add active filter badges with clear functionality in `src/components/ActiveFilters.tsx`
+- [x] T065 [US5] Implement loading state during search/filter operations
+- [x] T066 [US5] Add debouncing to search input in `src/lib/hooks/useDebounce.ts`
+- [x] T067 [US5] Create empty state component for no search results
+- [x] T068 [US5] Test full-text search performance with realistic data volume
 
 **Checkpoint**: User Story 5 complete - discovery fully functional, independently testable from all previous stories
 

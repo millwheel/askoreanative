@@ -5,19 +5,10 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Question } from '@/types';
 import { QuestionCard } from '@/components/QuestionCard';
+import { QuestionFilters } from '@/components/QuestionFilters';
+import { ActiveFilters } from '@/components/ActiveFilters';
 import { Pagination } from '@/components/Pagination';
 import { EmptyState } from '@/components/EmptyState';
-
-const CATEGORIES = [
-  'All Categories',
-  'TRANSPORT',
-  'FOOD',
-  'ACCOMMODATION',
-  'CULTURE',
-  'ACTIVITIES',
-  'VISA_DOCUMENTS',
-  'SAFETY',
-];
 
 export default function QuestionsPage() {
   const searchParams = useSearchParams();
@@ -27,7 +18,10 @@ export default function QuestionsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState(searchParams?.get('search') || '');
-  const [category, setCategory] = useState(searchParams?.get('category') || 'All Categories');
+  const [category, setCategory] = useState(searchParams?.get('category') || '');
+  const [sort, setSort] = useState<'newest' | 'mostViewed'>(
+    (searchParams?.get('sort') as 'newest' | 'mostViewed') || 'newest'
+  );
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -37,7 +31,8 @@ export default function QuestionsPage() {
         params.set('page', currentPage.toString());
         params.set('pageSize', '10');
         if (search) params.set('search', search);
-        if (category !== 'All Categories') params.set('category', category);
+        if (category) params.set('category', category);
+        params.set('sort', sort);
 
         const response = await fetch(`/api/questions?${params}`);
         if (!response.ok) throw new Error('Failed to fetch questions');
@@ -54,15 +49,27 @@ export default function QuestionsPage() {
     };
 
     fetchQuestions();
-  }, [currentPage, search, category]);
+  }, [currentPage, search, category, sort]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleSearchChange = (newSearch: string) => {
+    setSearch(newSearch);
     setCurrentPage(1);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
+  const handleCategoryChange = (newCategory: string) => {
+    setCategory(newCategory);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (newSort: 'newest' | 'mostViewed') => {
+    setSort(newSort);
+    setCurrentPage(1);
+  };
+
+  const handleClearAll = () => {
+    setSearch('');
+    setCategory('');
+    setSort('newest');
     setCurrentPage(1);
   };
 
@@ -91,40 +98,25 @@ export default function QuestionsPage() {
 
       {/* Filter Section */}
       <section className="border-b border-[#e0f4f1] bg-[#f9fefe]">
-        <div className="mx-auto max-w-5xl px-4 py-4">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center">
-            <div className="flex-1">
-              <input
-                type="text"
-                value={search}
-                onChange={handleSearchChange}
-                placeholder="Search questions about Korea..."
-                className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
-              />
-            </div>
+        <div className="mx-auto max-w-5xl px-4 py-6 space-y-4">
+          <QuestionFilters
+            onSearchChange={handleSearchChange}
+            onCategoryChange={handleCategoryChange}
+            onSortChange={handleSortChange}
+            initialSearch={search}
+            initialCategory={category}
+            initialSort={sort}
+          />
 
-            <select
-              value={category}
-              onChange={handleCategoryChange}
-              className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-52"
-            >
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c === 'All Categories'
-                    ? 'All Categories'
-                    : {
-                        TRANSPORT: '🚗 Transport',
-                        FOOD: '🍜 Food',
-                        ACCOMMODATION: '🏨 Accommodation',
-                        CULTURE: '🎭 Culture',
-                        ACTIVITIES: '🎪 Activities',
-                        VISA_DOCUMENTS: '📄 Visa/Documents',
-                        SAFETY: '🛡️ Safety',
-                      }[c] || c}
-                </option>
-              ))}
-            </select>
-          </div>
+          <ActiveFilters
+            search={search}
+            category={category}
+            sort={sort}
+            onClearSearch={() => handleSearchChange('')}
+            onClearCategory={() => handleCategoryChange('')}
+            onClearSort={() => handleSortChange('newest')}
+            onClearAll={handleClearAll}
+          />
         </div>
       </section>
 
