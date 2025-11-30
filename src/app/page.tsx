@@ -1,3 +1,4 @@
+// app/page.tsx
 import React from "react";
 
 const mockQuestions = [
@@ -18,25 +19,25 @@ const mockQuestions = [
 
 export default function HomePage() {
   return (
-      <main className="min-h-screen bg-[#f9f4ef]">
+      <main className="min-h-screen bg-[#f4fbfa]">
         {/* Hero 영역 */}
-        <section className="bg-[#c62828] text-white">
+        <section className="bg-[#2EC4B6] text-white">
           <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
             <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
               Welcome to Korea Travel Q&amp;A
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-[#ffe8e8] sm:text-base">
+            <p className="max-w-2xl text-sm leading-relaxed text-[#eafffc] sm:text-base">
               Connect with local Korean experts who speak your language. Get
               authentic travel advice, cultural insights, and practical tips for
               your journey.
             </p>
-            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#c62828] shadow-sm transition hover:bg-[#ffe8e8]">
+            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#2EC4B6] shadow-sm transition hover:bg-[#e2fffb]">
               Ask Your First Question
             </button>
           </div>
         </section>
 
-        {/* 검색 바 영역 */}
+        {/* 검색 바 */}
         <section className="-mt-7">
           <div className="mx-auto max-w-5xl px-4">
             <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-md md:flex-row md:items-center">
@@ -44,19 +45,21 @@ export default function HomePage() {
                 <input
                     type="text"
                     placeholder="Search questions about Korea..."
-                    className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#c62828] focus:ring-1 focus:ring-[#c62828]"
+                    className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none
+                focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
                 />
               </div>
-              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#c62828] hover:bg-[#b32121]">
+              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#2EC4B6] hover:bg-[#27A89D]">
                 🔍
               </button>
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#c62828] focus:ring-1 focus:ring-[#c62828] md:w-40">
+
+              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
                 <option>All Categories</option>
                 <option>Food</option>
                 <option>Cultural Insights</option>
                 <option>Transportation</option>
               </select>
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#c62828] focus:ring-1 focus:ring-[#c62828] md:w-40">
+              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
                 <option>Choose an option</option>
                 <option>Most Recent</option>
                 <option>Most Viewed</option>
@@ -71,7 +74,7 @@ export default function HomePage() {
             <h2 className="text-lg font-semibold text-gray-900">
               Recent Questions
             </h2>
-            <button className="flex items-center gap-2 rounded-full bg-[#c62828] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#b32121]">
+            <button className="flex items-center gap-2 rounded-full bg-[#2EC4B6] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#27A89D]">
               ⊕ Ask a Question
             </button>
           </div>
@@ -86,14 +89,15 @@ export default function HomePage() {
                     <h3 className="text-base font-semibold text-gray-900">
                       {q.title}
                     </h3>
-                    <span className="rounded-full bg-[#ffe7d6] px-3 py-1 text-xs font-medium text-[#b35b2b]">
+                    <span className="rounded-full bg-[#D8F7F3] px-3 py-1 text-xs font-medium text-[#1B7F75]">
                   {q.category}
                 </span>
                   </div>
+
                   <p className="mb-4 text-sm text-gray-600">{q.excerpt}</p>
 
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    {/* 작성자 정보 */}
+                    {/* 작성자 */}
                     <div className="flex items-center gap-3">
                       <img
                           src={q.authorAvatar}
@@ -110,7 +114,7 @@ export default function HomePage() {
                       </div>
                     </div>
 
-                    {/* 통계 + 버튼 */}
+                    {/* 통계 */}
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-1 text-xs text-gray-500">
                         <span>👁</span>
