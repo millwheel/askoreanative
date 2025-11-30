@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch:*)",
+      "Bash(..specifyscriptspowershellcreate-new-feature.ps1 -Json \"한국 여행 Q&A 서비스 MVP 구현\" -Number 1 -ShortName \"qa-service-mvp\")",
+      "Bash(pwsh:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
