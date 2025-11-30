@@ -165,26 +165,35 @@ Users want to efficiently find relevant travel questions. They can search by key
 - **FR-040**: System MUST provide Tiptap editor with Hyperlink insertion capability
 - **FR-041**: System MUST provide Tiptap editor with Image upload capability (integrated with Supabase Storage)
 
+**UI Component Library (shadcn/ui) Requirements**:
+- **FR-042**: System MUST use shadcn/ui component library for consistent, accessible UI components
+- **FR-043**: System MUST apply mint theme colors to shadcn/ui components (Primary: #2EC4B6, Light: #D8F7F3, Highlight: #A5EFE7)
+- **FR-044**: System MUST use shadcn/ui Dialog component for modals and confirmation dialogs
+- **FR-045**: System MUST use shadcn/ui Form component for form validation and submission
+- **FR-046**: System MUST use shadcn/ui Button, Input, Textarea, Select components for form controls
+- **FR-047**: System MUST use shadcn/ui Card component for content containers
+- **FR-048**: System MUST maintain consistent spacing and typography using Tailwind CSS with shadcn/ui defaults
+
 **UI/UX Requirements**:
-- **FR-042**: System MUST implement mint theme color scheme (Primary: #2EC4B6, Light: #D8F7F3, Highlight: #A5EFE7)
-- **FR-043**: System MUST be fully responsive and optimized for mobile devices
-- **FR-044**: System MUST display user avatar and display name in profiles/comments/answers
-- **FR-045**: System MUST show login prompts to unregistered users when attempting restricted actions
-- **FR-046**: System MUST redirect users to intended page after login (using `redirectTo` parameter)
+- **FR-049**: System MUST implement mint theme color scheme (Primary: #2EC4B6, Light: #D8F7F3, Highlight: #A5EFE7)
+- **FR-050**: System MUST be fully responsive and optimized for mobile devices
+- **FR-051**: System MUST display user avatar and display name in profiles/comments/answers
+- **FR-052**: System MUST show login prompts to unregistered users when attempting restricted actions
+- **FR-053**: System MUST redirect users to intended page after login (using `redirectTo` parameter)
 
 **API Endpoints**:
-- **FR-047**: System MUST expose `GET /api/auth/me` endpoint returning current user profile with UserType and AnswererType
-- **FR-048**: System MUST expose `GET /api/questions` endpoint with search/filter/sort parameters
-- **FR-049**: System MUST expose `POST /api/questions` endpoint (requires login + CUSTOMER or ANSWERER)
-- **FR-050**: System MUST expose `GET /api/questions/:id` endpoint
-- **FR-051**: System MUST expose `PUT /api/questions/:id` endpoint (creator only, or ADMIN)
-- **FR-052**: System MUST expose `DELETE /api/questions/:id` endpoint (creator only, or ADMIN)
-- **FR-053**: System MUST expose `POST /api/answers` endpoint (requires login + ANSWERER only)
-- **FR-054**: System MUST expose `PUT /api/answers/:id` endpoint (creator only, or ADMIN)
-- **FR-055**: System MUST expose `DELETE /api/answers/:id` endpoint (creator only, or ADMIN)
-- **FR-056**: System MUST expose `POST /api/comments` endpoint (requires login)
-- **FR-057**: System MUST expose `DELETE /api/comments/:id` endpoint (creator only)
-- **FR-058**: System MUST expose `POST /api/upload` endpoint for image uploads
+- **FR-054**: System MUST expose `GET /api/auth/me` endpoint returning current user profile with UserType and AnswererType
+- **FR-055**: System MUST expose `GET /api/questions` endpoint with search/filter/sort parameters
+- **FR-056**: System MUST expose `POST /api/questions` endpoint (requires login + CUSTOMER or ANSWERER)
+- **FR-057**: System MUST expose `GET /api/questions/:id` endpoint
+- **FR-058**: System MUST expose `PUT /api/questions/:id` endpoint (creator only, or ADMIN)
+- **FR-059**: System MUST expose `DELETE /api/questions/:id` endpoint (creator only, or ADMIN)
+- **FR-060**: System MUST expose `POST /api/answers` endpoint (requires login + ANSWERER only)
+- **FR-061**: System MUST expose `PUT /api/answers/:id` endpoint (creator only, or ADMIN)
+- **FR-062**: System MUST expose `DELETE /api/answers/:id` endpoint (creator only, or ADMIN)
+- **FR-063**: System MUST expose `POST /api/comments` endpoint (requires login)
+- **FR-064**: System MUST expose `DELETE /api/comments/:id` endpoint (creator only)
+- **FR-065**: System MUST expose `POST /api/upload` endpoint for image uploads
 
 ### Key Entities
 

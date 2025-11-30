@@ -192,7 +192,7 @@ enum PostType {
 - **Auth**: Supabase Auth
 - **DB**: Supabase Postgres
 - **File Storage**: Supabase Storage
-- **UI**: React + TailwindCSS + Tiptap
+- **UI**: React + TailwindCSS + Tiptap + shadcn
 - **Deployment**: Vercel + Supabase
 
 ---
@@ -267,7 +267,7 @@ Next.js Route Handler 내부에서:
 
 ## 5. 개발 로드맵
 
-1. UI Skeleton 만들기
+1. UI Skeleton 만들기 - shadcn 활용
 2. `types.ts` 작성
 3. Mock API 연결
 4. Minimal Tiptap Editor 구현

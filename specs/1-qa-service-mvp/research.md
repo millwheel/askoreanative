@@ -42,7 +42,48 @@ This document captures key technical decisions, research findings, and unknowns 
 
 ---
 
-## 2. Technology Decision: Tiptap Integration
+## 2. Technology Decision: shadcn/ui Component Library
+
+### Decision: Use shadcn/ui for UI Components
+
+**Rationale**:
+- Provides pre-built, accessible React components built on Radix UI
+- Fully customizable and themable with Tailwind CSS
+- Copy-paste component approach (not a dependency, but copied into project)
+- Excellent TypeScript support
+- Aligns with modern React best practices
+- Easy mint theme customization through CSS variables
+
+**Components to Use**:
+- **Button**: Call-to-action, submit buttons with mint theme
+- **Input**: Text fields (search, question title, etc.)
+- **Textarea**: Rich text body inputs
+- **Select**: Category dropdowns, sort options
+- **Card**: Content containers (question cards, answer cards)
+- **Dialog**: Confirmation dialogs, modals
+- **Form**: Form validation and submission (with react-hook-form)
+- **Tabs**: Optional for organizing content
+- **Badge**: Category badges, tags
+- **Skeleton**: Loading states
+
+**Theme Customization**:
+- Colors configured in `globals.css` CSS variables
+- Primary: #2EC4B6 (mint)
+- Light: #D8F7F3 (light mint)
+- Highlight: #A5EFE7 (mid mint)
+
+**Installation**:
+```bash
+npm install shadcn-ui
+npx shadcn-ui@latest init
+# Select components as needed during implementation
+```
+
+**Estimated Effort**: 0.5 days for setup, integrated into component development
+
+---
+
+## 3. Technology Decision: Tiptap Integration
 
 ### Decision: Use `@tiptap/starter-kit`
 
@@ -584,6 +625,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 
 | Item | Decision | Rationale |
 |------|----------|-----------|
+| UI Component Library | shadcn/ui | Accessible, themable, customizable, TypeScript support |
 | Rich Text Editor | Tiptap + Starter Kit | Minimal config, required features |
 | Auth | Supabase Auth + Google OAuth | Seamless integration, no 3rd party |
 | Database | Supabase PostgreSQL | Single vendor, RLS support |

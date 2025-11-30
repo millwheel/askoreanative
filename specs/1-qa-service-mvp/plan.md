@@ -28,9 +28,12 @@
 - **Deployment**: Vercel + Supabase
 
 ### Key Dependencies
+- `shadcn/ui`: Component library (copy-paste approach)
 - `@supabase/supabase-js`: Database & Auth client
 - `@tiptap/react`: Rich text editor
 - `@tiptap/starter-kit`: Tiptap basic extensions (Bold, BulletList, etc.)
+- `react-hook-form`: Form validation (for shadcn/ui Form component)
+- `zod`: Schema validation (for shadcn/ui Form)
 
 ### Unknowns / NEEDS CLARIFICATION
 - [ ] Supabase project already created and configured?
@@ -206,9 +209,26 @@ src/app/api/
 **Owner**: Frontend integration
 **Estimated**: 4 days
 
-### 4.5 Tiptap Editor Integration
+### 4.5 shadcn/ui Component Setup
 **Input**: Specification requirements
-**Output**: Reusable editor component
+**Output**: Initialized shadcn/ui library with mint theme
+
+**Tasks**:
+1. Install shadcn/ui CLI and initialize project
+2. Configure theme colors (mint palette)
+3. Copy selected components:
+   - Button, Input, Textarea, Select
+   - Card, Dialog
+   - Form (with react-hook-form integration)
+   - Badge, Skeleton
+4. Create component customizations for mint theme
+
+**Owner**: UI component setup
+**Estimated**: 1 day
+
+### 4.6 Tiptap Editor Integration
+**Input**: Specification requirements
+**Output**: Reusable editor component using shadcn/ui styling
 
 **Requirements**:
 - Bold formatting
@@ -219,28 +239,28 @@ src/app/api/
 - No Undo/Redo (removed from spec)
 
 **Component**: `src/components/RichTextEditor.tsx`
-- Custom toolbar with mint theme
+- Custom toolbar matching shadcn/ui styling
 - Image upload handler with Supabase integration
 - JSON serialization for storage
 
 **Owner**: Editor component
 **Estimated**: 2 days
 
-### 4.6 Authentication Integration
+### 4.7 Authentication Integration
 **Input**: Supabase Auth setup
 **Output**: Auth context/hooks + login page
 
 **Tasks**:
 1. Create `src/lib/auth.ts` - Supabase auth utilities
 2. Create `src/components/AuthContext.tsx` - User state provider
-3. Create `src/app/login/page.tsx` - Login page with Google OAuth
+3. Create `src/app/login/page.tsx` - Login page with Google OAuth (using shadcn/ui Button)
 4. Create `src/hooks/useAuth.ts` - Custom hook for accessing auth state
 5. Add middleware for protected pages
 
 **Owner**: Auth implementation
 **Estimated**: 2 days
 
-### 4.7 Agent Context Update
+### 4.8 Agent Context Update
 **Task**: Run Supabase configuration script
 ```bash
 .specify/scripts/powershell/update-agent-context.ps1 -AgentType claude

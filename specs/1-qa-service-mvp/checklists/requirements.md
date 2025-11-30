@@ -23,7 +23,7 @@
 
 - [x] All mandatory sections completed
   - ✓ User Scenarios & Testing: 5 prioritized user stories with acceptance scenarios
-  - ✓ Requirements: 58 functional requirements covering all features (updated numbering)
+  - ✓ Requirements: 65 functional requirements covering all features (includes shadcn/ui components)
   - ✓ Success Criteria: 12 measurable outcomes
   - ✓ Key Entities: 5 entities defined with clear purpose reflecting new data model
 
@@ -114,6 +114,7 @@
 - ✓ Updated role permissions: CUSTOMER (questions only), ANSWERER (questions + answers), ADMIN (all deletions)
 - ✓ Updated data model references: postType/postId for Comments and Attachments (was parentType/parentId)
 - ✓ Removed Undo/Redo from Tiptap requirements (was listed in original spec)
+- ✓ Added shadcn/ui component library (7 new requirements for UI components)
 - ✓ All user stories updated to reflect new role structure
 - ✓ All acceptance scenarios updated with accurate role constraints
 
