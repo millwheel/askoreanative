@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Question } from '@/types';
+import { Question, Answer } from '@/types';
 import { AnswerCard } from '@/components/AnswerCard';
+import { AnswerForm } from '@/components/AnswerForm';
 import { CommentList } from '@/components/CommentList';
 import { LoginPrompt } from '@/components/LoginPrompt';
 import { EmptyState } from '@/components/EmptyState';
+import { useAuth } from '@/components/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 
 interface QuestionDetailPageProps {
@@ -15,9 +17,11 @@ interface QuestionDetailPageProps {
 }
 
 export default function QuestionDetailPage({ params }: QuestionDetailPageProps) {
+  const { user, profile } = useAuth();
   const [question, setQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAnswerForm, setShowAnswerForm] = useState(false);
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -181,6 +185,37 @@ export default function QuestionDetailPage({ params }: QuestionDetailPageProps) 
           )}
         </article>
       </section>
+
+      {/* Answer Form Section - visible only to ANSWERER and ADMIN users */}
+      {user && profile && (profile.userType === 'ANSWERER' || profile.userType === 'ADMIN') && (
+        <section className="mx-auto max-w-4xl px-4 py-8">
+          {!showAnswerForm ? (
+            <button
+              onClick={() => setShowAnswerForm(true)}
+              className="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
+            >
+              + Answer This Question
+            </button>
+          ) : (
+            <AnswerForm
+              questionId={question.id}
+              onSuccess={(newAnswer: Answer) => {
+                // Add the new answer to the question
+                setQuestion((prev) =>
+                  prev
+                    ? {
+                        ...prev,
+                        answers: [...(prev.answers || []), newAnswer],
+                      }
+                    : null
+                );
+                setShowAnswerForm(false);
+              }}
+              onCancel={() => setShowAnswerForm(false)}
+            />
+          )}
+        </section>
+      )}
 
       {/* Answers Section */}
       <section className="mx-auto max-w-4xl px-4 pb-8">

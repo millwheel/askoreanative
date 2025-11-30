@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Answer } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
+import { useAuth } from './AuthContext';
 
 interface AnswerCardProps {
   answer: Answer;
@@ -12,6 +13,7 @@ interface AnswerCardProps {
 }
 
 export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardProps) {
+  const { user, profile } = useAuth();
   const excerpt = answer.body
     .replace(/<[^>]*>/g, '')
     .substring(0, 200)
@@ -21,6 +23,9 @@ export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardPr
 
   // Badge for ANSWERER type
   const isExpert = answer.user?.userType === 'ANSWERER';
+
+  // Check if current user can edit/delete (creator or ADMIN)
+  const canEdit = user && (user.id === answer.userId || profile?.userType === 'ADMIN');
 
   return (
     <article className="border border-gray-200 rounded-lg p-4 bg-white">
@@ -49,13 +54,21 @@ export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardPr
           </div>
         </div>
 
-        {canDelete && (
-          <button
-            onClick={() => onDelete?.(answer.id)}
-            className="text-red-500 hover:text-red-700 text-sm font-medium"
-          >
-            Delete
-          </button>
+        {canEdit && (
+          <div className="flex gap-2">
+            <Link
+              href={`/answers/${answer.id}/edit`}
+              className="text-blue-500 hover:text-blue-700 text-sm font-medium"
+            >
+              Edit
+            </Link>
+            <button
+              onClick={() => onDelete?.(answer.id)}
+              className="text-red-500 hover:text-red-700 text-sm font-medium"
+            >
+              Delete
+            </button>
+          </div>
         )}
       </div>
 
