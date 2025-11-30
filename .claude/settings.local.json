@@ -6,7 +6,13 @@
       "Bash(pwsh:*)",
       "Bash(git checkout:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json)",
+      "Bash(npm install:*)",
+      "Bash(ConvertFrom-Json)",
+      "Bash(npx shadcn-ui@latest add button input textarea select card dialog form badge skeleton -y)",
+      "Bash(npx shadcn@latest add button input textarea select card dialog form badge skeleton -y)",
+      "Bash(npx shadcn@latest add:*)"
     ],
     "deny": [],
     "ask": []

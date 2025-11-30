@@ -22,11 +22,11 @@
 
 **Checkpoint**: All environment variables and tooling ready to proceed
 
-- [ ] T001 Set up Supabase project and configure environment variables in `.env.local`
-- [ ] T002 Initialize shadcn/ui CLI and configure mint theme colors in `globals.css`
-- [ ] T003 [P] Install core dependencies: @supabase/supabase-js, @tiptap/react, react-hook-form, zod
-- [ ] T004 [P] Create project directory structure: `src/lib/`, `src/components/`, `src/app/api/`
-- [ ] T005 Update `src/app/layout.tsx` to include AuthProvider context wrapper
+- [x] T001 Set up Supabase project and configure environment variables in `.env.local`
+- [x] T002 Initialize shadcn/ui CLI and configure mint theme colors in `globals.css`
+- [x] T003 [P] Install core dependencies: @supabase/supabase-js, @tiptap/react, react-hook-form, zod
+- [x] T004 [P] Create project directory structure: `src/lib/`, `src/components/`, `src/app/api/`
+- [x] T005 Update `src/app/layout.tsx` to include AuthProvider context wrapper
 
 ---
 

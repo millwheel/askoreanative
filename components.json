@@ -1,0 +1,10 @@
+{
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "baseColor": "zinc",
+  "cssVariables": true,
+  "aliases": {
+    "@/*": "./src/*"
+  }
+}
