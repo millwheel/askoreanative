@@ -7,6 +7,7 @@ import { Question, Answer } from '@/types';
 import { AnswerCard } from '@/components/AnswerCard';
 import { AnswerForm } from '@/components/AnswerForm';
 import { CommentList } from '@/components/CommentList';
+import { CommentForm } from '@/components/CommentForm';
 import { LoginPrompt } from '@/components/LoginPrompt';
 import { EmptyState } from '@/components/EmptyState';
 import { useAuth } from '@/components/AuthContext';
@@ -22,6 +23,7 @@ export default function QuestionDetailPage({ params }: QuestionDetailPageProps) 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAnswerForm, setShowAnswerForm] = useState(false);
+  const [showCommentForm, setShowCommentForm] = useState(false);
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -180,7 +182,49 @@ export default function QuestionDetailPage({ params }: QuestionDetailPageProps) 
               <h3 className="font-semibold text-gray-900 mb-3">
                 💬 Comments ({question.comments.length})
               </h3>
-              <CommentList comments={question.comments} />
+              <CommentList
+                comments={question.comments}
+                onDelete={(commentId) => {
+                  setQuestion((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          comments: prev.comments?.filter((c) => c.id !== commentId) || [],
+                        }
+                      : null
+                  );
+                }}
+              />
+            </div>
+          )}
+
+          {/* Comment Form on Question */}
+          {user && (
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              {!showCommentForm ? (
+                <button
+                  onClick={() => setShowCommentForm(true)}
+                  className="text-sm text-primary hover:underline font-medium"
+                >
+                  + Add comment
+                </button>
+              ) : (
+                <CommentForm
+                  postType="QUESTION"
+                  postId={question.id}
+                  onSuccess={(newComment) => {
+                    setQuestion((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            comments: [...(prev.comments || []), newComment],
+                          }
+                        : null
+                    );
+                    setShowCommentForm(false);
+                  }}
+                />
+              )}
             </div>
           )}
         </article>

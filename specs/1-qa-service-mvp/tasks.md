@@ -201,15 +201,15 @@
 
 ### Implementation for User Story 4
 
-- [ ] T049 [P] [US4] Create Comment form component in `src/components/CommentForm.tsx` (plain text, no editor)
-- [ ] T050 [US4] Implement `POST /api/comments` route handler in `src/app/api/comments/route.ts` (create comment)
-- [ ] T051 [US4] Implement `DELETE /api/comments/:id` route handler in `src/app/api/comments/[id]/route.ts` (delete comment)
-- [ ] T052 [US4] Update question detail page to fetch and display comments on question
-- [ ] T053 [US4] Update answer components to display comments on each answer
-- [ ] T054 [US4] Add comment form sections below question and each answer (conditional on auth)
-- [ ] T055 [US4] Add delete buttons to comments (visible to creator/ADMIN only)
-- [ ] T056 [US4] Implement role check for comment creation (authenticated users only) in API route
-- [ ] T057 [US4] Add comment validation (1-500 chars) in zod schema
+- [x] T049 [P] [US4] Create Comment form component in `src/components/CommentForm.tsx` (plain text, no editor)
+- [x] T050 [US4] Implement `POST /api/comments` route handler in `src/app/api/comments/route.ts` (create comment)
+- [x] T051 [US4] Implement `DELETE /api/comments/:id` route handler in `src/app/api/comments/[id]/route.ts` (delete comment)
+- [x] T052 [US4] Update question detail page to fetch and display comments on question
+- [x] T053 [US4] Update answer components to display comments on each answer
+- [x] T054 [US4] Add comment form sections below question and each answer (conditional on auth)
+- [x] T055 [US4] Add delete buttons to comments (visible to creator/ADMIN only)
+- [x] T056 [US4] Implement role check for comment creation (authenticated users only) in API route
+- [x] T057 [US4] Add comment validation (1-500 chars) in zod schema
 
 **Checkpoint**: User Story 4 complete - comments fully functional, independently testable from previous stories
 

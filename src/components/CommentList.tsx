@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { Comment } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
+import { useAuth } from './AuthContext';
+import { useState } from 'react';
 
 interface CommentListProps {
   comments: Comment[];
@@ -11,6 +13,9 @@ interface CommentListProps {
 }
 
 export function CommentList({ comments, onDelete, canDelete }: CommentListProps) {
+  const { user, profile } = useAuth();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
   if (!comments || comments.length === 0) {
     return (
       <div className="bg-gray-50 rounded-lg p-4 text-center">
@@ -18,6 +23,35 @@ export function CommentList({ comments, onDelete, canDelete }: CommentListProps)
       </div>
     );
   }
+
+  const handleDelete = async (commentId: string) => {
+    if (!confirm('Delete this comment?')) return;
+
+    try {
+      setDeletingId(commentId);
+      const response = await fetch(`/api/comments/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${user?.id}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete comment');
+      }
+
+      onDelete?.(commentId);
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      alert('Failed to delete comment');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const canUserDelete = (userId: string) => {
+    return user && (user.id === userId || profile?.userType === 'ADMIN');
+  };
 
   return (
     <div className="space-y-3">
@@ -47,12 +81,13 @@ export function CommentList({ comments, onDelete, canDelete }: CommentListProps)
               </div>
             </div>
 
-            {canDelete?.(comment.userId) && onDelete && (
+            {canUserDelete(comment.userId) && (
               <button
-                onClick={() => onDelete(comment.id)}
-                className="text-xs text-red-500 hover:text-red-700 font-medium"
+                onClick={() => handleDelete(comment.id)}
+                disabled={deletingId === comment.id}
+                className="text-xs text-red-500 hover:text-red-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Delete
+                {deletingId === comment.id ? 'Deleting...' : 'Delete'}
               </button>
             )}
           </div>

@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
-import { Answer } from '@/types';
+import { Answer, Comment } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
 import { useAuth } from './AuthContext';
+import { CommentForm } from './CommentForm';
+import { CommentList } from './CommentList';
 
 interface AnswerCardProps {
   answer: Answer;
@@ -14,6 +17,9 @@ interface AnswerCardProps {
 
 export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardProps) {
   const { user, profile } = useAuth();
+  const [comments, setComments] = useState<Comment[]>(answer.comments || []);
+  const [showCommentForm, setShowCommentForm] = useState(false);
+
   const excerpt = answer.body
     .replace(/<[^>]*>/g, '')
     .substring(0, 200)
@@ -26,6 +32,15 @@ export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardPr
 
   // Check if current user can edit/delete (creator or ADMIN)
   const canEdit = user && (user.id === answer.userId || profile?.userType === 'ADMIN');
+
+  const handleAddComment = (newComment: Comment) => {
+    setComments([...comments, newComment]);
+    setShowCommentForm(false);
+  };
+
+  const handleDeleteComment = (commentId: string) => {
+    setComments(comments.filter((c) => c.id !== commentId));
+  };
 
   return (
     <article className="border border-gray-200 rounded-lg p-4 bg-white">
@@ -98,27 +113,36 @@ export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardPr
         </div>
       )}
 
-      {/* Comments */}
-      {answer.comments && answer.comments.length > 0 && (
+      {/* Comments Section */}
+      {comments.length > 0 && (
         <div className="border-t border-gray-100 pt-3 mt-3">
-          <p className="text-sm font-semibold text-gray-700 mb-2">
-            💬 {answer.comments.length} Comments
+          <p className="text-sm font-semibold text-gray-700 mb-3">
+            💬 {comments.length} Comment{comments.length !== 1 ? 's' : ''}
           </p>
-          <div className="space-y-2">
-            {answer.comments.slice(0, 3).map((comment) => (
-              <div key={comment.id} className="bg-gray-50 rounded p-2">
-                <p className="text-xs font-medium text-gray-700">
-                  {comment.user?.displayName}
-                </p>
-                <p className="text-xs text-gray-600">{comment.body}</p>
-              </div>
-            ))}
-            {answer.comments.length > 3 && (
-              <p className="text-xs text-gray-500">
-                +{answer.comments.length - 3} more comments
-              </p>
-            )}
-          </div>
+          <CommentList
+            comments={comments}
+            onDelete={handleDeleteComment}
+          />
+        </div>
+      )}
+
+      {/* Comment Form */}
+      {user && (
+        <div className="border-t border-gray-100 pt-3 mt-3">
+          {!showCommentForm ? (
+            <button
+              onClick={() => setShowCommentForm(true)}
+              className="text-sm text-primary hover:underline font-medium"
+            >
+              + Add comment
+            </button>
+          ) : (
+            <CommentForm
+              postType="ANSWER"
+              postId={answer.id}
+              onSuccess={handleAddComment}
+            />
+          )}
         </div>
       )}
     </article>
