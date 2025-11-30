@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { getCurrentUser, getUserProfile } from '@/app/api/base-handler';
+import { getCurrentUser, getUserProfile } from '@/api/base-handler';
 import { successResponse, unauthorizedResponse } from '@/lib/api-utils';
 
 export async function GET(request: NextRequest) {

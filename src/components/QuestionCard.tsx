@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Question } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -54,10 +55,12 @@ export function QuestionCard({ question, showPreview = true }: QuestionCardProps
         <div className="flex items-center justify-between text-sm text-gray-500 border-t border-gray-100 pt-3">
           <div className="flex items-center gap-2">
             {question.user?.avatarUrl && (
-              <img
+              <Image
                 src={question.user.avatarUrl}
                 alt={question.user.displayName}
-                className="w-6 h-6 rounded-full"
+                width={24}
+                height={24}
+                className="rounded-full"
               />
             )}
             <span className="font-medium text-gray-700">{question.user?.displayName}</span>

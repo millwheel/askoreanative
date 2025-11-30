@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Answer } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
@@ -27,10 +28,12 @@ export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardPr
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           {answer.user?.avatarUrl && (
-            <img
+            <Image
               src={answer.user.avatarUrl}
               alt={answer.user.displayName}
-              className="w-10 h-10 rounded-full"
+              width={40}
+              height={40}
+              className="rounded-full"
             />
           )}
           <div>
@@ -70,9 +73,11 @@ export function AnswerCard({ answer, onDelete, canDelete = false }: AnswerCardPr
               rel="noopener noreferrer"
               className="rounded overflow-hidden hover:opacity-80 transition-opacity"
             >
-              <img
+              <Image
                 src={att.fileUrl}
                 alt="Attachment"
+                width={150}
+                height={96}
                 className="w-full h-24 object-cover"
               />
             </a>

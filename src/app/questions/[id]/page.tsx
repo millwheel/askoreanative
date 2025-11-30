@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Question } from '@/types';
 import { AnswerCard } from '@/components/AnswerCard';
 import { CommentList } from '@/components/CommentList';
@@ -110,10 +111,12 @@ export default function QuestionDetailPage({ params }: QuestionDetailPageProps) 
               {/* Author Info */}
               <div className="flex items-center gap-3">
                 {question.user?.avatarUrl && (
-                  <img
+                  <Image
                     src={question.user.avatarUrl}
                     alt={question.user.displayName}
-                    className="w-12 h-12 rounded-full"
+                    width={48}
+                    height={48}
+                    className="rounded-full"
                   />
                 )}
                 <div>
@@ -155,9 +158,11 @@ export default function QuestionDetailPage({ params }: QuestionDetailPageProps) 
                   rel="noopener noreferrer"
                   className="rounded overflow-hidden hover:opacity-80 transition-opacity"
                 >
-                  <img
+                  <Image
                     src={att.fileUrl}
                     alt="Attachment"
+                    width={200}
+                    height={128}
                     className="w-full h-32 object-cover"
                   />
                 </a>

@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { successResponse, notFoundResponse, serverErrorResponse, unauthorizedResponse, forbiddenResponse, validationErrorResponse } from '@/lib/api-utils';
 import { Question } from '@/types';
 import { createQuestionSchema } from '@/lib/validation';
-import { getCurrentUser, getUserProfile } from '@/app/api/base-handler';
+import { getCurrentUser, getUserProfile } from '@/api/base-handler';
 
 export async function GET(
   request: NextRequest,

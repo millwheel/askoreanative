@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { successResponse, unauthorizedResponse, validationErrorResponse, serverErrorResponse } from '@/lib/api-utils';
-import { getCurrentUser } from '@/app/api/base-handler';
+import { getCurrentUser } from '@/api/base-handler';
 import { FILE_SIZE_LIMIT, ALLOWED_IMAGE_TYPES } from '@/lib/constants';
 
 export async function POST(request: NextRequest) {

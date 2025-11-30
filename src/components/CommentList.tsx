@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Comment } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -28,10 +29,12 @@ export function CommentList({ comments, onDelete, canDelete }: CommentListProps)
           <div className="flex items-start justify-between mb-2">
             <div className="flex items-center gap-2">
               {comment.user?.avatarUrl && (
-                <img
+                <Image
                   src={comment.user.avatarUrl}
                   alt={comment.user.displayName}
-                  className="w-8 h-8 rounded-full"
+                  width={32}
+                  height={32}
+                  className="rounded-full"
                 />
               )}
               <div>
