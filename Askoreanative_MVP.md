@@ -13,8 +13,10 @@
 - 질문/답변 중심의 초간단 구조
 - 로그인 없이 "보기" 가능
 - 로그인한 사용자만 글 작성 가능
-- 질문자는 외국인 (`UserType = FOREIGN_QUESTIONER`)
-- 답변자는 한국 로컬 (`UserType = *_ANSWERER`)
+- 질문자는 외국인
+- 답변자는 인정된 사람들만 가능.
+- 질문자는 질문만 할 수 있음.
+- 답변자는 질문과 답변 모두 할 수 있음.
 - 모바일 친화적 UI/UX
 - Next.js + Supabase 기반 MVP
 - 향후 Spring/NestJS 백엔드로 확장 가능한 구조
@@ -57,6 +59,7 @@
     - 비로그인: 보기만 가능 / 작성 버튼 → `/login`
     - 로그인: 작성 가능
     - 작성자 본인만 수정/삭제 가능
+    - ADMIN은 모든 질문 삭제 가능
 
 #### 5) 질문 작성 & 편집 페이지
 - 신규: `/questions/new`
@@ -74,8 +77,8 @@
 - 편집: `/answers/[id]/edit` 또는 인라인 편집
 - **접근 제약**:
     - 로그인 필수
-    - `UserType`이 답변자 그룹일 때만 작성 가능
-    - 본인 답변만 수정/삭제 가능
+    - `UserType`이 ANSWERER, ADMIN일 때에만 답변 가능
+    - 본인 답변 수정/삭제 가능. ADMIN은 모든 답변 삭제 가능
 
 ---
 
@@ -84,24 +87,28 @@
 > 모든 모델에는 `createdAt`, `updatedAt` 필드가 존재
 
 #### UserProfile
-| 필드 | 타입 | 설명 |
-|------|------|------|
-| id | string | 유저 PK |
-| email | string | 로그인 이메일 |
-| displayName | string | 프로필 이름 |
-| avatarUrl | string | 아바타 이미지 |
+| 필드 | 타입 | 설명                |
+|------|------|-------------------|
+| id | string | 유저 PK             |
+| email | string | 로그인 이메일           |
+| displayName | string | 프로필 이름            |
+| avatarUrl | string | 아바타 이미지           |
 | languagePreference | string | UI 언어 (e.g. "en") |
-| userType | enum | 질문자/답변자 구분 |
-| createdAt | timestamp | 생성 일시 |
-| updatedAt | timestamp | 수정 일시 |
+| userType | enum | 사용자 role          |
+| createdAt | timestamp | 생성 일시             |
+| updatedAt | timestamp | 수정 일시             |
 
 **userType Enum 정의**:
 ```typescript
 enum UserType {
-  FOREIGN_QUESTIONER,
-  KOREAN_NATIVE_ANSWERER,
-  LONG_TERM_RESIDENT_ANSWERER,
-  ETHNIC_KOREAN_FOREIGN_NATIONAL_ANSWERER
+  CUSTOMER,
+  ANSWERER,
+  ADMIN
+}
+
+enum AnswererType {
+  KOREAN_NATIVE,
+  LONG_TERM_RESIDENT,
 }
 ```
 
@@ -111,7 +118,7 @@ enum UserType {
 | id | string | |
 | userId | string | 질문자 ID |
 | title | string | |
-| body | JSON (Tiptap) | |
+| body | JSON | |
 | category | string | |
 | createdAt | timestamp | |
 | updatedAt | timestamp | |
@@ -126,25 +133,34 @@ enum UserType {
 | createdAt | timestamp |
 | updatedAt | timestamp |
 
+하나의 Question 하위에는 여러 Answer가 붙을 수 있음.
+
 #### Comment
-| 필드 | 타입 |
-|------|------|
-| id | string |
-| parentType | "question" or "answer" |
-| parentId | string |
-| userId | string |
-| body | string |
+| 필드        | 타입        |
+|-----------|-----------|
+| id        | string    |
+| postType  | enum      |
+| postId    | string    |
+| userId    | string    |
+| body      | string    |
 | createdAt | timestamp |
 | updatedAt | timestamp |
 
+```typescript
+enum PostType {
+    Question,
+    Answer
+}
+```
+
 #### Attachment
-| 필드 | 타입 |
-|------|------|
-| id | string |
-| parentType | "question" or "answer" |
-| parentId | string |
-| fileUrl | string |
-| fileType | string |
+| 필드        | 타입 |
+|-----------|------|
+| id        | string |
+| postType  | enum   |
+| postId    | string |
+| fileUrl   | string |
+| fileType  | string |
 | createdAt | timestamp |
 | updatedAt | timestamp |
 
@@ -152,20 +168,12 @@ enum UserType {
 
 ### 2.3 에디터(Tiptap) 요구사항
 
-#### 필수 기능
+#### 필요 기능
 - Bold
 - Bullet List
 - Quote
 - Hyperlink
 - Image Upload (Supabase Storage)
-- Undo/Redo
-
-#### 불필요한 기능
-- Heading
-- Table
-- Font size/color
-- Video embed
-- Code block
 
 #### 디자인 방향
 - Quora 스타일의 심플 입력 폼
@@ -173,7 +181,6 @@ enum UserType {
     - Primary: `#2EC4B6`
     - Light: `#D8F7F3`
     - Highlight: `#A5EFE7`
-
 ---
 
 ## 3. 어떻게 만들 것인가?
@@ -225,13 +232,13 @@ Next.js Route Handler 내부에서:
 
 #### Questions
 - `GET /api/questions`
-- `POST /api/questions` (로그인 + `userType = FOREIGN_QUESTIONER`)
+- `POST /api/questions`
 - `GET /api/questions/:id`
-- `PUT /api/questions/:id` (본인 글)
-- `DELETE /api/questions/:id` (본인 글)
+- `PUT /api/questions/:id` 
+- `DELETE /api/questions/:id` 
 
 #### Answers
-- `POST /api/answers` (로그인 + `userType ∈ ANSWERER GROUP`)
+- `POST /api/answers`
 - `PUT /api/answers/:id`
 - `DELETE /api/answers/:id`
 
@@ -250,7 +257,7 @@ Next.js Route Handler 내부에서:
 - **비로그인**: 보기만 가능
 - **로그인**:
     - 본인 콘텐츠만 수정/삭제
-    - `userType`에 따라 질문/답변 권한 분리
+    - `userType`에 따라 답변 권한 분리
 - 모바일 우선
 - 불필요한 기능 제거
 - 민트 테마 유지
@@ -281,4 +288,3 @@ Next.js Route Handler 내부에서:
 - Next.js + Supabase 기반 MVP
 - 향후 Spring/NestJS로 백엔드 분리 가능한 확장성 고려한 설계
 - Supabase 종속성 최소화
-- `UserType` 기반의 명확한 역할 분리
