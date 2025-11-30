@@ -1,65 +1,134 @@
-import Image from "next/image";
+import React from "react";
 
-export default function Home() {
+const mockQuestions = [
+  {
+    id: 1,
+    title: "What are the best seasonal festivals in Seoul?",
+    excerpt:
+        "I'm planning to visit Seoul in spring and would love to experience some traditional festivals...",
+    authorName: "Sarah Chen",
+    authorAvatar:
+        "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80",
+    createdAt: "2 hours ago",
+    category: "Cultural Insights",
+    views: 127,
+    replies: 5,
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+      <main className="min-h-screen bg-[#f9f4ef]">
+        {/* Hero 영역 */}
+        <section className="bg-[#c62828] text-white">
+          <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
+            <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+              Welcome to Korea Travel Q&amp;A
+            </h1>
+            <p className="max-w-2xl text-sm leading-relaxed text-[#ffe8e8] sm:text-base">
+              Connect with local Korean experts who speak your language. Get
+              authentic travel advice, cultural insights, and practical tips for
+              your journey.
+            </p>
+            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#c62828] shadow-sm transition hover:bg-[#ffe8e8]">
+              Ask Your First Question
+            </button>
+          </div>
+        </section>
+
+        {/* 검색 바 영역 */}
+        <section className="-mt-7">
+          <div className="mx-auto max-w-5xl px-4">
+            <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-md md:flex-row md:items-center">
+              <div className="flex-1">
+                <input
+                    type="text"
+                    placeholder="Search questions about Korea..."
+                    className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#c62828] focus:ring-1 focus:ring-[#c62828]"
+                />
+              </div>
+              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#c62828] hover:bg-[#b32121]">
+                🔍
+              </button>
+              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#c62828] focus:ring-1 focus:ring-[#c62828] md:w-40">
+                <option>All Categories</option>
+                <option>Food</option>
+                <option>Cultural Insights</option>
+                <option>Transportation</option>
+              </select>
+              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#c62828] focus:ring-1 focus:ring-[#c62828] md:w-40">
+                <option>Choose an option</option>
+                <option>Most Recent</option>
+                <option>Most Viewed</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        {/* Recent Questions */}
+        <section className="mx-auto mt-10 max-w-5xl px-4 pb-16">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Questions
+            </h2>
+            <button className="flex items-center gap-2 rounded-full bg-[#c62828] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#b32121]">
+              ⊕ Ask a Question
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {mockQuestions.map((q) => (
+                <article
+                    key={q.id}
+                    className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
+                >
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <h3 className="text-base font-semibold text-gray-900">
+                      {q.title}
+                    </h3>
+                    <span className="rounded-full bg-[#ffe7d6] px-3 py-1 text-xs font-medium text-[#b35b2b]">
+                  {q.category}
+                </span>
+                  </div>
+                  <p className="mb-4 text-sm text-gray-600">{q.excerpt}</p>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    {/* 작성자 정보 */}
+                    <div className="flex items-center gap-3">
+                      <img
+                          src={q.authorAvatar}
+                          alt={q.authorName}
+                          className="h-8 w-8 rounded-full object-cover"
+                      />
+                      <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-gray-900">
+                      {q.authorName}
+                    </span>
+                        <span className="text-xs text-gray-500">
+                      {q.createdAt}
+                    </span>
+                      </div>
+                    </div>
+
+                    {/* 통계 + 버튼 */}
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <span>👁</span>
+                        <span>{q.views}</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <span>💬</span>
+                        <span>{q.replies}</span>
+                      </div>
+                      <button className="rounded-full border border-gray-200 px-4 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                </article>
+            ))}
+          </div>
+        </section>
       </main>
-    </div>
   );
 }
