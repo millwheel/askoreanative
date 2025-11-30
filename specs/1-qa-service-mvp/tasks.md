@@ -76,16 +76,16 @@
 
 ### Implementation for User Story 1
 
-- [ ] T016 [P] [US1] Create Question and UserProfile display components in `src/components/QuestionCard.tsx`
-- [ ] T017 [P] [US1] Create Answer and Comment display components in `src/components/AnswerCard.tsx` and `src/components/CommentList.tsx`
-- [ ] T018 [US1] Implement `GET /api/questions` route handler in `src/app/api/questions/route.ts` with search/filter/sort
-- [ ] T019 [US1] Implement `GET /api/questions/:id` route handler in `src/app/api/questions/[id]/route.ts`
-- [ ] T020 [US1] Update homepage (`src/app/page.tsx`) to fetch and display recent questions from API
-- [ ] T021 [US1] Update questions list page (`src/app/questions/page.tsx`) to use real data with working search/filter/sort
-- [ ] T022 [US1] Create question detail page (`src/app/questions/[id]/page.tsx`) with full content, answers, and comments
-- [ ] T023 [US1] Add login redirect buttons for unregistered users trying to write content in `src/components/LoginPrompt.tsx`
-- [ ] T024 [US1] Implement pagination for question list in `src/components/Pagination.tsx`
-- [ ] T025 [US1] Add empty state components for no questions/answers found in `src/components/EmptyState.tsx`
+- [x] T016 [P] [US1] Create Question and UserProfile display components in `src/components/QuestionCard.tsx`
+- [x] T017 [P] [US1] Create Answer and Comment display components in `src/components/AnswerCard.tsx` and `src/components/CommentList.tsx`
+- [x] T018 [US1] Implement `GET /api/questions` route handler in `src/app/api/questions/route.ts` with search/filter/sort
+- [x] T019 [US1] Implement `GET /api/questions/:id` route handler in `src/app/api/questions/[id]/route.ts`
+- [x] T020 [US1] Update homepage (`src/app/page.tsx`) to fetch and display recent questions from API
+- [x] T021 [US1] Update questions list page (`src/app/questions/page.tsx`) to use real data with working search/filter/sort
+- [x] T022 [US1] Create question detail page (`src/app/questions/[id]/page.tsx`) with full content, answers, and comments
+- [x] T023 [US1] Add login redirect buttons for unregistered users trying to write content in `src/components/LoginPrompt.tsx`
+- [x] T024 [US1] Implement pagination for question list in `src/components/Pagination.tsx`
+- [x] T025 [US1] Add empty state components for no questions/answers found in `src/components/EmptyState.tsx`
 
 **Checkpoint**: User Story 1 complete - unregistered browsing fully functional and independently testable
 

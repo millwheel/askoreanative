@@ -1,138 +1,151 @@
-// app/page.tsx
-import React from "react";
+'use client';
 
-const mockQuestions = [
-  {
-    id: 1,
-    title: "What are the best seasonal festivals in Seoul?",
-    excerpt:
-        "I'm planning to visit Seoul in spring and would love to experience some traditional festivals...",
-    authorName: "Sarah Chen",
-    authorAvatar:
-        "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80",
-    createdAt: "2 hours ago",
-    category: "Cultural Insights",
-    views: 127,
-    replies: 5,
-  },
-];
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Question } from '@/types';
+import { QuestionCard } from '@/components/QuestionCard';
+import { EmptyState } from '@/components/EmptyState';
 
 export default function HomePage() {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/questions?page=1&pageSize=5');
+        if (!response.ok) throw new Error('Failed to fetch questions');
+
+        const result = await response.json();
+        setQuestions(result.data || []);
+      } catch (err) {
+        console.error('Error fetching questions:', err);
+        setError('Failed to load questions');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
   return (
-      <main className="min-h-screen bg-[#f4fbfa]">
-        {/* Hero 영역 */}
-        <section className="bg-[#2EC4B6] text-white">
-          <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
-            <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
-              Welcome to Korea Travel Q&amp;A
-            </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-[#eafffc] sm:text-base">
-              Connect with local Korean experts who speak your language. Get
-              authentic travel advice, cultural insights, and practical tips for
-              your journey.
-            </p>
-            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#2EC4B6] shadow-sm transition hover:bg-[#e2fffb]">
-              Ask Your First Question
-            </button>
-          </div>
-        </section>
+    <main className="min-h-screen bg-[#f4fbfa]">
+      {/* Hero Section */}
+      <section className="bg-[#2EC4B6] text-white">
+        <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
+          <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+            Welcome to Korea Travel Q&A
+          </h1>
+          <p className="max-w-2xl text-sm leading-relaxed text-[#eafffc] sm:text-base">
+            Connect with local Korean experts who speak your language. Get
+            authentic travel advice, cultural insights, and practical tips for
+            your journey.
+          </p>
+          <Link
+            href="/questions/new"
+            className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#2EC4B6] shadow-sm transition hover:bg-[#e2fffb]"
+          >
+            Ask Your First Question
+          </Link>
+        </div>
+      </section>
 
-        {/* 검색 바 */}
-        <section className="-mt-7">
-          <div className="mx-auto max-w-5xl px-4">
-            <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-md md:flex-row md:items-center">
-              <div className="flex-1">
-                <input
-                    type="text"
-                    placeholder="Search questions about Korea..."
-                    className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none
-                focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
-                />
-              </div>
-              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#2EC4B6] hover:bg-[#27A89D]">
-                🔍
-              </button>
-
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
-                <option>All Categories</option>
-                <option>Food</option>
-                <option>Cultural Insights</option>
-                <option>Transportation</option>
-              </select>
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
-                <option>Choose an option</option>
-                <option>Most Recent</option>
-                <option>Most Viewed</option>
-              </select>
+      {/* Search Bar */}
+      <section className="-mt-7">
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-md md:flex-row md:items-center">
+            <div className="flex-1">
+              <input
+                type="text"
+                placeholder="Search questions about Korea..."
+                className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
+              />
             </div>
-          </div>
-        </section>
-
-        {/* Recent Questions */}
-        <section className="mx-auto mt-10 max-w-5xl px-4 pb-16">
-          <div className="mb-4 flex items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Recent Questions
-            </h2>
-            <button className="flex items-center gap-2 rounded-full bg-[#2EC4B6] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#27A89D]">
-              ⊕ Ask a Question
+            <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#2EC4B6] hover:bg-[#27A89D]">
+              🔍
             </button>
+
+            <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
+              <option>All Categories</option>
+              <option value="TRANSPORT">🚗 Transport</option>
+              <option value="FOOD">🍜 Food</option>
+              <option value="ACCOMMODATION">🏨 Accommodation</option>
+              <option value="CULTURE">🎭 Culture</option>
+              <option value="ACTIVITIES">🎪 Activities</option>
+              <option value="VISA_DOCUMENTS">📄 Visa/Documents</option>
+              <option value="SAFETY">🛡️ Safety</option>
+            </select>
           </div>
+        </div>
+      </section>
 
+      {/* Recent Questions */}
+      <section className="mx-auto mt-10 max-w-5xl px-4 pb-16">
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <h2 className="text-lg font-semibold text-gray-900">
+            Recent Questions
+          </h2>
+          <Link
+            href="/questions/new"
+            className="flex items-center gap-2 rounded-full bg-[#2EC4B6] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#27A89D]"
+          >
+            ⊕ Ask a Question
+          </Link>
+        </div>
+
+        {loading && (
           <div className="space-y-4">
-            {mockQuestions.map((q) => (
-                <article
-                    key={q.id}
-                    className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
-                >
-                  <div className="mb-2 flex items-center justify-between gap-2">
-                    <h3 className="text-base font-semibold text-gray-900">
-                      {q.title}
-                    </h3>
-                    <span className="rounded-full bg-[#D8F7F3] px-3 py-1 text-xs font-medium text-[#1B7F75]">
-                  {q.category}
-                </span>
-                  </div>
-
-                  <p className="mb-4 text-sm text-gray-600">{q.excerpt}</p>
-
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    {/* 작성자 */}
-                    <div className="flex items-center gap-3">
-                      <img
-                          src={q.authorAvatar}
-                          alt={q.authorName}
-                          className="h-8 w-8 rounded-full object-cover"
-                      />
-                      <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-gray-900">
-                      {q.authorName}
-                    </span>
-                        <span className="text-xs text-gray-500">
-                      {q.createdAt}
-                    </span>
-                      </div>
-                    </div>
-
-                    {/* 통계 */}
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-1 text-xs text-gray-500">
-                        <span>👁</span>
-                        <span>{q.views}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-gray-500">
-                        <span>💬</span>
-                        <span>{q.replies}</span>
-                      </div>
-                      <button className="rounded-full border border-gray-200 px-4 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50">
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </article>
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="rounded-lg bg-white p-4 h-32 animate-pulse"
+              />
             ))}
           </div>
-        </section>
-      </main>
+        )}
+
+        {error && (
+          <EmptyState
+            icon="⚠️"
+            title="Error Loading Questions"
+            description={error}
+          />
+        )}
+
+        {!loading && !error && questions.length === 0 && (
+          <EmptyState
+            icon="📭"
+            title="No Questions Yet"
+            description="Be the first to ask a question about your Korea travel plans!"
+            action={{
+              label: 'Ask the First Question',
+              href: '/questions/new',
+            }}
+          />
+        )}
+
+        {!loading && !error && questions.length > 0 && (
+          <div className="space-y-4">
+            {questions.map((question) => (
+              <QuestionCard key={question.id} question={question} />
+            ))}
+          </div>
+        )}
+
+        {!loading && !error && questions.length > 0 && (
+          <div className="mt-8 text-center">
+            <Link
+              href="/questions"
+              className="inline-block rounded-lg bg-primary text-white px-6 py-2 font-medium hover:bg-opacity-90 transition-all"
+            >
+              View All Questions
+            </Link>
+          </div>
+        )}
+      </section>
+    </main>
   );
 }
