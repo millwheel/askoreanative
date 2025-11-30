@@ -1,7 +1,9 @@
 import { NextRequest } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { successResponse, validationErrorResponse, serverErrorResponse } from '@/lib/api-utils';
+import { successResponse, validationErrorResponse, serverErrorResponse, unauthorizedResponse, forbiddenResponse } from '@/lib/api-utils';
 import { Question } from '@/types';
+import { createQuestionSchema } from '@/lib/validation';
+import { getCurrentUser, getUserProfile } from '@/app/api/base-handler';
 
 export async function GET(request: NextRequest) {
   try {
@@ -98,6 +100,71 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('GET /api/questions error:', error);
+    return serverErrorResponse();
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // Check authentication
+    const authData = await getCurrentUser(request);
+    if (!authData) {
+      return unauthorizedResponse('Authentication required');
+    }
+
+    // Get user profile
+    const profile = await getUserProfile(authData.userId);
+    if (!profile) {
+      return unauthorizedResponse('User profile not found');
+    }
+
+    // Check if user is CUSTOMER or ANSWERER (both can create questions)
+    if (!['CUSTOMER', 'ANSWERER'].includes(profile.userType)) {
+      return forbiddenResponse('Only CUSTOMER and ANSWERER users can create questions');
+    }
+
+    // Parse and validate request body
+    const body = await request.json();
+    const validatedData = createQuestionSchema.parse(body);
+
+    // Create question
+    const { data, error } = await supabase
+      .from('questions')
+      .insert([
+        {
+          user_id: authData.userId,
+          title: validatedData.title,
+          category: validatedData.category,
+          body: validatedData.body,
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating question:', error);
+      return serverErrorResponse('Failed to create question');
+    }
+
+    // Transform response
+    const question: Question = {
+      id: data.id,
+      userId: data.user_id,
+      title: data.title,
+      category: data.category,
+      body: data.body,
+      viewCount: 0,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      user: profile,
+    };
+
+    return successResponse(question, 201);
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('Zod')) {
+      return validationErrorResponse(error.message);
+    }
+    console.error('POST /api/questions error:', error);
     return serverErrorResponse();
   }
 }

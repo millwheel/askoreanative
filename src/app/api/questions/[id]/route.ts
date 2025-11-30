@@ -1,7 +1,9 @@
 import { NextRequest } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { successResponse, notFoundResponse, serverErrorResponse } from '@/lib/api-utils';
+import { successResponse, notFoundResponse, serverErrorResponse, unauthorizedResponse, forbiddenResponse, validationErrorResponse } from '@/lib/api-utils';
 import { Question } from '@/types';
+import { createQuestionSchema } from '@/lib/validation';
+import { getCurrentUser, getUserProfile } from '@/app/api/base-handler';
 
 export async function GET(
   request: NextRequest,
@@ -218,6 +220,139 @@ export async function GET(
     return successResponse(question);
   } catch (error) {
     console.error('GET /api/questions/:id error:', error);
+    return serverErrorResponse();
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+
+    // Check authentication
+    const authData = await getCurrentUser(request);
+    if (!authData) {
+      return unauthorizedResponse('Authentication required');
+    }
+
+    // Get user profile
+    const profile = await getUserProfile(authData.userId);
+    if (!profile) {
+      return unauthorizedResponse('User profile not found');
+    }
+
+    // Fetch question to check ownership
+    const { data: questionData, error: fetchError } = await supabase
+      .from('questions')
+      .select('user_id')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !questionData) {
+      return notFoundResponse('Question not found');
+    }
+
+    // Check authorization (creator or ADMIN)
+    if (questionData.user_id !== authData.userId && profile.userType !== 'ADMIN') {
+      return forbiddenResponse('You can only edit your own questions');
+    }
+
+    // Parse and validate request body
+    const body = await request.json();
+    const validatedData = createQuestionSchema.parse(body);
+
+    // Update question
+    const { data, error } = await supabase
+      .from('questions')
+      .update({
+        title: validatedData.title,
+        category: validatedData.category,
+        body: validatedData.body,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating question:', error);
+      return serverErrorResponse('Failed to update question');
+    }
+
+    // Transform response
+    const question: Question = {
+      id: data.id,
+      userId: data.user_id,
+      title: data.title,
+      category: data.category,
+      body: data.body,
+      viewCount: data.view_count,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      user: profile,
+    };
+
+    return successResponse(question);
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('Zod')) {
+      return validationErrorResponse(error.message);
+    }
+    console.error('PUT /api/questions/:id error:', error);
+    return serverErrorResponse();
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+
+    // Check authentication
+    const authData = await getCurrentUser(request);
+    if (!authData) {
+      return unauthorizedResponse('Authentication required');
+    }
+
+    // Get user profile
+    const profile = await getUserProfile(authData.userId);
+    if (!profile) {
+      return unauthorizedResponse('User profile not found');
+    }
+
+    // Fetch question to check ownership
+    const { data: questionData, error: fetchError } = await supabase
+      .from('questions')
+      .select('user_id')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !questionData) {
+      return notFoundResponse('Question not found');
+    }
+
+    // Check authorization (creator or ADMIN)
+    if (questionData.user_id !== authData.userId && profile.userType !== 'ADMIN') {
+      return forbiddenResponse('You can only delete your own questions');
+    }
+
+    // Delete question (cascading delete via RLS)
+    const { error } = await supabase
+      .from('questions')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting question:', error);
+      return serverErrorResponse('Failed to delete question');
+    }
+
+    return successResponse({ message: 'Question deleted successfully' });
+  } catch (error) {
+    console.error('DELETE /api/questions/:id error:', error);
     return serverErrorResponse();
   }
 }

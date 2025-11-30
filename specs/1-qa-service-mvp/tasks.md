@@ -116,19 +116,19 @@
 
 ### Implementation for User Story 2
 
-- [ ] T026 [P] [US2] Create Tiptap editor component in `src/components/RichTextEditor.tsx` with extensions: Bold, BulletList, BlockQuote, Link, Image
-- [ ] T027 [P] [US2] Create shadcn/ui Form wrapper components in `src/components/QuestionForm.tsx` and `src/components/QuestionFormField.tsx`
-- [ ] T028 [US2] Implement `POST /api/questions` route handler in `src/app/api/questions/route.ts` (create question)
-- [ ] T029 [US2] Implement `PUT /api/questions/:id` route handler in `src/app/api/questions/[id]/route.ts` (edit question)
-- [ ] T030 [US2] Implement `DELETE /api/questions/:id` route handler in `src/app/api/questions/[id]/route.ts` (delete question)
-- [ ] T031 [US2] Implement `POST /api/upload` route handler in `src/app/api/upload/route.ts` (image upload to Supabase Storage)
-- [ ] T032 [P] [US2] Create category enum/constants in `src/lib/constants.ts`
-- [ ] T033 [US2] Update question creation page (`src/app/questions/new/page.tsx`) to use real form with Tiptap and validation
-- [ ] T034 [US2] Create question edit page (`src/app/questions/[id]/edit/page.tsx`)
-- [ ] T035 [US2] Add auth guard to question creation/edit pages to redirect non-CUSTOMER users
-- [ ] T036 [US2] Add edit/delete buttons to question detail page (visible to creator/ADMIN only)
-- [ ] T037 [US2] Implement form validation with zod schema in `src/lib/validation.ts`
-- [ ] T038 [US2] Add error handling and user feedback for form submission failures
+- [x] T026 [P] [US2] Create Tiptap editor component in `src/components/RichTextEditor.tsx` with extensions: Bold, BulletList, BlockQuote, Link, Image
+- [x] T027 [P] [US2] Create shadcn/ui Form wrapper components in `src/components/QuestionForm.tsx` and `src/components/QuestionFormField.tsx`
+- [x] T028 [US2] Implement `POST /api/questions` route handler in `src/app/api/questions/route.ts` (create question)
+- [x] T029 [US2] Implement `PUT /api/questions/:id` route handler in `src/app/api/questions/[id]/route.ts` (edit question)
+- [x] T030 [US2] Implement `DELETE /api/questions/:id` route handler in `src/app/api/questions/[id]/route.ts` (delete question)
+- [x] T031 [US2] Implement `POST /api/upload` route handler in `src/app/api/upload/route.ts` (image upload to Supabase Storage)
+- [x] T032 [P] [US2] Create category enum/constants in `src/lib/constants.ts`
+- [x] T033 [US2] Update question creation page (`src/app/questions/new/page.tsx`) to use real form with Tiptap and validation
+- [x] T034 [US2] Create question edit page (`src/app/questions/[id]/edit/page.tsx`)
+- [x] T035 [US2] Add auth guard to question creation/edit pages to redirect non-CUSTOMER users
+- [x] T036 [US2] Add edit/delete buttons to question detail page (visible to creator/ADMIN only)
+- [x] T037 [US2] Implement form validation with zod schema in `src/lib/validation.ts`
+- [x] T038 [US2] Add error handling and user feedback for form submission failures
 
 **Checkpoint**: User Story 2 complete - question creation/editing fully functional, independently testable from US1
 
