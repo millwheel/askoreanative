@@ -38,20 +38,20 @@
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel or sequentially
 
-- [ ] T006 Create TypeScript types in `src/types/index.ts` (UserProfile, Question, Answer, Comment, Attachment, UserType enums)
-- [ ] T007 Set up Supabase database schema migration SQL (run in Supabase console)
+- [x] T006 Create TypeScript types in `src/types/index.ts` (UserProfile, Question, Answer, Comment, Attachment, UserType enums)
+- [x] T007 Set up Supabase database schema migration SQL (run in Supabase console)
   - Create tables: user_profiles, questions, answers, comments, attachments
   - Configure RLS policies for each table
   - Create indexes for search and filtering
-- [ ] T008 [P] Implement Supabase client initialization in `src/lib/supabase.ts`
-- [ ] T009 [P] Create authentication utilities in `src/lib/auth.ts` (login, logout, getCurrentUser)
-- [ ] T010 [P] Create AuthContext component in `src/components/AuthContext.tsx` with useAuth hook
-- [ ] T011 [P] Implement API error handling middleware in `src/lib/api-utils.ts`
-- [ ] T012 [P] Create shadcn/ui theme customization file for mint colors in `src/lib/theme.ts`
-- [ ] T013 Create middleware for protected routes in `src/middleware.ts`
-- [ ] T014 [P] Set up API base route handlers in `src/app/api/` directory structure
+- [x] T008 [P] Implement Supabase client initialization in `src/lib/supabase.ts`
+- [x] T009 [P] Create authentication utilities in `src/lib/auth.ts` (login, logout, getCurrentUser)
+- [x] T010 [P] Create AuthContext component in `src/components/AuthContext.tsx` with useAuth hook
+- [x] T011 [P] Implement API error handling middleware in `src/lib/api-utils.ts`
+- [x] T012 [P] Create shadcn/ui theme customization file for mint colors in `src/lib/theme.ts`
+- [x] T013 Create middleware for protected routes in `src/middleware.ts`
+- [x] T014 [P] Set up API base route handlers in `src/app/api/` directory structure
   - Create directories: `api/auth/me/`, `api/questions/`, `api/answers/`, `api/comments/`, `api/upload/`
-- [ ] T015 Create base route handler template with auth checks in `src/app/api/base-handler.ts`
+- [x] T015 Create base route handler template with auth checks in `src/app/api/base-handler.ts`
 
 ---
 
