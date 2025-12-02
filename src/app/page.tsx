@@ -70,13 +70,13 @@ export default function HomePage() {
 
             <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
               <option>All Categories</option>
-              <option value="TRANSPORT">🚗 Transport</option>
-              <option value="FOOD">🍜 Food</option>
-              <option value="ACCOMMODATION">🏨 Accommodation</option>
-              <option value="CULTURE">🎭 Culture</option>
-              <option value="ACTIVITIES">🎪 Activities</option>
-              <option value="VISA_DOCUMENTS">📄 Visa/Documents</option>
-              <option value="SAFETY">🛡️ Safety</option>
+              <option value="TRANSPORT">Transport</option>
+              <option value="FOOD">Food</option>
+              <option value="ACCOMMODATION">Accommodation</option>
+              <option value="CULTURE">Culture</option>
+              <option value="ACTIVITIES">Activities</option>
+              <option value="VISA_DOCUMENTS">Visa/Documents</option>
+              <option value="SAFETY">Safety</option>
             </select>
           </div>
         </div>
