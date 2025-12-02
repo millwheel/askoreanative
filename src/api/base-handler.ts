@@ -8,25 +8,28 @@ import { UserProfile } from '@/types';
  * Provides common utilities for auth checks and user profile fetching
  */
 
-export async function getCurrentUser(request: NextRequest): Promise<{ userId: string; user: any } | null> {
-  const authHeader = request.headers.get('Authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return null;
+export async function getCurrentUser(request: NextRequest) {
+  const authHeader =
+      request.headers.get("authorization") ?? request.headers.get("Authorization");
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      console.error("getCurrentUser: no Authorization header");
+      return null;
   }
 
-  const token = authHeader.slice(7);
+  const accessToken = authHeader.slice(7);
 
   try {
     const {
       data: { user },
       error,
-    } = await supabase.auth.getUser(token);
+    } = await supabase.auth.getUser(accessToken);
 
     if (error || !user) {
+      console.error('Error getting user:', error);
       return null;
     }
 
-    return { userId: user.id, user };
+    return { userId: user.id, email: user.email };
   } catch (error) {
     console.error('Error getting user:', error);
     return null;

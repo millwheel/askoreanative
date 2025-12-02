@@ -11,25 +11,25 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/questions?page=1&pageSize=5');
-        if (!response.ok) throw new Error('Failed to fetch questions');
-
-        const result = await response.json();
-        setQuestions(result.data || []);
-      } catch (err) {
-        console.error('Error fetching questions:', err);
-        setError('Failed to load questions');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchQuestions();
-  }, []);
+  // useEffect(() => {
+  //   const fetchQuestions = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await fetch('/api/questions?page=1&pageSize=5');
+  //       if (!response.ok) throw new Error('Failed to fetch questions');
+  //
+  //       const result = await response.json();
+  //       setQuestions(result.data || []);
+  //     } catch (err) {
+  //       console.error('Error fetching questions:', err);
+  //       setError('Failed to load questions');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //
+  //   fetchQuestions();
+  // }, []);
 
   return (
     <main className="min-h-screen bg-[#f4fbfa]">
