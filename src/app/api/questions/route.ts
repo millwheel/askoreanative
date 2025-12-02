@@ -3,8 +3,10 @@ import { createQuestionSchema } from '@/lib/validation';
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse } from '@/lib/api-utils';
 import { getCurrentUser, getUserProfile } from '../base-handler';
 import { supabase } from '@/lib/supabase';
+import { logger } from '@/lib/logger';
 
 export async function GET(request: NextRequest) {
+  const startTime = Date.now();
   try {
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get('search') || '';
@@ -12,6 +14,8 @@ export async function GET(request: NextRequest) {
     const sort = searchParams.get('sort') || 'newest'; // 'newest' or 'mostViewed'
     const page = parseInt(searchParams.get('page') || '1', 10);
     const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+
+    logger.info('GET /api/questions', { search, category, sort, page, pageSize });
 
     const offset = (page - 1) * pageSize;
 
@@ -98,6 +102,9 @@ export async function GET(request: NextRequest) {
       comments: q.comments || [],
     }));
 
+    const duration = Date.now() - startTime;
+    logger.request('GET', '/api/questions', 200, duration);
+
     return successResponse(
       {
         data: transformedQuestions,
@@ -111,7 +118,9 @@ export async function GET(request: NextRequest) {
       200
     );
   } catch (error) {
-    console.error('Error in GET /api/questions:', error);
+    const duration = Date.now() - startTime;
+    logger.error('Error in GET /api/questions', error);
+    logger.request('GET', '/api/questions', 500, duration);
     return errorResponse(500, 'Internal server error');
   }
 }
