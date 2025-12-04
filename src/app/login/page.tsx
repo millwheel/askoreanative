@@ -1,15 +1,11 @@
 "use client";
 
-import {supabase} from "../../../supabase/supabase";
+import {loginWithGoogle} from "../../../supabase/supabaseAuth";
 
 export default function LoginPage() {
 
     const handleGoogleLogin = async () => {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: "google",
-        });
-
-        console.log(data);
+        await loginWithGoogle();
     };
 
     return (

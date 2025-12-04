@@ -2,13 +2,14 @@
 
 import { useMe } from "@/hooks/useMe";
 import Link from "next/link";
-import {supabase} from "../../../supabase/supabase";
+import {logout} from "../../../supabase/supabaseAuth";
 
 export function GlobalNavigationBar() {
-    const { user, loading } = useMe();
+    const { user, loading, refresh } = useMe();
 
     const handleLogout = async () => {
-        await supabase.auth.signOut();
+        await logout();
+        await refresh();
     };
 
     return (
@@ -36,7 +37,7 @@ export function GlobalNavigationBar() {
 
                     {/* loading 중이면 아무것도 렌더 안 함 (UI 깜빡임 방지) */}
                     {loading && (
-                        <div className="text-sm text-muted-foreground">...</div>
+                        <div>...</div>
                     )}
 
                     {/* 로그인 안 됨 */}
