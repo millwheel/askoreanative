@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "../../supabase/supabase";
 
 export function useMe() {
     const { data, isLoading, error, mutate } = useSWR("me", fetchCurrentUser);

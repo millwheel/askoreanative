@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAnswerSchema } from '@/lib/validation';
 import { successResponse, errorResponse, validationErrorResponse, unauthorizedResponse, forbiddenResponse, notFoundResponse } from '@/lib/api-utils';
 import { getCurrentUser, getUserProfile } from '../../base-handler';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../../../../../supabase/supabase';
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {

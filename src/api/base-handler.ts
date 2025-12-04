@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../../supabase/supabase';
 import { forbiddenResponse, unauthorizedResponse } from '@/lib/api-utils';
 import { UserProfile } from '@/types';
 

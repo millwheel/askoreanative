@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from '../../supabase/supabase';
 import { UserProfile } from '@/types';
 
 export async function login(redirectTo?: string) {

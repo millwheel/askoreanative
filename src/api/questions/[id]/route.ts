@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../../../../supabase/supabase';
 import { successResponse, notFoundResponse, serverErrorResponse, unauthorizedResponse, forbiddenResponse, validationErrorResponse } from '@/lib/api-utils';
 import { Question } from '@/types';
 import { createQuestionSchema } from '@/lib/validation';

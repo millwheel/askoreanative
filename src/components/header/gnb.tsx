@@ -2,7 +2,7 @@
 
 import { useMe } from "@/hooks/useMe";
 import Link from "next/link";
-import {supabase} from "@/lib/supabase";
+import {supabase} from "../../../supabase/supabase";
 
 export function GlobalNavigationBar() {
     const { user, loading } = useMe();
