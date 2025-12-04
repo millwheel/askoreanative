@@ -18,55 +18,19 @@ export async function loginWithOAuth(provider: OAuthProvider) {
     // 자동 리디렉션되므로 따로 처리할 것 없음
 }
 
-export type AuthStatus =
-{
-    isAuthenticated: true;
-    user: User;
-    session: Session;
-    accessToken: string;
-}
-|
-{
-    isAuthenticated: false;
-    user: null;
-    session: null;
-    accessToken: null;
-};
-
 /**
  * 인증 상태 확인
  * - 로그인 되어 있으면 user / session / accessToken 반환
  */
-export async function getAuthStatus(): Promise<AuthStatus> {
+export async function getAuthStatus(): Promise<Session | null> {
     const { data, error } = await supabase.auth.getSession();
 
     if (error) {
         console.error('Error while getting session:', error);
-        return {
-            isAuthenticated: false,
-            user: null,
-            session: null,
-            accessToken: null,
-        };
+        return null;
     }
 
-    const session = data.session;
-
-    if (!session) {
-        return {
-            isAuthenticated: false,
-            user: null,
-            session: null,
-            accessToken: null,
-        };
-    }
-
-    return {
-        isAuthenticated: true,
-        user: session.user,
-        session,
-        accessToken: session.access_token,
-    };
+    return data.session;
 }
 
 
