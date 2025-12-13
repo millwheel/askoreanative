@@ -5,7 +5,6 @@ import {useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import {getCurrentUser, logout} from "@/supabase/auth";
 
-
 export function GlobalNavigationBar() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
