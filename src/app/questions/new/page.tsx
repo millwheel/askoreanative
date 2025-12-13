@@ -6,307 +6,312 @@ import Link from "next/link";
 type QuestionType = "normal" | "express";
 
 const CATEGORIES = [
-    "Korea Travel Basics",
-    "Food & Dining",
-    "Cultural Insights",
-    "Transportation",
-    "Accommodation",
+  "Korea Travel Basics",
+  "Food & Dining",
+  "Cultural Insights",
+  "Transportation",
+  "Accommodation",
 ];
 
 export default function NewQuestionPage() {
-    const [questionType, setQuestionType] = useState<QuestionType>("normal");
+  const [questionType, setQuestionType] = useState<QuestionType>("normal");
 
-    // UX 확인용 mock 기본 값
-    const [title, setTitle] = useState(
-        "Where should I stay in Seoul for my first 5-day trip?"
-    );
-    const [description, setDescription] = useState(
-        `Hi! I'm visiting Korea for the first time in May.
+  // UX 확인용 mock 기본 값
+  const [title, setTitle] = useState(
+    "Where should I stay in Seoul for my first 5-day trip?",
+  );
+  const [description, setDescription] = useState(
+    `Hi! I'm visiting Korea for the first time in May.
 
 - Trip length: 5 days
 - Style: I love cafes, local food, and night views
 - Budget: mid-range, not luxury but comfortable
 - Prefer: areas that are safe and easy to move around by subway
 
-I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongdong, Gangnam, etc.) and why.`
+I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongdong, Gangnam, etc.) and why.`,
+  );
+  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [language, setLanguage] = useState<"en" | "ko">("en");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 실제로는 API 호출 예정.
+    // 지금은 UX 확인용이라 alert로만 처리.
+    alert(
+      `Mock submit 🚀\nType: ${questionType}\nTitle: ${title}\nCategory: ${category}`,
     );
-    const [category, setCategory] = useState(CATEGORIES[0]);
-    const [language, setLanguage] = useState<"en" | "ko">("en");
+  };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // 실제로는 API 호출 예정.
-        // 지금은 UX 확인용이라 alert로만 처리.
-        alert(
-            `Mock submit 🚀\nType: ${questionType}\nTitle: ${title}\nCategory: ${category}`
-        );
-    };
+  return (
+    <main className="min-h-screen">
+      {/* 상단 헤더 */}
+      <section className="border-b border-border bg-white">
+        <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
+              Ask a Question
+            </h1>
+            <p className="mt-1 text-sm text-gray-600">
+              한국 로컬에게 직접 물어보세요. 좋은 답변을 위해 여행 정보와 상황을
+              구체적으로 작성해 주세요.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    return (
-        <main className="min-h-screen">
-            {/* 상단 헤더 */}
-            <section className="border-b border-border bg-white">
-                <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
-                            Ask a Question
-                        </h1>
-                        <p className="mt-1 text-sm text-gray-600">
-                            한국 로컬에게 직접 물어보세요. 좋은 답변을 위해 여행 정보와 상황을
-                            구체적으로 작성해 주세요.
-                        </p>
-                    </div>
-                </div>
-            </section>
+      {/* 본문 영역 */}
+      <section className="mx-auto max-w-5xl px-4 py-8">
+        <div className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(260px,1fr)]">
+          {/* 왼쪽: 질문 작성 카드 */}
+          <form
+            onSubmit={handleSubmit}
+            className="rounded-2xl bg-white p-6 shadow-sm"
+          >
+            {/* 질문 타입 선택 */}
+            <div className="mb-6">
+              <h2 className="mb-2 text-sm font-semibold text-gray-800">
+                질문 유형 선택
+              </h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {/* 일반 질문 */}
+                <button
+                  type="button"
+                  onClick={() => setQuestionType("normal")}
+                  className={`rounded-2xl border p-4 text-left text-sm transition ${
+                    questionType === "normal"
+                      ? "border-primary bg-primary-light"
+                      : "border-gray-200 bg-white hover:border-primary/60"
+                  }`}
+                >
+                  <div className="mb-1 flex items-center gap-2">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-gray-700">
+                      일반
+                    </span>
+                    {questionType === "normal" && (
+                      <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-primary">
+                        선택됨
+                      </span>
+                    )}
+                  </div>
+                  <p className="font-semibold text-gray-900">
+                    일반 질문 (Normal)
+                  </p>
+                  <p className="mt-1 text-xs text-gray-600">
+                    보통의 응답 속도, 무료 또는 기본 크레딧으로 답변을 받을 수
+                    있어요.
+                  </p>
+                </button>
 
-            {/* 본문 영역 */}
-            <section className="mx-auto max-w-5xl px-4 py-8">
-                <div className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(260px,1fr)]">
-                    {/* 왼쪽: 질문 작성 카드 */}
-                    <form
-                        onSubmit={handleSubmit}
-                        className="rounded-2xl bg-white p-6 shadow-sm"
-                    >
-                        {/* 질문 타입 선택 */}
-                        <div className="mb-6">
-                            <h2 className="mb-2 text-sm font-semibold text-gray-800">
-                                질문 유형 선택
-                            </h2>
-                            <div className="grid gap-3 sm:grid-cols-2">
-                                {/* 일반 질문 */}
-                                <button
-                                    type="button"
-                                    onClick={() => setQuestionType("normal")}
-                                    className={`rounded-2xl border p-4 text-left text-sm transition ${
-                                        questionType === "normal"
-                                            ? "border-primary bg-primary-light"
-                                            : "border-gray-200 bg-white hover:border-primary/60"
-                                    }`}
-                                >
-                                    <div className="mb-1 flex items-center gap-2">
-                                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-700">
-                                          일반
-                                        </span>
-                                        {questionType === "normal" && (
-                                            <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-primary">
-                                                선택됨
-                                            </span>
-                                        )}
-                                    </div>
-                                    <p className="font-semibold text-gray-900">
-                                        일반 질문 (Normal)
-                                    </p>
-                                    <p className="mt-1 text-xs text-gray-600">
-                                        보통의 응답 속도, 무료 또는 기본 크레딧으로 답변을 받을 수
-                                        있어요.
-                                    </p>
-                                </button>
-
-                                {/* 익스프레스 질문 */}
-                                <button
-                                    type="button"
-                                    onClick={() => setQuestionType("express")}
-                                    className={`rounded-2xl border p-4 text-left text-sm transition ${
-                                        questionType === "express"
-                                            ? "border-primary bg-primary-light"
-                                            : "border-gray-200 bg-white hover:border-primary/60"
-                                    }`}
-                                >
-                                    <div className="mb-1 flex items-center gap-2">
+                {/* 익스프레스 질문 */}
+                <button
+                  type="button"
+                  onClick={() => setQuestionType("express")}
+                  className={`rounded-2xl border p-4 text-left text-sm transition ${
+                    questionType === "express"
+                      ? "border-primary bg-primary-light"
+                      : "border-gray-200 bg-white hover:border-primary/60"
+                  }`}
+                >
+                  <div className="mb-1 flex items-center gap-2">
                     <span className="text-xs font-semibold uppercase tracking-wide text-gray-700">
                       EXPRESS
                     </span>
-                                        {questionType === "express" && (
-                                            <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-primary">
+                    {questionType === "express" && (
+                      <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-primary">
                         선택됨
                       </span>
-                                        )}
-                                    </div>
-                                    <p className="font-semibold text-gray-900">
-                                        익스프레스 질문 (Express)
-                                    </p>
-                                    <p className="mt-1 text-xs text-gray-600">
-                                        더 빠른 응답을 기대할 수 있고, 상단에 우선 노출돼요. (향후
-                                        유료/크레딧 기능 연결 예정)
-                                    </p>
-                                </button>
-                            </div>
-                        </div>
+                    )}
+                  </div>
+                  <p className="font-semibold text-gray-900">
+                    익스프레스 질문 (Express)
+                  </p>
+                  <p className="mt-1 text-xs text-gray-600">
+                    더 빠른 응답을 기대할 수 있고, 상단에 우선 노출돼요. (향후
+                    유료/크레딧 기능 연결 예정)
+                  </p>
+                </button>
+              </div>
+            </div>
 
-                        {/* 언어 선택 */}
-                        <div className="mb-4 flex flex-wrap items-center gap-3">
+            {/* 언어 선택 */}
+            <div className="mb-4 flex flex-wrap items-center gap-3">
               <span className="text-xs font-semibold text-gray-700">
                 Question Language
               </span>
-                            <div className="inline-flex rounded-full bg-gray-100 p-1 text-xs">
-                                <button
-                                    type="button"
-                                    onClick={() => setLanguage("en")}
-                                    className={`rounded-full px-3 py-1 ${
-                                        language === "en"
-                                            ? "bg-white text-gray-900 shadow-sm"
-                                            : "text-gray-500"
-                                    }`}
-                                >
-                                    English
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setLanguage("ko")}
-                                    className={`rounded-full px-3 py-1 ${
-                                        language === "ko"
-                                            ? "bg-white text-gray-900 shadow-sm"
-                                            : "text-gray-500"
-                                    }`}
-                                >
-                                    한국어
-                                </button>
-                            </div>
-                            <span className="text-[11px] text-gray-500">
+              <div className="inline-flex rounded-full bg-gray-100 p-1 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setLanguage("en")}
+                  className={`rounded-full px-3 py-1 ${
+                    language === "en"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500"
+                  }`}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage("ko")}
+                  className={`rounded-full px-3 py-1 ${
+                    language === "ko"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500"
+                  }`}
+                >
+                  한국어
+                </button>
+              </div>
+              <span className="text-[11px] text-gray-500">
                 * 우선은 영어 기준으로 UX만 설계하고, 나중에 다국어를 정식
                 지원해도 됨.
               </span>
-                        </div>
+            </div>
 
-                        {/* 제목 */}
-                        <div className="mb-4">
-                            <label className="mb-1 block text-sm font-semibold text-gray-800">
-                                Title <span className="text-primary">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                placeholder="What would you like to ask about Korea?"
-                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                            />
-                            <p className="mt-1 text-xs text-gray-500">
-                                예: &quot;5월 첫 방문인데, 서울에서 숙소를 어디에 잡는 게
-                                좋을까요?&quot;
-                            </p>
-                        </div>
+            {/* 제목 */}
+            <div className="mb-4">
+              <label className="mb-1 block text-sm font-semibold text-gray-800">
+                Title <span className="text-primary">*</span>
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="What would you like to ask about Korea?"
+                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                예: &quot;5월 첫 방문인데, 서울에서 숙소를 어디에 잡는 게
+                좋을까요?&quot;
+              </p>
+            </div>
 
-                        {/* 카테고리 */}
-                        <div className="mb-4">
-                            <label className="mb-1 block text-sm font-semibold text-gray-800">
-                                Category <span className="text-primary">*</span>
-                            </label>
-                            <select
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                            >
-                                {CATEGORIES.map((c) => (
-                                    <option key={c}>{c}</option>
-                                ))}
-                            </select>
-                        </div>
+            {/* 카테고리 */}
+            <div className="mb-4">
+              <label className="mb-1 block text-sm font-semibold text-gray-800">
+                Category <span className="text-primary">*</span>
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              >
+                {CATEGORIES.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+            </div>
 
-                        {/* 상세 내용 */}
-                        <div className="mb-4">
-                            <label className="mb-1 block text-sm font-semibold text-gray-800">
-                                Details (optional)
-                            </label>
-                            <textarea
-                                rows={8}
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Add details like travel dates, budget, preferences, and anything else locals should know."
-                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                            />
-                            <p className="mt-1 text-xs text-gray-500">
-                                구체적으로 쓸수록, 더 좋은 답변을 받을 가능성이 높아요. 여행
-                                날짜, 동행 인원, 예산, 선호 스타일 등을 적어주세요.
-                            </p>
-                        </div>
+            {/* 상세 내용 */}
+            <div className="mb-4">
+              <label className="mb-1 block text-sm font-semibold text-gray-800">
+                Details (optional)
+              </label>
+              <textarea
+                rows={8}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Add details like travel dates, budget, preferences, and anything else locals should know."
+                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                구체적으로 쓸수록, 더 좋은 답변을 받을 가능성이 높아요. 여행
+                날짜, 동행 인원, 예산, 선호 스타일 등을 적어주세요.
+              </p>
+            </div>
 
-                        {/* 사진 업로드 (UX용, 동작 X) */}
-                        <div className="mb-6">
-                            <label className="mb-1 block text-sm font-semibold text-gray-800">
-                                Photos (optional)
-                            </label>
-                            <div className="flex flex-col items-start gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-3 text-xs text-gray-500">
-                                <p>여행 일정 캡처, 숙소 후보 스크린샷 등 이미지를 첨부할 수 있어요.</p>
-                                <button
-                                    type="button"
-                                    className="rounded-full border border-gray-300 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-white"
-                                >
-                                    Upload Image (Mock)
-                                </button>
-                                <span className="text-[11px] text-gray-400">
+            {/* 사진 업로드 (UX용, 동작 X) */}
+            <div className="mb-6">
+              <label className="mb-1 block text-sm font-semibold text-gray-800">
+                Photos (optional)
+              </label>
+              <div className="flex flex-col items-start gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-3 text-xs text-gray-500">
+                <p>
+                  여행 일정 캡처, 숙소 후보 스크린샷 등 이미지를 첨부할 수
+                  있어요.
+                </p>
+                <button
+                  type="button"
+                  className="rounded-full border border-gray-300 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-white"
+                >
+                  Upload Image (Mock)
+                </button>
+                <span className="text-[11px] text-gray-400">
                   * 현재는 UX 데모용으로 실제 업로드는 되지 않습니다.
                 </span>
-                            </div>
-                        </div>
+              </div>
+            </div>
 
-                        {/* 버튼 영역 */}
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                            <button
-                                type="submit"
-                                className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover cursor-pointer"
-                            >
-                                Post Question (Mock)
-                            </button>
-                            <Link
-                                href="/questions"
-                                className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                            >
-                                Cancel and go to questions
-                            </Link>
-                        </div>
-                    </form>
+            {/* 버튼 영역 */}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <button
+                type="submit"
+                className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover cursor-pointer"
+              >
+                Post Question (Mock)
+              </button>
+              <Link
+                href="/questions"
+                className="text-gray-500 hover:text-gray-700 cursor-pointer"
+              >
+                Cancel and go to questions
+              </Link>
+            </div>
+          </form>
 
-                    {/* 오른쪽: 요약 & 안내 카드 */}
-                    <aside className="space-y-4">
-                        <div className="rounded-2xl bg-white p-5 shadow-sm">
-                            <h3 className="text-sm font-semibold text-gray-900">
-                                Preview & Info
-                            </h3>
-                            <p className="mt-2 text-xs text-gray-600">
-                                지금은 UX만 확인하는 단계라, 실제로 저장되지는 않고 아래와 같이
-                                미리보기만 해요.
-                            </p>
+          {/* 오른쪽: 요약 & 안내 카드 */}
+          <aside className="space-y-4">
+            <div className="rounded-2xl bg-white p-5 shadow-sm">
+              <h3 className="text-sm font-semibold text-gray-900">
+                Preview & Info
+              </h3>
+              <p className="mt-2 text-xs text-gray-600">
+                지금은 UX만 확인하는 단계라, 실제로 저장되지는 않고 아래와 같이
+                미리보기만 해요.
+              </p>
 
-                            <div className="mt-4 rounded-xl p-3 text-xs">
-                                <div className="mb-1 flex items-center gap-2">
+              <div className="mt-4 rounded-xl p-3 text-xs">
+                <div className="mb-1 flex items-center gap-2">
                   <span className="rounded-full bg-primary-light px-2 py-0.5 text-[10px] font-semibold text-primary-dark">
-                    {questionType === "normal" ? "일반 질문" : "익스프레스 질문"}
+                    {questionType === "normal"
+                      ? "일반 질문"
+                      : "익스프레스 질문"}
                   </span>
-                                    <span className="text-[10px] text-gray-500">
+                  <span className="text-[10px] text-gray-500">
                     Category: {category}
                   </span>
-                                </div>
-                                <p className="font-semibold text-gray-900 line-clamp-2">
-                                    {title || "Your question title will appear here."}
-                                </p>
-                                <p className="mt-1 text-[11px] text-gray-600 line-clamp-3 whitespace-pre-line">
-                                    {description || "Question details preview will appear here."}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="rounded-2xl p-4 text-xs text-gray-800">
-                            <h4 className="mb-1 text-sm font-semibold text-gray-900">
-                                일반 vs 익스프레스, 어떻게 쓸까?
-                            </h4>
-                            <ul className="list-disc space-y-1 pl-4">
-                                <li>
-                                    <strong>일반 질문</strong>: 기본 노출, 보통 응답 속도, 무료 또는
-                                    낮은 크레딧.
-                                </li>
-                                <li>
-                                    <strong>익스프레스 질문</strong>: 상단 우선 노출, 빠른 응답
-                                    기대, 향후 유료 모델 연동 예정.
-                                </li>
-                            </ul>
-                            <p className="mt-2 text-[11px] text-gray-600">
-                                나중에는 여기서 예상 응답 시간, 필요한 크레딧, 환불 정책 등을
-                                안내하면 좋아 보임.
-                            </p>
-                        </div>
-                    </aside>
                 </div>
-            </section>
-        </main>
-    );
+                <p className="font-semibold text-gray-900 line-clamp-2">
+                  {title || "Your question title will appear here."}
+                </p>
+                <p className="mt-1 text-[11px] text-gray-600 line-clamp-3 whitespace-pre-line">
+                  {description || "Question details preview will appear here."}
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-2xl p-4 text-xs text-gray-800">
+              <h4 className="mb-1 text-sm font-semibold text-gray-900">
+                일반 vs 익스프레스, 어떻게 쓸까?
+              </h4>
+              <ul className="list-disc space-y-1 pl-4">
+                <li>
+                  <strong>일반 질문</strong>: 기본 노출, 보통 응답 속도, 무료
+                  또는 낮은 크레딧.
+                </li>
+                <li>
+                  <strong>익스프레스 질문</strong>: 상단 우선 노출, 빠른 응답
+                  기대, 향후 유료 모델 연동 예정.
+                </li>
+              </ul>
+              <p className="mt-2 text-[11px] text-gray-600">
+                나중에는 여기서 예상 응답 시간, 필요한 크레딧, 환불 정책 등을
+                안내하면 좋아 보임.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  );
 }
