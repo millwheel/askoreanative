@@ -5,7 +5,7 @@
   --foreground: #171717;
 
   --primary: #2EC4B6;
-  --primary-hover: #80ccc6;
+  --primary-hover: #26b3a6;
   --primary-light: #bdf3ec;
   --primary-dark: #1B7F75;
   --primary-foreground: #ffffff;
@@ -13,6 +13,11 @@
   --surface: #f4fbfa;
   --surface-light: #f9fefe;
   --surface-accent: #e6fffb;
+
+  --destructive: #e54848;
+  --destructive-hover: #c63636;
+  --destructive-light: #fdeaea;
+  --destructive-foreground: #ffffff;
 
   --border: #d7f3ef;
   --border-light: #e0f4f1;

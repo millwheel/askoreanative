@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import AskButton from "@/components/askButton";
+import {CATEGORIES} from "@/data/filter";
 
 type Question = {
     id: number;
@@ -70,16 +71,6 @@ const QUESTIONS: Question[] = [
     },
 ];
 
-const CATEGORIES = [
-    "All Categories",
-    "Cultural Insights",
-    "Transportation",
-    "Food & Dining",
-    "Safety",
-];
-
-const SORT_OPTIONS = ["Newest", "Most Viewed"];
-
 export default function QuestionsPage() {
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState<string>("All Categories");
@@ -112,7 +103,7 @@ export default function QuestionsPage() {
     }, [search, category, sortBy]);
 
     return (
-        <main className="min-h-screen bg-surface">
+        <main className="min-h-screen">
             {/* 상단 타이틀 영역 */}
             <section className="border-b border-border bg-white">
                 <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
@@ -130,7 +121,7 @@ export default function QuestionsPage() {
             </section>
 
             {/* 필터 영역 */}
-            <section className="border-b border-border-light bg-surface-light">
+            <section className="border-b border-border-light">
                 <div className="mx-auto max-w-5xl px-4 py-4">
                     <div className="flex flex-col gap-3 md:flex-row md:items-center">
                         <div className="flex-1">
@@ -153,15 +144,6 @@ export default function QuestionsPage() {
                             ))}
                         </select>
 
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                            className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-40"
-                        >
-                            {SORT_OPTIONS.map((s) => (
-                                <option key={s}>{s}</option>
-                            ))}
-                        </select>
                     </div>
                 </div>
             </section>

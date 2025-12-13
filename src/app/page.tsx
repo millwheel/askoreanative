@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import AskButton from "@/components/askButton";
+import {CATEGORIES} from "@/data/filter";
 
 const mockQuestions = [
   {
@@ -21,7 +22,7 @@ const mockQuestions = [
 
 export default function HomePage() {
   return (
-      <main className="min-h-screen bg-surface">
+      <main className="min-h-screen">
         {/* Hero 영역 */}
         <section className="bg-primary text-white">
           <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
@@ -33,9 +34,9 @@ export default function HomePage() {
               authentic travel advice, cultural insights, and practical tips for
               your journey.
             </p>
-            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary shadow-sm transition hover:bg-surface-light">
+            <Link href="/questions/new" className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary shadow-sm transition cursor-pointer">
               Ask Your First Question
-            </button>
+            </Link>
           </div>
         </section>
 
@@ -51,20 +52,16 @@ export default function HomePage() {
                 focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </div>
-              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary-hover">
+              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold bg-primary hover:bg-primary-hover cursor-pointer">
                 🔍
               </button>
 
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-40">
-                <option>All Categories</option>
-                <option>Food</option>
-                <option>Cultural Insights</option>
-                <option>Transportation</option>
-              </select>
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-40">
-                <option>Choose an option</option>
-                <option>Most Recent</option>
-                <option>Most Viewed</option>
+              <select
+                  className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-52"
+              >
+                {CATEGORIES.map((c) => (
+                    <option key={c}>{c}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -73,7 +70,7 @@ export default function HomePage() {
         {/* Recent Questions */}
         <section className="mx-auto mt-10 max-w-5xl px-4 pb-16">
           <div className="mb-4 flex items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-foreground">
               Recent Questions
             </h2>
             <AskButton />
@@ -86,7 +83,7 @@ export default function HomePage() {
                     className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
                 >
                   <div className="mb-2 flex items-center justify-between gap-2">
-                    <h3 className="text-base font-semibold text-gray-900">
+                    <h3 className="text-base font-semibold text-foreground">
                       {q.title}
                     </h3>
                     <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-dark">
@@ -105,7 +102,7 @@ export default function HomePage() {
                           className="h-8 w-8 rounded-full object-cover"
                       />
                       <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-gray-900">
+                    <span className="text-sm font-semibold text-foreground">
                       {q.authorName}
                     </span>
                         <span className="text-xs text-gray-500">

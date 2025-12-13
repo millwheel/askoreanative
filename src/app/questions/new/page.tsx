@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 type QuestionType = "normal" | "express";
 
@@ -42,7 +43,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
     };
 
     return (
-        <main className="min-h-screen bg-surface">
+        <main className="min-h-screen">
             {/* 상단 헤더 */}
             <section className="border-b border-border bg-white">
                 <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 md:flex-row md:items-center md:justify-between">
@@ -83,13 +84,13 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                                     }`}
                                 >
                                     <div className="mb-1 flex items-center gap-2">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-gray-700">
-                      일반
-                    </span>
+                                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-700">
+                                          일반
+                                        </span>
                                         {questionType === "normal" && (
                                             <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-primary">
-                        선택됨
-                      </span>
+                                                선택됨
+                                            </span>
                                         )}
                                     </div>
                                     <p className="font-semibold text-gray-900">
@@ -107,7 +108,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                                     onClick={() => setQuestionType("express")}
                                     className={`rounded-2xl border p-4 text-left text-sm transition ${
                                         questionType === "express"
-                                            ? "border-primary bg-surface-accent"
+                                            ? "border-primary bg-primary-light"
                                             : "border-gray-200 bg-white hover:border-primary/60"
                                     }`}
                                 >
@@ -242,16 +243,16 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                         <div className="flex flex-wrap items-center justify-between gap-3">
                             <button
                                 type="submit"
-                                className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover"
+                                className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover cursor-pointer"
                             >
                                 Post Question (Mock)
                             </button>
-                            <button
-                                type="button"
-                                className="text-xs text-gray-500 hover:text-gray-700"
+                            <Link
+                                href="/questions"
+                                className="text-gray-500 hover:text-gray-700 cursor-pointer"
                             >
-                                Cancel and go back
-                            </button>
+                                Cancel and go to questions
+                            </Link>
                         </div>
                     </form>
 
@@ -266,7 +267,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                                 미리보기만 해요.
                             </p>
 
-                            <div className="mt-4 rounded-xl bg-surface p-3 text-xs">
+                            <div className="mt-4 rounded-xl p-3 text-xs">
                                 <div className="mb-1 flex items-center gap-2">
                   <span className="rounded-full bg-primary-light px-2 py-0.5 text-[10px] font-semibold text-primary-dark">
                     {questionType === "normal" ? "일반 질문" : "익스프레스 질문"}
@@ -284,7 +285,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                             </div>
                         </div>
 
-                        <div className="rounded-2xl bg-surface-accent p-4 text-xs text-gray-800">
+                        <div className="rounded-2xl p-4 text-xs text-gray-800">
                             <h4 className="mb-1 text-sm font-semibold text-gray-900">
                                 일반 vs 익스프레스, 어떻게 쓸까?
                             </h4>
