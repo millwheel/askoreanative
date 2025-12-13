@@ -5,12 +5,24 @@
   --foreground: #171717;
 
   --primary: #2EC4B6;
+  --primary-hover: #27A89D;
   --primary-light: #D8F7F3;
   --primary-highlight: #A5EFE7;
   --primary-foreground: #ffffff;
+  --primary-text-dark: #1B7F75;
 
   --secondary: #A5EFE7;
   --secondary-foreground: #171717;
+
+  --background-mint: #f4fbfa;
+  --background-mint-light: #f9fefe;
+  --background-mint-hover: #e2fffb;
+  --background-mint-card: #e6fffb;
+
+  --border-mint: #d7f3ef;
+  --border-mint-light: #e0f4f1;
+
+  --text-mint-light: #eafffc;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -29,6 +41,30 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-primary-highlight: var(--primary-highlight);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-text-dark: var(--primary-text-dark);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-background-mint: var(--background-mint);
+  --color-background-mint-light: var(--background-mint-light);
+  --color-background-mint-hover: var(--background-mint-hover);
+  --color-background-mint-card: var(--background-mint-card);
+  --color-border-mint: var(--border-mint);
+  --color-border-mint-light: var(--border-mint-light);
+  --color-text-mint-light: var(--text-mint-light);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

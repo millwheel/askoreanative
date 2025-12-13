@@ -111,9 +111,9 @@ export default function QuestionsPage() {
     }, [search, category, sortBy]);
 
     return (
-        <main className="min-h-screen bg-[#f4fbfa]">
+        <main className="min-h-screen bg-background-mint">
             {/* 상단 타이틀 영역 */}
-            <section className="border-b border-[#d7f3ef] bg-white">
+            <section className="border-b border-border-mint bg-white">
                 <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
                     <div>
                         <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
@@ -124,14 +124,14 @@ export default function QuestionsPage() {
                             experts.
                         </p>
                     </div>
-                    <button className="mt-2 w-full rounded-full bg-[#2EC4B6] px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#27A89D] md:mt-0 md:w-auto">
+                    <button className="mt-2 w-full rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover md:mt-0 md:w-auto">
                         ⊕ Ask a Question
                     </button>
                 </div>
             </section>
 
             {/* 필터 영역 */}
-            <section className="border-b border-[#e0f4f1] bg-[#f9fefe]">
+            <section className="border-b border-border-mint-light bg-background-mint-light">
                 <div className="mx-auto max-w-5xl px-4 py-4">
                     <div className="flex flex-col gap-3 md:flex-row md:items-center">
                         <div className="flex-1">
@@ -140,14 +140,14 @@ export default function QuestionsPage() {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Search questions about Korea..."
-                                className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
+                                className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                             />
                         </div>
 
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-52"
+                            className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-52"
                         >
                             {CATEGORIES.map((c) => (
                                 <option key={c}>{c}</option>
@@ -157,7 +157,7 @@ export default function QuestionsPage() {
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40"
+                            className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-40"
                         >
                             {SORT_OPTIONS.map((s) => (
                                 <option key={s}>{s}</option>
@@ -184,7 +184,7 @@ export default function QuestionsPage() {
                                     <h2 className="text-base font-semibold text-gray-900">
                                         {q.title}
                                     </h2>
-                                    <span className="whitespace-nowrap rounded-full bg-[#D8F7F3] px-3 py-1 text-xs font-medium text-[#1B7F75]">
+                                    <span className="whitespace-nowrap rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-text-dark">
                     {q.category}
                   </span>
                                 </div>

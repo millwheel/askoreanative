@@ -19,19 +19,19 @@ const mockQuestions = [
 
 export default function HomePage() {
   return (
-      <main className="min-h-screen bg-[#f4fbfa]">
+      <main className="min-h-screen bg-background-mint">
         {/* Hero 영역 */}
-        <section className="bg-[#2EC4B6] text-white">
+        <section className="bg-primary text-white">
           <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
             <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
               Welcome to Korea Travel Q&amp;A
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-[#eafffc] sm:text-base">
+            <p className="max-w-2xl text-sm leading-relaxed text-text-mint-light sm:text-base">
               Connect with local Korean experts who speak your language. Get
               authentic travel advice, cultural insights, and practical tips for
               your journey.
             </p>
-            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#2EC4B6] shadow-sm transition hover:bg-[#e2fffb]">
+            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary shadow-sm transition hover:bg-background-mint-hover">
               Ask Your First Question
             </button>
           </div>
@@ -46,20 +46,20 @@ export default function HomePage() {
                     type="text"
                     placeholder="Search questions about Korea..."
                     className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none
-                focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
+                focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </div>
-              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#2EC4B6] hover:bg-[#27A89D]">
+              <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary-hover">
                 🔍
               </button>
 
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
+              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-40">
                 <option>All Categories</option>
                 <option>Food</option>
                 <option>Cultural Insights</option>
                 <option>Transportation</option>
               </select>
-              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6] md:w-40">
+              <select className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary md:w-40">
                 <option>Choose an option</option>
                 <option>Most Recent</option>
                 <option>Most Viewed</option>
@@ -74,7 +74,7 @@ export default function HomePage() {
             <h2 className="text-lg font-semibold text-gray-900">
               Recent Questions
             </h2>
-            <button className="flex items-center gap-2 rounded-full bg-[#2EC4B6] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#27A89D]">
+            <button className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover">
               ⊕ Ask a Question
             </button>
           </div>
@@ -89,7 +89,7 @@ export default function HomePage() {
                     <h3 className="text-base font-semibold text-gray-900">
                       {q.title}
                     </h3>
-                    <span className="rounded-full bg-[#D8F7F3] px-3 py-1 text-xs font-medium text-[#1B7F75]">
+                    <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-text-dark">
                   {q.category}
                 </span>
                   </div>

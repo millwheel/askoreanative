@@ -42,9 +42,9 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
     };
 
     return (
-        <main className="min-h-screen bg-[#f4fbfa]">
+        <main className="min-h-screen bg-background-mint">
             {/* 상단 헤더 */}
-            <section className="border-b border-[#d7f3ef] bg-white">
+            <section className="border-b border-border-mint bg-white">
                 <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 md:flex-row md:items-center md:justify-between">
                     <div>
                         <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
@@ -78,8 +78,8 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                                     onClick={() => setQuestionType("normal")}
                                     className={`rounded-2xl border p-4 text-left text-sm transition ${
                                         questionType === "normal"
-                                            ? "border-[#2EC4B6] bg-[#D8F7F3]"
-                                            : "border-gray-200 bg-white hover:border-[#2EC4B6]/60"
+                                            ? "border-primary bg-primary-light"
+                                            : "border-gray-200 bg-white hover:border-primary/60"
                                     }`}
                                 >
                                     <div className="mb-1 flex items-center gap-2">
@@ -87,7 +87,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                       일반
                     </span>
                                         {questionType === "normal" && (
-                                            <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-[#2EC4B6]">
+                                            <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-primary">
                         선택됨
                       </span>
                                         )}
@@ -107,8 +107,8 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                                     onClick={() => setQuestionType("express")}
                                     className={`rounded-2xl border p-4 text-left text-sm transition ${
                                         questionType === "express"
-                                            ? "border-[#2EC4B6] bg-[#e6fffb]"
-                                            : "border-gray-200 bg-white hover:border-[#2EC4B6]/60"
+                                            ? "border-primary bg-background-mint-card"
+                                            : "border-gray-200 bg-white hover:border-primary/60"
                                     }`}
                                 >
                                     <div className="mb-1 flex items-center gap-2">
@@ -116,7 +116,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                       EXPRESS
                     </span>
                                         {questionType === "express" && (
-                                            <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-[#2EC4B6]">
+                                            <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-primary">
                         선택됨
                       </span>
                                         )}
@@ -170,14 +170,14 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                         {/* 제목 */}
                         <div className="mb-4">
                             <label className="mb-1 block text-sm font-semibold text-gray-800">
-                                Title <span className="text-[#2EC4B6]">*</span>
+                                Title <span className="text-primary">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 placeholder="What would you like to ask about Korea?"
-                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
+                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                             />
                             <p className="mt-1 text-xs text-gray-500">
                                 예: &quot;5월 첫 방문인데, 서울에서 숙소를 어디에 잡는 게
@@ -188,12 +188,12 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                         {/* 카테고리 */}
                         <div className="mb-4">
                             <label className="mb-1 block text-sm font-semibold text-gray-800">
-                                Category <span className="text-[#2EC4B6]">*</span>
+                                Category <span className="text-primary">*</span>
                             </label>
                             <select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
+                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                             >
                                 {CATEGORIES.map((c) => (
                                     <option key={c}>{c}</option>
@@ -211,7 +211,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 placeholder="Add details like travel dates, budget, preferences, and anything else locals should know."
-                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-[#2EC4B6] focus:ring-1 focus:ring-[#2EC4B6]"
+                                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                             />
                             <p className="mt-1 text-xs text-gray-500">
                                 구체적으로 쓸수록, 더 좋은 답변을 받을 가능성이 높아요. 여행
@@ -242,7 +242,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                         <div className="flex flex-wrap items-center justify-between gap-3">
                             <button
                                 type="submit"
-                                className="rounded-full bg-[#2EC4B6] px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#27A89D]"
+                                className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover"
                             >
                                 Post Question (Mock)
                             </button>
@@ -266,9 +266,9 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                                 미리보기만 해요.
                             </p>
 
-                            <div className="mt-4 rounded-xl bg-[#f4fbfa] p-3 text-xs">
+                            <div className="mt-4 rounded-xl bg-background-mint p-3 text-xs">
                                 <div className="mb-1 flex items-center gap-2">
-                  <span className="rounded-full bg-[#D8F7F3] px-2 py-0.5 text-[10px] font-semibold text-[#1B7F75]">
+                  <span className="rounded-full bg-primary-light px-2 py-0.5 text-[10px] font-semibold text-primary-text-dark">
                     {questionType === "normal" ? "일반 질문" : "익스프레스 질문"}
                   </span>
                                     <span className="text-[10px] text-gray-500">
@@ -284,7 +284,7 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                             </div>
                         </div>
 
-                        <div className="rounded-2xl bg-[#e6fffb] p-4 text-xs text-gray-800">
+                        <div className="rounded-2xl bg-background-mint-card p-4 text-xs text-gray-800">
                             <h4 className="mb-1 text-sm font-semibold text-gray-900">
                                 일반 vs 익스프레스, 어떻게 쓸까?
                             </h4>
