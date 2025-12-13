@@ -19,19 +19,19 @@ const mockQuestions = [
 
 export default function HomePage() {
   return (
-      <main className="min-h-screen bg-background-mint">
+      <main className="min-h-screen bg-surface">
         {/* Hero 영역 */}
         <section className="bg-primary text-white">
           <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
             <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
               Welcome to Korea Travel Q&amp;A
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-text-mint-light sm:text-base">
+            <p className="max-w-2xl text-sm leading-relaxed text-primary-lighter sm:text-base">
               Connect with local Korean experts who speak your language. Get
               authentic travel advice, cultural insights, and practical tips for
               your journey.
             </p>
-            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary shadow-sm transition hover:bg-background-mint-hover">
+            <button className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary shadow-sm transition hover:bg-surface-light">
               Ask Your First Question
             </button>
           </div>
@@ -89,9 +89,9 @@ export default function HomePage() {
                     <h3 className="text-base font-semibold text-gray-900">
                       {q.title}
                     </h3>
-                    <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-text-dark">
-                  {q.category}
-                </span>
+                    <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-dark">
+                      {q.category}
+                    </span>
                   </div>
 
                   <p className="mb-4 text-sm text-gray-600">{q.excerpt}</p>

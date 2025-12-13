@@ -111,9 +111,9 @@ export default function QuestionsPage() {
     }, [search, category, sortBy]);
 
     return (
-        <main className="min-h-screen bg-background-mint">
+        <main className="min-h-screen bg-surface">
             {/* 상단 타이틀 영역 */}
-            <section className="border-b border-border-mint bg-white">
+            <section className="border-b border-border bg-white">
                 <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
                     <div>
                         <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
@@ -131,7 +131,7 @@ export default function QuestionsPage() {
             </section>
 
             {/* 필터 영역 */}
-            <section className="border-b border-border-mint-light bg-background-mint-light">
+            <section className="border-b border-border-light bg-surface-light">
                 <div className="mx-auto max-w-5xl px-4 py-4">
                     <div className="flex flex-col gap-3 md:flex-row md:items-center">
                         <div className="flex-1">
@@ -184,9 +184,9 @@ export default function QuestionsPage() {
                                     <h2 className="text-base font-semibold text-gray-900">
                                         {q.title}
                                     </h2>
-                                    <span className="whitespace-nowrap rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-text-dark">
-                    {q.category}
-                  </span>
+                                    <span className="whitespace-nowrap rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-dark">
+                                        {q.category}
+                                    </span>
                                 </div>
 
                                 <p className="mb-4 text-sm text-gray-600">{q.excerpt}</p>

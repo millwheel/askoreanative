@@ -45,7 +45,7 @@ export function GlobalNavigationBar() {
                 <div>
                     <Link
                         href="/"
-                        className="text-xl font-bold text-primary hover:text-primary-highlight transition"
+                        className="text-xl font-bold text-primary hover:text-primary-lighter transition"
                     >
                         Askoreanative
                     </Link>
@@ -55,7 +55,7 @@ export function GlobalNavigationBar() {
                 <div className="flex items-center gap-6">
                     <Link
                         href="/questions"
-                        className="text-foreground hover:text-primary-highlight transition"
+                        className="text-foreground hover:text-primary-lighter transition"
                     >
                         Questions
                     </Link>
@@ -69,7 +69,7 @@ export function GlobalNavigationBar() {
                     {!loading && !user && (
                         <Link
                             href="/login"
-                            className="rounded-md bg-primary px-4 py-1.5 text-primary-foreground hover:bg-primary-highlight transition"
+                            className="rounded-md bg-primary px-4 py-1.5 text-white hover:bg-primary-lighter transition"
                         >
                             Login
                         </Link>
@@ -78,12 +78,12 @@ export function GlobalNavigationBar() {
                     {/* 로그인 된 상태 */}
                     {!loading && user && (
                         <>
-                            <span className="text-sm text-muted-foreground">
+                            <span className="text-sm text-gray-600">
                                 {user.email}
                             </span>
                             <button
                                 onClick={handleLogout}
-                                className="rounded-md border px-3 py-1 text-sm hover:bg-muted transition"
+                                className="rounded-md border px-3 py-1 text-sm hover:bg-gray-100 transition"
                             >
                                 Logout
                             </button>
