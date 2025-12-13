@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import AskButton from "@/components/askButton";
 
 type Question = {
     id: number;
@@ -124,9 +125,7 @@ export default function QuestionsPage() {
                             experts.
                         </p>
                     </div>
-                    <button className="mt-2 w-full rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover md:mt-0 md:w-auto">
-                        ⊕ Ask a Question
-                    </button>
+                    <AskButton />
                 </div>
             </section>
 

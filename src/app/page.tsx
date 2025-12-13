@@ -1,5 +1,7 @@
 // app/page.tsx
 import React from "react";
+import Link from "next/link";
+import AskButton from "@/components/askButton";
 
 const mockQuestions = [
   {
@@ -74,9 +76,7 @@ export default function HomePage() {
             <h2 className="text-lg font-semibold text-gray-900">
               Recent Questions
             </h2>
-            <button className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover">
-              ⊕ Ask a Question
-            </button>
+            <AskButton />
           </div>
 
           <div className="space-y-4">
