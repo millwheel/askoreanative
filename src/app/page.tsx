@@ -1,35 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { Question } from '@/types';
-import { QuestionCard } from '@/components/QuestionCard';
 import { EmptyState } from '@/components/EmptyState';
 
 export default function HomePage() {
-  const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const fetchQuestions = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await fetch('/api/questions?page=1&pageSize=5');
-  //       if (!response.ok) throw new Error('Failed to fetch questions');
-  //
-  //       const result = await response.json();
-  //       setQuestions(result.data || []);
-  //     } catch (err) {
-  //       console.error('Error fetching questions:', err);
-  //       setError('Failed to load questions');
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchQuestions();
-  // }, []);
 
   return (
     <main className="min-h-screen bg-[#f4fbfa]">
@@ -115,36 +92,6 @@ export default function HomePage() {
           />
         )}
 
-        {!loading && !error && questions.length === 0 && (
-          <EmptyState
-            icon="📭"
-            title="No Questions Yet"
-            description="Be the first to ask a question about your Korea travel plans!"
-            action={{
-              label: 'Ask the First Question',
-              href: '/questions/new',
-            }}
-          />
-        )}
-
-        {!loading && !error && questions.length > 0 && (
-          <div className="space-y-4">
-            {questions.map((question) => (
-              <QuestionCard key={question.id} question={question} />
-            ))}
-          </div>
-        )}
-
-        {!loading && !error && questions.length > 0 && (
-          <div className="mt-8 text-center">
-            <Link
-              href="/questions"
-              className="inline-block rounded-lg bg-primary text-white px-6 py-2 font-medium hover:bg-opacity-90 transition-all"
-            >
-              View All Questions
-            </Link>
-          </div>
-        )}
       </section>
     </main>
   );

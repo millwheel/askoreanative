@@ -1,15 +1,43 @@
 "use client";
 
-import { useMe } from "@/hooks/useMe";
 import Link from "next/link";
-import {logout} from "../../../supabase/supabaseAuth";
+import {getCurrentUser, logout} from "../../../supabase/supabaseAuth";
+import {useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
+
 
 export function GlobalNavigationBar() {
-    const { user, loading, refresh } = useMe();
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    // 마운트 시 한 번 현재 사용자 정보 조회
+    useEffect(() => {
+        console.log("[GlobalNav] useEffect mount called");
+        let isMounted = true;
+
+        (async () => {
+            try {
+                const currentUser = await getCurrentUser();
+                if (isMounted) {
+                    setUser(currentUser);
+                }
+            } catch (e) {
+                console.error(e);
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        })();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     const handleLogout = async () => {
         await logout();
-        await refresh();
+        setUser(null);
     };
 
     return (

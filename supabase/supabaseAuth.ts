@@ -14,13 +14,18 @@ export async function loginWithGoogle() {
 }
 
 export async function getCurrentUser(): Promise<User | null> {
+    console.log("[getCurrentUser] called");
+
     const { data, error } = await supabase.auth.getSession();
+
+    console.log("[getCurrentUser] response:", { data, error });
 
     if (error) {
         console.error("Error while getting session:", error);
         return null;
     }
 
+    console.log("[getCurrentUser] session.user:", data.session?.user ?? null);
     return data.session?.user ?? null;
 }
 
