@@ -1,24 +1,7 @@
-// app/page.tsx
-import React from "react";
 import Link from "next/link";
 import AskButton from "@/components/askButton";
 import { CATEGORIES } from "@/data/filter";
-
-const mockQuestions = [
-  {
-    id: 1,
-    title: "What are the best seasonal festivals in Seoul?",
-    excerpt:
-      "I'm planning to visit Seoul in spring and would love to experience some traditional festivals...",
-    authorName: "Sarah Chen",
-    authorAvatar:
-      "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80",
-    createdAt: "2 hours ago",
-    category: "Cultural Insights",
-    views: 127,
-    replies: 5,
-  },
-];
+import { QUESTIONS } from "@/data/question";
 
 export default function HomePage() {
   return (
@@ -78,7 +61,7 @@ export default function HomePage() {
         </div>
 
         <div className="space-y-4">
-          {mockQuestions.map((q) => (
+          {QUESTIONS.map((q) => (
             <article
               key={q.id}
               className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
