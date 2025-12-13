@@ -40,8 +40,6 @@ export function GlobalNavigationBar() {
     return (
         <header className="w-full border-b border-border bg-background">
             <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-
-                {/* Left: Logo */}
                 <div>
                     <Link
                         href="/"
@@ -51,44 +49,41 @@ export function GlobalNavigationBar() {
                     </Link>
                 </div>
 
-                {/* Right: Menu */}
-                <div className="flex items-center gap-6">
+                <div className="flex items-center space-x-6">
                     <Link
                         href="/questions"
-                        className="text-foreground hover:text-primary-lighter transition"
+                        className="text-foreground hover:text-primary-hover transition"
                     >
                         Questions
                     </Link>
 
-                    {/* loading 중이면 아무것도 렌더 안 함 (UI 깜빡임 방지) */}
-                    {loading && (
-                        <div>...</div>
-                    )}
-
-                    {/* 로그인 안 됨 */}
-                    {!loading && !user && (
-                        <Link
-                            href="/login"
-                            className="rounded-md bg-primary px-4 py-1.5 text-white hover:bg-primary-lighter transition"
-                        >
-                            Login
-                        </Link>
-                    )}
-
-                    {/* 로그인 된 상태 */}
-                    {!loading && user && (
-                        <>
-                            <span className="text-sm text-gray-600">
-                                {user.email}
-                            </span>
-                            <button
-                                onClick={handleLogout}
-                                className="rounded-md border px-3 py-1 text-sm hover:bg-gray-100 transition"
+                    <div>
+                        {/* 로그인 안 된 상태 */}
+                        {!loading && !user && (
+                            <Link
+                                href="/login"
+                                className="rounded-md bg-primary px-4 py-1.5 text-primary-foreground hover:bg-primary-hover transition cursor-pointer"
                             >
-                                Logout
-                            </button>
-                        </>
-                    )}
+                                Login
+                            </Link>
+                        )}
+
+                        {/* 로그인 된 상태 */}
+                        {!loading && user && (
+                            <div className="flex items-center gap-6">
+                                <p className="text-sm text-gray-600">
+                                    {user.email}
+                                </p>
+                                <button
+                                    onClick={handleLogout}
+                                    className="rounded-md bg-primary px-4 py-1.5 text-primary-foreground hover:bg-primary-hover transition cursor-pointer"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
                 </div>
 
             </nav>
