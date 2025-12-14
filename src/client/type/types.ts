@@ -1,6 +1,13 @@
 export type UUID = string;
 export type Timestamp = string;
 
+export interface MeResponse {
+  id: string;
+  email: string;
+  displayName: string;
+  role: string;
+}
+
 export interface Profile {
   id: UUID; // auth.users.id 와 동일
   display_name: string;

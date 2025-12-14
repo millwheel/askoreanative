@@ -14,11 +14,3 @@ export async function loginWithGoogle() {
 
   console.log(data.url);
 }
-
-export async function logout(): Promise<void> {
-  const { error } = await supabaseClient.auth.signOut();
-
-  if (error) {
-    console.error(error);
-  }
-}

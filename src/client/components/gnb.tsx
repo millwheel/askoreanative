@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { logout } from "@/client/auth/authClient";
 import { useMe } from "@/client/hook/useMe";
+import { useRouter } from "next/router";
 
 export function GlobalNavigationBar() {
-  const { user, loading, refresh } = useMe();
+  const router = useRouter();
+  const { user, loading, mutate } = useMe();
 
   const handleLogout = async () => {
-    await logout(); // 쿠키/세션 제거
-    await refresh(); // /api/auth 다시 fetch → user: null로 동기화
+    await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+    await mutate(null, { revalidate: false });
+    await router.replace("/");
   };
 
   return (
@@ -46,7 +48,7 @@ export function GlobalNavigationBar() {
             {/* 로그인 된 상태 */}
             {!loading && user && (
               <div className="flex items-center gap-6">
-                <p className="text-sm text-gray-600">{user.email}</p>
+                <p className="text-sm text-gray-600">{user.displayName}</p>
                 <button
                   onClick={handleLogout}
                   className="rounded-md bg-primary px-4 py-1.5 text-primary-foreground hover:bg-primary-hover transition cursor-pointer"

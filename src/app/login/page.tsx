@@ -1,6 +1,6 @@
 "use client";
 
-import { loginWithGoogle } from "@/client/auth/authClient";
+import { loginWithGoogle } from "@/client/hook/authClient";
 import Image from "next/image";
 
 export default function LoginPage() {
