@@ -8,8 +8,8 @@
 
 ## 📋 전체 진행 상황
 
-- [ ] Phase 1: 폼 요소 (Select, Input, Button, Textarea)
-- [ ] Phase 2: 레이아웃 (Card, Badge)
+- [x] Phase 1: 폼 요소 (Select, Input, Button, Textarea)
+- [x] Phase 2: 레이아웃 (Card, Badge)
 - [ ] Phase 3: 고급 기능 (Avatar, Dropdown Menu, Dialog, Toast)
 
 ---
@@ -29,19 +29,19 @@ npx shadcn@latest add select
 
 **작업 목록:**
 
-- [ ] **홈페이지 검색 필터**
+- [x] **홈페이지 검색 필터**
   - 파일: `src/app/page.tsx:45-49`
   - 현재: `<select>` + `<option>`
   - 변경: `<Select>` + `<SelectTrigger>` + `<SelectContent>` + `<SelectItem>`
   - 비고: 검색 기능 동작 확인 필요
 
-- [ ] **Questions 페이지 필터**
+- [x] **Questions 페이지 필터**
   - 파일: `src/app/questions/page.tsx:63-71`
   - 현재: `<select value={category} onChange={(e) => setCategory(e.target.value)}>`
   - 변경: `<Select value={category} onValueChange={setCategory}>`
   - 비고: `onChange` → `onValueChange` 주의
 
-- [ ] **New Question 카테고리 선택**
+- [x] **New Question 카테고리 선택**
   - 파일: `src/app/questions/new/page.tsx:194-202`
   - 현재: `<select value={category} onChange={(e) => setCategory(e.target.value)}>`
   - 변경: `<Select value={category} onValueChange={setCategory}>`
@@ -243,7 +243,7 @@ npx shadcn@latest add textarea
 
 **작업 목록:**
 
-- [ ] **New Question 상세 내용**
+- [x] **New Question 상세 내용**
   - 파일: `src/app/questions/new/page.tsx:210-216`
   - 현재: `<textarea rows={8} value={description} onChange={...}>`
   - 변경: `<Textarea rows={8} value={description} onChange={...}>`
@@ -289,27 +289,27 @@ npx shadcn@latest add card
 
 **작업 목록:**
 
-- [ ] **홈페이지 질문 리스트**
+- [x] **홈페이지 질문 리스트**
   - 파일: `src/app/page.tsx:65-111`
   - 현재: `<article className="rounded-2xl bg-white...">`
   - 변경: `<Card>` + `<CardHeader>` + `<CardContent>` + `<CardFooter>`
 
-- [ ] **Questions 페이지 질문 카드**
+- [x] **Questions 페이지 질문 카드**
   - 파일: `src/app/questions/page.tsx:85-134`
   - 현재: `<article className="rounded-2xl bg-white...">`
   - 변경: `<Card>` 구조로 리팩토링
 
-- [ ] **Login 페이지 컨테이너**
+- [x] **Login 페이지 컨테이너**
   - 파일: `src/app/login/page.tsx:13-24`
   - 현재: `<div className="w-full max-w-md rounded-2xl bg-white...">`
   - 변경: `<Card>` + `<CardHeader>` + `<CardContent>`
 
-- [ ] **New Question 폼 컨테이너**
+- [x] **New Question 폼 컨테이너**
   - 파일: `src/app/questions/new/page.tsx:66-260`
   - 현재: `<form className="rounded-2xl bg-white...">`
   - 변경: `<Card><form>...</form></Card>` 구조
 
-- [ ] **New Question 사이드바**
+- [x] **New Question 사이드바**
   - 파일: `src/app/questions/new/page.tsx:263-311`
   - 현재: `<aside><div className="rounded-2xl bg-white...">`
   - 변경: `<Card>` 구조
@@ -358,25 +358,29 @@ npx shadcn@latest add badge
 
 **작업 목록:**
 
-- [ ] **홈페이지 카테고리 태그**
+- [x] **홈페이지 카테고리 태그**
   - 파일: `src/app/page.tsx:73-76`
   - 현재: `<span className="rounded-full bg-primary-light...">{q.category}</span>`
   - 변경: `<Badge variant="secondary">{q.category}</Badge>`
 
-- [ ] **Questions 페이지 카테고리 뱃지**
+- [x] **Questions 페이지 카테고리 뱃지**
   - 파일: `src/app/questions/page.tsx:93-95`
   - 현재: `<span className="rounded-full bg-primary-light...">{q.category}</span>`
   - 변경: `<Badge variant="secondary">{q.category}</Badge>`
 
-- [ ] **New Question "선택됨" 뱃지**
+- [x] **New Question "선택됨" 뱃지**
   - 파일: `src/app/questions/new/page.tsx:91-93`
   - 현재: `<span className="rounded-full bg-white px-2 py-0.5...">선택됨</span>`
-  - 변경: `<Badge variant="outline" size="sm">선택됨</Badge>`
+  - 변경: `<Badge variant="outline">선택됨</Badge>`
 
-- [ ] **New Question Express 뱃지**
+- [x] **New Question Express 뱃지**
   - 파일: `src/app/questions/new/page.tsx:119-121`
   - 현재: `<span className="rounded-full bg-white...">선택됨</span>`
-  - 변경: `<Badge variant="outline" size="sm">선택됨</Badge>`
+  - 변경: `<Badge variant="outline">선택됨</Badge>`
+
+- [x] **New Question Preview 뱃지**
+  - 파일: `src/app/questions/new/page.tsx:255-259`
+  - 추가 작업: Preview section의 question type badge도 교체
 
 **변경 예시:**
 ```tsx
@@ -595,8 +599,22 @@ npx shadcn@latest add select input button textarea
 ### 2025-12-14
 - [x] 마이그레이션 작업 계획 수립
 - [x] Phase 1-3 작업 목록 작성
-- [ ] 작업 시작 대기 중
+- [x] Phase 1.1: Select 컴포넌트 교체 완료 (3개 파일)
+- [x] Phase 1.2: Input 컴포넌트 교체 완료 (3개 파일)
+- [x] Phase 1.3: Button 컴포넌트 교체 완료 (7개 파일, 10개 버튼)
+- [x] Phase 1.4: Textarea 컴포넌트 교체 완료 (1개 파일)
+- [x] **Phase 1 완료** - 모든 폼 요소가 shadcn/ui로 통일됨
+- [x] Phase 2.1: Card 컴포넌트 교체 완료 (4개 파일, 7개 카드)
+  - page.tsx: 질문 리스트 카드
+  - questions/page.tsx: 질문 카드 + 빈 상태 카드
+  - login/page.tsx: 로그인 컨테이너
+  - questions/new/page.tsx: 폼 컨테이너 + 사이드바 카드 2개
+- [x] Phase 2.2: Badge 컴포넌트 교체 완료 (3개 파일, 5개 뱃지)
+  - page.tsx: 카테고리 태그
+  - questions/page.tsx: 카테고리 뱃지
+  - questions/new/page.tsx: 선택됨 뱃지 (normal, express) + preview 뱃지
+- [x] **Phase 2 완료** - 모든 레이아웃 컴포넌트가 shadcn/ui로 통일됨
 
 ---
 
-**다음 단계:** Phase 1의 Select 컴포넌트부터 점진적으로 적용 시작
+**다음 단계:** Phase 3 고급 컴포넌트 적용 (선택적)

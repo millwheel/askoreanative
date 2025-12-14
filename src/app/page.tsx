@@ -10,6 +10,14 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import React from "react";
 
 export default function HomePage() {
@@ -74,22 +82,19 @@ export default function HomePage() {
 
         <div className="space-y-4">
           {QUESTIONS.map((q) => (
-            <article
-              key={q.id}
-              className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
-            >
-              <div className="mb-2 flex items-center justify-between gap-2">
-                <h3 className="text-base font-semibold text-foreground">
-                  {q.title}
-                </h3>
-                <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-dark">
-                  {q.category}
-                </span>
-              </div>
+            <Card key={q.id} className="transition hover:shadow-md">
+              <CardHeader>
+                <div className="flex items-center justify-between gap-2">
+                  <CardTitle className="text-base">{q.title}</CardTitle>
+                  <Badge variant="secondary">{q.category}</Badge>
+                </div>
+              </CardHeader>
 
-              <p className="mb-4 text-sm text-gray-600">{q.excerpt}</p>
+              <CardContent>
+                <p className="text-sm text-gray-600">{q.excerpt}</p>
+              </CardContent>
 
-              <div className="flex flex-wrap items-center justify-between gap-3">
+              <CardFooter className="flex flex-wrap items-center justify-between gap-3">
                 {/* 작성자 */}
                 <div className="flex items-center gap-3">
                   <img
@@ -116,8 +121,8 @@ export default function HomePage() {
                     <span>{q.replies}</span>
                   </div>
                 </div>
-              </div>
-            </article>
+              </CardFooter>
+            </Card>
           ))}
         </div>
       </section>

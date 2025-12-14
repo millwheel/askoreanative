@@ -12,6 +12,14 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 export default function QuestionsPage() {
@@ -91,28 +99,29 @@ export default function QuestionsPage() {
       {/* 질문 리스트 */}
       <section className="mx-auto max-w-5xl px-4 py-8">
         {filteredQuestions.length === 0 ? (
-          <div className="rounded-2xl bg-white p-8 text-center text-sm text-gray-500 shadow-sm">
-            No questions found. Try a different keyword or category.
-          </div>
+          <Card>
+            <CardContent className="p-8 text-center text-sm text-gray-500">
+              No questions found. Try a different keyword or category.
+            </CardContent>
+          </Card>
         ) : (
           <div className="space-y-4">
             {filteredQuestions.map((q) => (
-              <article
-                key={q.id}
-                className="rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
-              >
-                <div className="mb-2 flex items-center justify-between gap-2">
-                  <h2 className="text-base font-semibold text-gray-900">
-                    {q.title}
-                  </h2>
-                  <span className="whitespace-nowrap rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-primary-dark">
-                    {q.category}
-                  </span>
-                </div>
+              <Card key={q.id} className="transition hover:shadow-md">
+                <CardHeader>
+                  <div className="flex items-center justify-between gap-2">
+                    <CardTitle className="text-base">{q.title}</CardTitle>
+                    <Badge variant="secondary" className="whitespace-nowrap">
+                      {q.category}
+                    </Badge>
+                  </div>
+                </CardHeader>
 
-                <p className="mb-4 text-sm text-gray-600">{q.excerpt}</p>
+                <CardContent>
+                  <p className="text-sm text-gray-600">{q.excerpt}</p>
+                </CardContent>
 
-                <div className="flex flex-wrap items-center justify-between gap-3">
+                <CardFooter className="flex flex-wrap items-center justify-between gap-3">
                   {/* 작성자 */}
                   <div className="flex items-center gap-3">
                     <img
@@ -141,8 +150,8 @@ export default function QuestionsPage() {
                       <span>{q.replies}</span>
                     </div>
                   </div>
-                </div>
-              </article>
+                </CardFooter>
+              </Card>
             ))}
           </div>
         )}
