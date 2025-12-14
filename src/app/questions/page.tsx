@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import AskButton from "@/client/components/askButton";
 import { CATEGORIES } from "@/client/data/filter";
 import { QUESTIONS } from "@/client/data/question";
 import {
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function QuestionsPage() {
   const [search, setSearch] = useState("");
@@ -51,7 +51,9 @@ export default function QuestionsPage() {
               experts.
             </p>
           </div>
-          <AskButton />
+          <Button asChild className="rounded-full">
+            <Link href="/questions/new">Ask new question</Link>
+          </Button>
         </div>
       </section>
 

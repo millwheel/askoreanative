@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 type QuestionType = "normal" | "express";
 
@@ -183,12 +184,12 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
               <label className="mb-1 block text-sm font-semibold text-gray-800">
                 Details (optional)
               </label>
-              <textarea
+              <Textarea
                 rows={8}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Add details like travel dates, budget, preferences, and anything else locals should know."
-                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                className="rounded-xl"
               />
               <p className="mt-1 text-xs text-gray-500">
                 구체적으로 쓸수록, 더 좋은 답변을 받을 가능성이 높아요. 여행

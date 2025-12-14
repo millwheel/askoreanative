@@ -94,19 +94,19 @@ npx shadcn@latest add input
 
 **작업 목록:**
 
-- [ ] **홈페이지 검색창**
+- [x] **홈페이지 검색창**
   - 파일: `src/app/page.tsx:34-39`
   - 현재: `<input type="text" placeholder="Search...">`
   - 변경: `<Input type="text" placeholder="Search...">`
   - 비고: rounded-full 스타일 유지
 
-- [ ] **Questions 페이지 검색**
+- [x] **Questions 페이지 검색**
   - 파일: `src/app/questions/page.tsx:54-60`
   - 현재: `<input type="text" value={search} onChange={...}>`
   - 변경: `<Input type="text" value={search} onChange={...}>`
   - 비고: 검색 필터링 로직 확인
 
-- [ ] **New Question 제목 입력**
+- [x] **New Question 제목 입력**
   - 파일: `src/app/questions/new/page.tsx:176-182`
   - 현재: `<input type="text" value={title} onChange={...}>`
   - 변경: `<Input type="text" value={title} onChange={...}>`
@@ -146,54 +146,54 @@ npx shadcn@latest add button
 
 **작업 목록:**
 
-- [ ] **홈페이지 Hero CTA**
+- [x] **홈페이지 Hero CTA**
   - 파일: `src/app/page.tsx:20-25`
   - 현재: `<Link className="...">Ask Your First Question</Link>`
   - 변경: `<Button asChild><Link>Ask Your First Question</Link></Button>`
   - Variant: `variant="secondary"`
 
-- [ ] **홈페이지 검색 버튼**
+- [x] **홈페이지 검색 버튼**
   - 파일: `src/app/page.tsx:41-43`
   - 현재: `<button className="...">🔍</button>`
   - 변경: `<Button>🔍</Button>`
   - Variant: `variant="default"`
 
-- [ ] **홈페이지 View Details 버튼**
+- [x] **홈페이지 View Details 버튼**
   - 파일: `src/app/page.tsx:106-108`
   - 현재: `<button className="rounded-full border...">View Details</button>`
   - 변경: `<Button variant="outline" size="sm">View Details</Button>`
 
-- [ ] **Questions 페이지 View Details**
+- [x] **Questions 페이지 View Details**
   - 파일: `src/app/questions/page.tsx:128-130`
   - 현재: `<button className="rounded-full border...">View Details</button>`
   - 변경: `<Button variant="outline" size="sm">View Details</Button>`
 
-- [ ] **New Question Submit 버튼**
+- [x] **New Question Submit 버튼**
   - 파일: `src/app/questions/new/page.tsx:247-251`
   - 현재: `<button type="submit" className="...">Post Question</button>`
   - 변경: `<Button type="submit">Post Question (Mock)</Button>`
 
-- [ ] **New Question Upload 버튼**
+- [x] **New Question Upload 버튼**
   - 파일: `src/app/questions/new/page.tsx:233-238`
   - 현재: `<button type="button" className="...">Upload Image</button>`
   - 변경: `<Button type="button" variant="outline" size="sm">Upload Image</Button>`
 
-- [ ] **Login 페이지 Google 버튼**
+- [x] **Login 페이지 Google 버튼**
   - 파일: `src/app/login/page.tsx:16-22`
   - 현재: `<button onClick={handleGoogleLogin} className="...">Google login</button>`
   - 변경: `<Button onClick={handleGoogleLogin} variant="outline" className="w-full">Google login</Button>`
 
-- [ ] **GNB Login 버튼**
+- [x] **GNB Login 버튼**
   - 파일: `src/client/components/gnb.tsx:40-45`
   - 현재: `<Link className="rounded-md bg-primary...">Login</Link>`
   - 변경: `<Button asChild><Link href="/login">Login</Link></Button>`
 
-- [ ] **GNB Logout 버튼**
+- [x] **GNB Logout 버튼**
   - 파일: `src/client/components/gnb.tsx:52-57`
   - 현재: `<button onClick={handleLogout} className="...">Logout</button>`
   - 변경: `<Button onClick={handleLogout}>Logout</Button>`
 
-- [ ] **AskButton 컴포넌트**
+- [x] **AskButton 컴포넌트**
   - 파일: `src/client/components/askButton.tsx:5-10`
   - 현재: `<Link className="...">Ask new question</Link>`
   - 변경: `<Button asChild><Link href="/questions/new">Ask new question</Link></Button>`

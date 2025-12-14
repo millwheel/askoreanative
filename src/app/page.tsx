@@ -1,5 +1,4 @@
 import Link from "next/link";
-import AskButton from "@/client/components/askButton";
 import { CATEGORIES } from "@/client/data/filter";
 import { QUESTIONS } from "@/client/data/question";
 import {
@@ -68,7 +67,9 @@ export default function HomePage() {
           <h2 className="text-lg font-semibold text-foreground">
             Recent Questions
           </h2>
-          <AskButton />
+          <Button asChild className="rounded-full">
+            <Link href="/questions/new">Ask new question</Link>
+          </Button>
         </div>
 
         <div className="space-y-4">
