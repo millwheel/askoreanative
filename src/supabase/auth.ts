@@ -1,5 +1,6 @@
 import { type User } from "@supabase/supabase-js";
 import { supabaseClient } from "./config";
+import { generateRandomDisplayName } from "@/lib/randomName";
 
 export async function loginWithGoogle() {
   const { data, error } = await supabaseClient.auth.signInWithOAuth({
@@ -30,4 +31,22 @@ export async function logout(): Promise<void> {
   if (error) {
     console.error(error);
   }
+}
+
+export async function ensureUserProfile(user: { id: string; email?: string }) {
+  const { data: profile } = await supabaseClient
+    .from("user_profiles")
+    .select("id")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profile) return;
+
+  const displayName = generateRandomDisplayName();
+
+  await supabaseClient.from("user_profiles").insert({
+    id: user.id,
+    display_name: displayName,
+    role: "QUESTIONER",
+  });
 }
