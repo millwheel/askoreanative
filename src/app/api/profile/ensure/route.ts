@@ -5,7 +5,7 @@ import { generateRandomDisplayName } from "@/util/randomName";
 
 export async function POST() {
   // 1) 현재 로그인 유저 확인 (쿠키 세션 기반)
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data.user) {

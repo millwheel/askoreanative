@@ -9,7 +9,7 @@ export function GlobalNavigationBar() {
 
   const handleLogout = async () => {
     await logout(); // 쿠키/세션 제거
-    await refresh(); // /api/me 다시 fetch → user: null로 동기화
+    await refresh(); // /api/auth 다시 fetch → user: null로 동기화
   };
 
   return (
