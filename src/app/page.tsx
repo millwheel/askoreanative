@@ -9,6 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import React from "react";
 
 export default function HomePage() {
   return (
@@ -24,12 +27,9 @@ export default function HomePage() {
             authentic travel advice, cultural insights, and practical tips for
             your journey.
           </p>
-          <Link
-            href="/questions/new"
-            className="mt-8 rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary shadow-sm transition cursor-pointer"
-          >
-            Ask Your First Question
-          </Link>
+          <Button asChild variant="secondary" className="mt-8 rounded-full">
+            <Link href="/questions/new">Ask Your First Question</Link>
+          </Button>
         </div>
       </section>
 
@@ -38,16 +38,13 @@ export default function HomePage() {
         <div className="mx-auto max-w-5xl px-4">
           <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-md md:flex-row md:items-center">
             <div className="flex-1">
-              <input
+              <Input
                 type="text"
                 placeholder="Search questions about Korea..."
-                className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none
-                focus:border-primary focus:ring-1 focus:ring-primary"
+                className="rounded-full"
               />
             </div>
-            <button className="flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold bg-primary hover:bg-primary-hover cursor-pointer">
-              🔍
-            </button>
+            <Button className="rounded-full">🔍</Button>
 
             <Select>
               <SelectTrigger className="w-full rounded-full md:w-52">
@@ -117,9 +114,6 @@ export default function HomePage() {
                     <span>💬</span>
                     <span>{q.replies}</span>
                   </div>
-                  <button className="rounded-full border border-gray-200 px-4 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50">
-                    View Details
-                  </button>
                 </div>
               </div>
             </article>

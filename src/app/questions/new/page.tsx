@@ -9,6 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 type QuestionType = "normal" | "express";
 
@@ -38,7 +40,6 @@ export default function NewQuestionPage() {
 I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongdong, Gangnam, etc.) and why.`,
   );
   const [category, setCategory] = useState(CATEGORIES[0]);
-  const [language, setLanguage] = useState<"en" | "ko">("en");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -140,52 +141,17 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
               </div>
             </div>
 
-            {/* 언어 선택 */}
-            <div className="mb-4 flex flex-wrap items-center gap-3">
-              <span className="text-xs font-semibold text-gray-700">
-                Question Language
-              </span>
-              <div className="inline-flex rounded-full bg-gray-100 p-1 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setLanguage("en")}
-                  className={`rounded-full px-3 py-1 ${
-                    language === "en"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500"
-                  }`}
-                >
-                  English
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setLanguage("ko")}
-                  className={`rounded-full px-3 py-1 ${
-                    language === "ko"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500"
-                  }`}
-                >
-                  한국어
-                </button>
-              </div>
-              <span className="text-[11px] text-gray-500">
-                * 우선은 영어 기준으로 UX만 설계하고, 나중에 다국어를 정식
-                지원해도 됨.
-              </span>
-            </div>
-
             {/* 제목 */}
             <div className="mb-4">
               <label className="mb-1 block text-sm font-semibold text-gray-800">
                 Title <span className="text-primary">*</span>
               </label>
-              <input
+              <Input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="What would you like to ask about Korea?"
-                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                className="rounded-xl"
               />
               <p className="mt-1 text-xs text-gray-500">
                 예: &quot;5월 첫 방문인데, 서울에서 숙소를 어디에 잡는 게
@@ -240,12 +206,14 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                   여행 일정 캡처, 숙소 후보 스크린샷 등 이미지를 첨부할 수
                   있어요.
                 </p>
-                <button
+                <Button
                   type="button"
-                  className="rounded-full border border-gray-300 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-white"
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full"
                 >
                   Upload Image (Mock)
-                </button>
+                </Button>
                 <span className="text-[11px] text-gray-400">
                   * 현재는 UX 데모용으로 실제 업로드는 되지 않습니다.
                 </span>
@@ -254,12 +222,9 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
 
             {/* 버튼 영역 */}
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <button
-                type="submit"
-                className="rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover cursor-pointer"
-              >
+              <Button type="submit" className="rounded-full">
                 Post Question (Mock)
-              </button>
+              </Button>
               <Link
                 href="/questions"
                 className="text-gray-500 hover:text-gray-700 cursor-pointer"

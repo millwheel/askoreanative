@@ -11,6 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function QuestionsPage() {
   const [search, setSearch] = useState("");
@@ -58,14 +60,15 @@ export default function QuestionsPage() {
         <div className="mx-auto max-w-5xl px-4 py-4">
           <div className="flex flex-col gap-3 md:flex-row md:items-center">
             <div className="flex-1">
-              <input
+              <Input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search questions about Korea..."
-                className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                className="rounded-full"
               />
             </div>
+            <Button className="rounded-full">🔍</Button>
 
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="w-full rounded-full md:w-52">
@@ -135,9 +138,6 @@ export default function QuestionsPage() {
                       <span>💬</span>
                       <span>{q.replies}</span>
                     </div>
-                    <button className="rounded-full border border-gray-200 px-4 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50">
-                      View Details
-                    </button>
                   </div>
                 </div>
               </article>

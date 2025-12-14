@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMe } from "@/client/hook/useMe";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export function GlobalNavigationBar() {
   const router = useRouter();
@@ -37,24 +38,20 @@ export function GlobalNavigationBar() {
           <div>
             {/* 로그인 안 된 상태 */}
             {!loading && !user && (
-              <Link
-                href="/login"
-                className="rounded-md bg-primary px-4 py-1.5 text-primary-foreground hover:bg-primary-hover transition cursor-pointer"
-              >
-                Login
-              </Link>
+              <Button asChild>
+                <Link href="/login">
+                  Login
+                </Link>
+              </Button>
             )}
 
             {/* 로그인 된 상태 */}
             {!loading && user && (
               <div className="flex items-center gap-6">
                 <p className="text-sm text-gray-600">{user.displayName}</p>
-                <button
-                  onClick={handleLogout}
-                  className="rounded-md bg-primary px-4 py-1.5 text-primary-foreground hover:bg-primary-hover transition cursor-pointer"
-                >
+                <Button onClick={handleLogout}>
                   Logout
-                </button>
+                </Button>
               </div>
             )}
           </div>
