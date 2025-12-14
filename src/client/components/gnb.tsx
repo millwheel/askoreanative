@@ -1,40 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
-import { getCurrentUser, logout } from "@/client/supabase/auth";
+import { logout } from "@/client/supabase/auth";
+import { useMe } from "@/client/hook/useMe";
 
 export function GlobalNavigationBar() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    (async () => {
-      try {
-        const currentUser = await getCurrentUser();
-        if (isMounted) {
-          setUser(currentUser);
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    })();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { user, loading, refresh } = useMe();
 
   const handleLogout = async () => {
-    await logout();
-    setUser(null);
+    await logout(); // 쿠키/세션 제거
+    await refresh(); // /api/me 다시 fetch → user: null로 동기화
   };
 
   return (

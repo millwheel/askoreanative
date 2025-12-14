@@ -1,4 +1,3 @@
-import { type User } from "@supabase/supabase-js";
 import { supabaseClient } from "@/client/supabase/client";
 
 export async function loginWithGoogle() {
@@ -11,17 +10,6 @@ export async function loginWithGoogle() {
   }
 
   console.log(data.url);
-}
-
-export async function getCurrentUser(): Promise<User | null> {
-  const { data, error } = await supabaseClient.auth.getUser();
-
-  if (error) {
-    console.error("Error while getting session:", error);
-    return null;
-  }
-
-  return data.user ?? null;
 }
 
 export async function logout(): Promise<void> {
