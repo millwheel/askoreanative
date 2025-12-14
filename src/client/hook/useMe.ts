@@ -5,7 +5,6 @@ import useSWR from "swr";
 
 type AuthUser = { id: string; email?: string | null };
 
-// 현재 /api/auth 가 반환하는 형태
 type AuthApiResponse = { user: AuthUser | null };
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -39,7 +38,7 @@ export function useMe() {
     fetchJson<AuthApiResponse>(url),
   );
 
-  const auth = data?.user ?? null;
+  const user = data?.user ?? null;
 
   // 로그인 후 profile ensure는 1회만
   const ensuredOnceRef = useRef(false);
@@ -53,7 +52,7 @@ export function useMe() {
     if (authLoading) return;
 
     // 비로그인: 리셋
-    if (!auth) {
+    if (!user) {
       ensuredOnceRef.current = false;
       setEnsuringProfile(false);
       setEnsureProfileError(null);
@@ -76,10 +75,10 @@ export function useMe() {
         setEnsuringProfile(false);
       }
     })();
-  }, [auth, authLoading]);
+  }, [user, authLoading]);
 
   return {
-    auth, // ← "user"보다 의미가 정확함
+    user,
     loading: authLoading || ensuringProfile,
     error: authError ?? ensureProfileError,
     refresh,
