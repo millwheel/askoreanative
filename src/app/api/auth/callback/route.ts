@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/server/supabase/config";
-import { generateRandomDisplayName } from "@/util/randomName";
+import { ensureUserProfile } from "@/server/profileSetup";
 
 function sanitizeDestination(dest: string | null) {
   if (!dest) return "/";
@@ -43,24 +43,12 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL(`/login?error=auth`, url.origin));
   }
 
-  const displayName = generateRandomDisplayName();
-  const now = new Date().toISOString();
-
-  const { error: upsertError } = await supabase.from("user_profile").upsert(
-    {
-      id: user.id,
-      display_name: displayName,
-      role: "QUESTIONER",
-      created_at: now,
-      updated_at: now,
-    },
-    { onConflict: "id" },
-  );
-
-  if (upsertError) {
-    // 프로필 생성 실패해도 로그인은 성공
-    console.error("login success but profile generation failed", upsertError);
-    return NextResponse.redirect(new URL(`/login?error=profile`, url.origin));
+  const ensured = await ensureUserProfile({ supabase, userId: user.id });
+  if (!ensured.ok) {
+    console.error("ensure profile failed:", ensured.step, ensured.error);
+    return NextResponse.redirect(
+      new URL(`/login?error=profile_${ensured.step}`, url.origin),
+    );
   }
 
   return NextResponse.redirect(new URL(destination, url.origin));
