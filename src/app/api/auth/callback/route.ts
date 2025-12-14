@@ -3,7 +3,6 @@ import { getSupabaseServerClient } from "@/server/supabase/config";
 import { generateRandomDisplayName } from "@/util/randomName";
 
 function sanitizeDestination(dest: string | null) {
-  // 오픈 리다이렉트 방지: 내부 경로만 허용
   if (!dest) return "/";
   try {
     const decoded = decodeURIComponent(dest);
@@ -18,8 +17,21 @@ function sanitizeDestination(dest: string | null) {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const destination = sanitizeDestination(url.searchParams.get("destination"));
+  const code = url.searchParams.get("code");
 
   const supabase = await getSupabaseServerClient();
+
+  if (!code) {
+    console.error("code not found");
+    return NextResponse.redirect(new URL(`/login?error=code`, url.origin));
+  }
+
+  const { error: exchangeError } =
+    await supabase.auth.exchangeCodeForSession(code);
+  if (exchangeError) {
+    console.log("exchange failed:", exchangeError);
+    return NextResponse.redirect(new URL(`/login?error=exchange`, url.origin));
+  }
 
   const {
     data: { user },
@@ -27,6 +39,7 @@ export async function GET(request: Request) {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
+    console.log("user not found: ", userError);
     return NextResponse.redirect(new URL(`/login?error=auth`, url.origin));
   }
 
