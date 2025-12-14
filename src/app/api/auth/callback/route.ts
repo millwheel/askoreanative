@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
   const { data: userData, error: userErr } = await supabase.auth.getUser();
   if (userErr || !userData.user) {
-    return NextResponse.redirect(new URL(`/login?error=oauth`, url.origin));
+    return NextResponse.redirect(new URL(`/login?error=session`, url.origin));
   }
 
   const user = userData.user;

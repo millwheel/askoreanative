@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { logout } from "@/client/auth/auth";
+import { logout } from "@/client/auth/authClient";
 import { useMe } from "@/client/hook/useMe";
 
 export function GlobalNavigationBar() {
