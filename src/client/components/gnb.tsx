@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
-import { getCurrentUser, logout } from "@/supabase/auth";
+import { getCurrentUser, logout } from "@/client/supabase/auth";
 
 export function GlobalNavigationBar() {
   const [user, setUser] = useState<User | null>(null);
@@ -42,7 +42,7 @@ export function GlobalNavigationBar() {
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <div>
           <Link
-            href="/"
+            href="/public"
             className="text-xl font-bold text-primary hover:text-primary-lighter transition"
           >
             Askoreanative

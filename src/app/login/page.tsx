@@ -1,6 +1,6 @@
 "use client";
 
-import { loginWithGoogle } from "@/supabase/auth";
+import { loginWithGoogle } from "@/client/supabase/auth";
 import Image from "next/image";
 
 export default function LoginPage() {

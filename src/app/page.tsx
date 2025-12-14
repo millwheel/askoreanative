@@ -1,7 +1,7 @@
 import Link from "next/link";
-import AskButton from "@/components/askButton";
-import { CATEGORIES } from "@/data/filter";
-import { QUESTIONS } from "@/data/question";
+import AskButton from "@/client/components/askButton";
+import { CATEGORIES } from "@/client/data/filter";
+import { QUESTIONS } from "@/client/data/question";
 
 export default function HomePage() {
   return (
