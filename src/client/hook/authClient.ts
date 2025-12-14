@@ -1,16 +1,10 @@
-import { supabaseClient } from "@/client/supabase/client";
+import { supabaseClient } from "@/client/supabase/config";
 
-export async function loginWithGoogle() {
-  const { data, error } = await supabaseClient.auth.signInWithOAuth({
+export async function loginWithGoogle(destination = "/") {
+  await supabaseClient.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${location.origin}/auth/callback`,
+      redirectTo: `${location.origin}/api/auth/callback?destination=${encodeURIComponent(destination)}`,
     },
   });
-
-  if (error) {
-    console.error("Google login error:", error);
-  }
-
-  console.log(data.url);
 }

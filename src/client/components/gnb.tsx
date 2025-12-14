@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMe } from "@/client/hook/useMe";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export function GlobalNavigationBar() {
   const router = useRouter();
@@ -11,7 +11,7 @@ export function GlobalNavigationBar() {
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
     await mutate(null, { revalidate: false });
-    await router.replace("/");
+    router.replace("/");
   };
 
   return (
@@ -19,7 +19,7 @@ export function GlobalNavigationBar() {
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <div>
           <Link
-            href="/public"
+            href="/"
             className="text-xl font-bold text-primary hover:text-primary-lighter transition"
           >
             Askoreanative

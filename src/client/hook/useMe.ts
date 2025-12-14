@@ -26,6 +26,3 @@ export function useMe() {
     mutate,
   };
 }
-
-// 1. mutate 역할?
-// 2. !!data?.id 의 의미??
