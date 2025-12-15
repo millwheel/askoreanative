@@ -13,7 +13,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { UserProfileResponse } from "@/client/type/types";
 
 const fetcher = async (url: string): Promise<UserProfileResponse | null> => {
@@ -98,69 +98,63 @@ export default function ProfilePage() {
   if (isLoading || !profile) return null;
 
   return (
-    <main className="mx-auto min-h-screen max-w-5xl px-4 py-10">
+    <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
       <h1 className="mb-6 text-2xl font-semibold">Profile</h1>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Profile summary */}
-        <Card className="rounded-2xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              Public info
-              <Badge variant="secondary" className="rounded-full">
-                {profile.role}
-              </Badge>
-            </CardTitle>
-          </CardHeader>
+      <Card className="rounded-2xl">
+        <CardHeader>
+          <CardTitle>Profile</CardTitle>
+        </CardHeader>
 
-          <CardContent className="space-y-4 text-sm text-gray-600">
-            <div>
-              <p className="text-xs">Email</p>
-              <p>{profile.email}</p>
+        <CardContent className="space-y-6">
+          {/* Email + Avatar */}
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <label className="text-sm font-medium text-gray-700">Email</label>
+              <p className="text-sm text-gray-600 py-1">{profile.email}</p>
             </div>
-          </CardContent>
-        </Card>
+            <Avatar className="h-20 w-20">
+              <AvatarImage src={profile.avatarUrl} alt={profile.display_name} />
+              <AvatarFallback>{profile.display_name[0]}</AvatarFallback>
+            </Avatar>
+          </div>
 
-        {/* Edit form */}
-        <Card className="rounded-2xl">
-          <CardHeader>
-            <CardTitle>Edit profile</CardTitle>
-          </CardHeader>
-
-          <CardContent className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Name</label>
-              <Input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="rounded-full"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm font-medium">Display name</label>
-              <Input
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                className="rounded-full"
-              />
-            </div>
-
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            {success && <p className="text-sm text-primary">{success}</p>}
-          </CardContent>
-
-          <CardFooter className="justify-end">
-            <Button
+          {/* Name */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">Name</label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="rounded-full"
-              onClick={handleSave}
-              disabled={!canSave}
-            >
-              {saving ? "Saving..." : "Save"}
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
+            />
+          </div>
+
+          {/* Display name */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Display name
+            </label>
+            <Input
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              className="rounded-full"
+            />
+          </div>
+
+          {error && <p className="text-sm text-destructive">{error}</p>}
+          {success && <p className="text-sm text-primary">{success}</p>}
+        </CardContent>
+
+        <CardFooter className="justify-end">
+          <Button
+            className="rounded-full"
+            onClick={handleSave}
+            disabled={!canSave}
+          >
+            {saving ? "Saving..." : "Save"}
+          </Button>
+        </CardFooter>
+      </Card>
     </main>
   );
 }
