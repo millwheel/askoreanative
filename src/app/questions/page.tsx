@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Eye, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 export default function QuestionsPage() {
@@ -140,13 +141,13 @@ export default function QuestionsPage() {
                   </div>
 
                   {/* 통계 + 버튼 */}
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-6">
                     <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <span>👁</span>
+                      <Eye className="h-3.5 w-3.5" />
                       <span>{q.viewCount}</span>
                     </div>
                     <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <span>💬</span>
+                      <MessageCircle className="h-3.5 w-3.5" />
                       <span>{q.replies}</span>
                     </div>
                   </div>

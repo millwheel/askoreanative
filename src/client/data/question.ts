@@ -11,7 +11,7 @@ export const QUESTIONS: QuestionSummary[] = [
       "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80",
     createdAt: "2 hours ago",
     category: "Cultural Insights",
-    views: 127,
+    viewCount: 127,
     replies: 5,
   },
   {
@@ -24,7 +24,7 @@ export const QUESTIONS: QuestionSummary[] = [
       "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=80",
     createdAt: "5 hours ago",
     category: "Transportation",
-    views: 89,
+    viewCount: 89,
     replies: 3,
   },
   {
@@ -37,7 +37,7 @@ export const QUESTIONS: QuestionSummary[] = [
       "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=80",
     createdAt: "1 day ago",
     category: "Food & Dining",
-    views: 214,
+    viewCount: 214,
     replies: 8,
   },
   {
@@ -50,7 +50,7 @@ export const QUESTIONS: QuestionSummary[] = [
       "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=80",
     createdAt: "2 days ago",
     category: "Safety",
-    views: 301,
+    viewCount: 301,
     replies: 12,
   },
 ];
