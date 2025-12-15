@@ -118,14 +118,6 @@ export default function ProfilePage() {
               <p className="text-xs">Email</p>
               <p>{profile.email}</p>
             </div>
-            <div>
-              <p className="text-xs">Created</p>
-              <p>{profile.created_at}</p>
-            </div>
-            <div>
-              <p className="text-xs">Updated</p>
-              <p>{profile.updated_at}</p>
-            </div>
           </CardContent>
         </Card>
 
