@@ -6,6 +6,7 @@ export interface MeResponse {
   email: string;
   displayName: string;
   role: string;
+  avatarUrl: string;
 }
 
 export interface UserProfileResponse {
@@ -16,6 +17,7 @@ export interface UserProfileResponse {
   role: string;
   created_at: Timestamp;
   updated_at: Timestamp;
+  avatarUrl: string;
 }
 
 export type QuestionType = "FREE" | "EXPRESS" | "EXPERT";

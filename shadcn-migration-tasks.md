@@ -451,10 +451,11 @@ npx shadcn@latest add dropdown-menu
 
 **작업 목록:**
 
-- [ ] **GNB 사용자 메뉴**
-  - 파일: `src/client/components/gnb.tsx:49-58`
+- [x] **GNB 사용자 메뉴**
+  - 파일: `src/client/components/gnb.tsx:58-83`
   - 현재: `<div>{user.displayName}<button>Logout</button></div>`
   - 변경: `<DropdownMenu>` 구조로 Profile, Settings, Logout 메뉴 추가
+  - 추가 개선: Avatar 컴포넌트와 함께 사용하여 프로페셔널한 UX 제공
 
 **변경 예시:**
 ```tsx
@@ -620,7 +621,13 @@ npx shadcn@latest add select input button textarea
   - page.tsx: 작성자 아바타 (line 100-104)
   - questions/page.tsx: 작성자 아바타 (line 127-131)
   - AvatarFallback으로 이미지 로딩 실패 시 대체 텍스트 제공
+  - avatar.tsx에 object-cover 추가하여 이미지 비율 유지
+- [x] Phase 3.2: Dropdown Menu 컴포넌트 교체 완료 (1개 파일)
+  - gnb.tsx: 사용자 메뉴를 Avatar + Dropdown Menu로 교체 (line 58-83)
+  - 메뉴 항목: Profile, Settings, Logout
+  - user.avatarUrl 활용하여 사용자 아바타 표시
+  - 공간 절약 및 확장 가능한 UX 제공
 
 ---
 
-**다음 단계:** Phase 3.2 Dropdown Menu 적용 (선택적)
+**다음 단계:** Phase 3.3 Dialog / Phase 3.4 Toast 적용 (필요 시)

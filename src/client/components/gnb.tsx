@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMe } from "@/client/hook/useMe";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export function GlobalNavigationBar() {
   const router = useRouter();
@@ -39,19 +40,23 @@ export function GlobalNavigationBar() {
             {/* 로그인 안 된 상태 */}
             {!loading && !user && (
               <Button asChild>
-                <Link href="/login">
-                  Login
-                </Link>
+                <Link href="/login">Login</Link>
               </Button>
             )}
 
             {/* 로그인 된 상태 */}
             {!loading && user && (
-              <div className="flex items-center gap-6">
-                <p className="text-sm text-gray-600">{user.displayName}</p>
-                <Button onClick={handleLogout}>
-                  Logout
-                </Button>
+              <div className="flex items-center gap-4">
+                <Link href="/profile" className="hover:opacity-80 transition">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage
+                      src={user.avatarUrl}
+                      alt={user.displayName}
+                    />
+                    <AvatarFallback>{user.displayName[0]}</AvatarFallback>
+                  </Avatar>
+                </Link>
+                <Button onClick={handleLogout}>Logout</Button>
               </div>
             )}
           </div>
