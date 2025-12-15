@@ -8,18 +8,14 @@ export interface MeResponse {
   role: string;
 }
 
-export interface Profile {
-  id: UUID; // auth.users.id 와 동일
+export interface UserProfileResponse {
+  id: UUID;
+  email: string;
+  name: string;
   display_name: string;
-  is_korean: boolean;
-  bio: string | null;
-  native_language: string | null; // 예: 'ko', 'en'
-  country: string | null;
-  level: number;
-  total_answers: number;
-  total_accepted_answers: number;
-  credits: number;
+  role: string;
   created_at: Timestamp;
+  updated_at: Timestamp;
 }
 
 export type QuestionType = "FREE" | "EXPRESS" | "EXPERT";
@@ -34,7 +30,7 @@ export interface QuestionSummary {
   authorAvatar: string;
   createdAt: string;
   category: string;
-  views: number;
+  viewCount: number;
   replies: number;
 }
 

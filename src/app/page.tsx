@@ -114,7 +114,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1 text-xs text-gray-500">
                     <span>👁</span>
-                    <span>{q.views}</span>
+                    <span>{q.viewCount}</span>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-gray-500">
                     <span>💬</span>
