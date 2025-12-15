@@ -70,18 +70,20 @@ export default function QuestionsPage() {
       {/* 필터 영역 */}
       <section className="border-b border-border-light">
         <div className="mx-auto max-w-5xl px-4 py-4">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center">
-            <div className="flex-1">
+          <div className="space-y-3 md:flex md:items-center md:gap-3 md:space-y-0">
+            {/* Search row: always inline */}
+            <div className="flex flex-1 items-center gap-2">
               <Input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search questions about Korea..."
-                className="rounded-full"
+                className="flex-1 rounded-full"
               />
+              <Button className="rounded-full px-4">🔍</Button>
             </div>
-            <Button className="rounded-full">🔍</Button>
 
+            {/* Category: full width on mobile, fixed on md+ */}
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="w-full rounded-full md:w-52">
                 <SelectValue placeholder="Select category" />

@@ -44,16 +44,18 @@ export default function HomePage() {
       {/* 검색 바 */}
       <section className="-mt-7">
         <div className="mx-auto max-w-5xl px-4">
-          <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-md md:flex-row md:items-center">
-            <div className="flex-1">
+          <div className="rounded-2xl bg-white p-4 shadow-md space-y-3 md:flex md:items-center md:gap-3 md:space-y-0">
+            {/* 검색 영역 */}
+            <div className="flex flex-1 items-center gap-2">
               <Input
                 type="text"
                 placeholder="Search questions about Korea..."
-                className="rounded-full"
+                className="flex-1 rounded-full"
               />
+              <Button className="rounded-full px-4">🔍</Button>
             </div>
-            <Button className="rounded-full">🔍</Button>
 
+            {/* 카테고리 */}
             <Select>
               <SelectTrigger className="w-full rounded-full md:w-52">
                 <SelectValue placeholder="Select category" />
