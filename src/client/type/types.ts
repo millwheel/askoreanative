@@ -13,10 +13,8 @@ export interface UserProfileResponse {
   id: UUID;
   email: string;
   name: string;
-  display_name: string;
+  displayName: string;
   role: string;
-  created_at: Timestamp;
-  updated_at: Timestamp;
   avatarUrl: string;
 }
 

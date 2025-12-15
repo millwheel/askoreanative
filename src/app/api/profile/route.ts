@@ -23,7 +23,7 @@ export async function GET() {
 
   const { data: profile, error: profileError } = await supabase
     .from("user_profile")
-    .select("id, name, display_name, role, created_at, updated_at")
+    .select("name, display_name, role, avatar_url")
     .eq("id", user.id)
     .single();
 
@@ -32,8 +32,12 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    ...profile,
+    id: user.id,
     email: user.email,
+    name: profile.name,
+    displayName: profile.display_name,
+    role: profile.role,
+    avatarUrl: profile.avatar_url,
   });
 }
 

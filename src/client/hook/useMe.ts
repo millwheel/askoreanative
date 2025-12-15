@@ -19,10 +19,5 @@ export function useMe() {
     },
   );
 
-  return {
-    user: data,
-    loading: isLoading,
-    error,
-    mutate,
-  };
+  return { user: data, loading: isLoading, error, mutate };
 }

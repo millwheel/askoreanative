@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
+import { mutate as globalMutate } from "swr";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,23 +14,11 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { UserProfileResponse } from "@/client/type/types";
-
-const fetcher = async (url: string): Promise<UserProfileResponse | null> => {
-  const res = await fetch(url, { credentials: "include" });
-  if (res.status === 401) return null;
-  if (!res.ok) throw new Error("Failed to fetch profile");
-  return res.json();
-};
+import { useProfile } from "@/client/hook/useProfile";
 
 export default function ProfilePage() {
   const router = useRouter();
-
-  const {
-    data: profile,
-    isLoading,
-    mutate,
-  } = useSWR("/api/profile", fetcher, { revalidateOnFocus: false });
+  const { profile, loading, mutate } = useProfile();
 
   const [name, setName] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -39,20 +27,20 @@ export default function ProfilePage() {
   const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isLoading && profile === null) {
+    if (!loading && profile === null) {
       router.replace("/login");
     }
-  }, [isLoading, profile, router]);
+  }, [loading, profile, router]);
 
   useEffect(() => {
     if (!profile) return;
     setName(profile.name ?? "");
-    setDisplayName(profile.display_name ?? "");
+    setDisplayName(profile.displayName ?? "");
   }, [profile]);
 
   const isDirty = useMemo(() => {
     if (!profile) return false;
-    return name !== profile.name || displayName !== profile.display_name;
+    return name !== profile.name || displayName !== profile.displayName;
   }, [name, displayName, profile]);
 
   const canSave = useMemo(() => {
@@ -86,6 +74,7 @@ export default function ProfilePage() {
       }
 
       await mutate();
+      await globalMutate("/api/me");
       setSuccess("Profile updated successfully.");
     } catch (e) {
       setError("Could not update profile.");
@@ -95,7 +84,7 @@ export default function ProfilePage() {
     }
   };
 
-  if (isLoading || !profile) return null;
+  if (loading || !profile) return null;
 
   return (
     <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
@@ -114,8 +103,8 @@ export default function ProfilePage() {
               <p className="text-sm text-gray-600 py-1">{profile.email}</p>
             </div>
             <Avatar className="h-20 w-20">
-              <AvatarImage src={profile.avatarUrl} alt={profile.display_name} />
-              <AvatarFallback>{profile.display_name[0]}</AvatarFallback>
+              <AvatarImage src={profile.avatarUrl} alt={profile.displayName} />
+              <AvatarFallback>{profile.displayName[0]}</AvatarFallback>
             </Avatar>
           </div>
 
