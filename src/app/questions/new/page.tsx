@@ -95,17 +95,15 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                     >
                       <div className="mb-1 flex items-center gap-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-700">
-                          일반
+                          Normal
                         </span>
-                        {questionType === "normal" && (
-                          <Badge variant="outline" className="text-[10px]">
-                            선택됨
-                          </Badge>
-                        )}
+                        <Badge
+                          variant="selected"
+                          className={`text-[10px] ${questionType === "normal" ? "" : "invisible"}`}
+                        >
+                          Selected
+                        </Badge>
                       </div>
-                      <p className="font-semibold text-gray-900">
-                        일반 질문 (Normal)
-                      </p>
                       <p className="mt-1 text-xs text-gray-600">
                         보통의 응답 속도, 무료 또는 기본 크레딧으로 답변을 받을
                         수 있어요.
@@ -126,15 +124,13 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-700">
                           EXPRESS
                         </span>
-                        {questionType === "express" && (
-                          <Badge variant="outline" className="text-[10px]">
-                            선택됨
-                          </Badge>
-                        )}
+                        <Badge
+                          variant="selected"
+                          className={`text-[10px] ${questionType === "express" ? "" : "invisible"}`}
+                        >
+                          Selected
+                        </Badge>
                       </div>
-                      <p className="font-semibold text-gray-900">
-                        익스프레스 질문 (Express)
-                      </p>
                       <p className="mt-1 text-xs text-gray-600">
                         더 빠른 응답을 기대할 수 있고, 상단에 우선 노출돼요.
                         (향후 유료/크레딧 기능 연결 예정)
