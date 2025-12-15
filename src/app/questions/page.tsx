@@ -20,6 +20,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 
 export default function QuestionsPage() {
@@ -124,11 +125,10 @@ export default function QuestionsPage() {
                 <CardFooter className="flex flex-wrap items-center justify-between gap-3">
                   {/* 작성자 */}
                   <div className="flex items-center gap-3">
-                    <img
-                      src={q.authorAvatar}
-                      alt={q.authorName}
-                      className="h-8 w-8 rounded-full object-cover"
-                    />
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={q.authorAvatar} alt={q.authorName} />
+                      <AvatarFallback>{q.authorName[0]}</AvatarFallback>
+                    </Avatar>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold text-gray-900">
                         {q.authorName}
@@ -143,7 +143,7 @@ export default function QuestionsPage() {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1 text-xs text-gray-500">
                       <span>👁</span>
-                      <span>{q.views}</span>
+                      <span>{q.viewCount}</span>
                     </div>
                     <div className="flex items-center gap-1 text-xs text-gray-500">
                       <span>💬</span>

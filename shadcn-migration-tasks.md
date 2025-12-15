@@ -412,13 +412,13 @@ npx shadcn@latest add avatar
 
 **작업 목록:**
 
-- [ ] **홈페이지 작성자 아바타**
-  - 파일: `src/app/page.tsx:83-86`
+- [x] **홈페이지 작성자 아바타**
+  - 파일: `src/app/page.tsx:100-104`
   - 현재: `<img src={q.authorAvatar} className="h-8 w-8 rounded-full">`
   - 변경: `<Avatar><AvatarImage src={...} /><AvatarFallback>...</AvatarFallback></Avatar>`
 
-- [ ] **Questions 페이지 아바타**
-  - 파일: `src/app/questions/page.tsx:103-106`
+- [x] **Questions 페이지 아바타**
+  - 파일: `src/app/questions/page.tsx:127-131`
   - 현재: `<img src={q.authorAvatar} className="h-8 w-8 rounded-full">`
   - 변경: `<Avatar>` 구조
 
@@ -615,6 +615,12 @@ npx shadcn@latest add select input button textarea
   - questions/new/page.tsx: 선택됨 뱃지 (normal, express) + preview 뱃지
 - [x] **Phase 2 완료** - 모든 레이아웃 컴포넌트가 shadcn/ui로 통일됨
 
+### 2025-12-15
+- [x] Phase 3.1: Avatar 컴포넌트 교체 완료 (2개 파일, 2개 아바타)
+  - page.tsx: 작성자 아바타 (line 100-104)
+  - questions/page.tsx: 작성자 아바타 (line 127-131)
+  - AvatarFallback으로 이미지 로딩 실패 시 대체 텍스트 제공
+
 ---
 
-**다음 단계:** Phase 3 고급 컴포넌트 적용 (선택적)
+**다음 단계:** Phase 3.2 Dropdown Menu 적용 (선택적)
