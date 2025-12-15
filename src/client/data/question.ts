@@ -1,4 +1,4 @@
-import { QuestionSummary } from "@/client/type/types";
+import { QuestionSummary } from "@/client/type/user";
 
 export const QUESTIONS: QuestionSummary[] = [
   {

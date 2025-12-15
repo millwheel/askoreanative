@@ -64,7 +64,7 @@ export default function ProfilePage() {
         credentials: "include",
         body: JSON.stringify({
           name: name.trim(),
-          display_name: displayName.trim(),
+          displayName: displayName.trim(),
         }),
       });
 

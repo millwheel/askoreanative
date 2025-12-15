@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { MeResponse } from "@/client/type/types";
+import { MeResponse } from "@/client/type/user";
 
 const fetcher = async (url: string): Promise<MeResponse | null> => {
   const res = await fetch(url, { credentials: "include" });
