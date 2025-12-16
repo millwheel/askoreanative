@@ -151,10 +151,6 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                     placeholder="What would you like to ask about Korea?"
                     className="rounded-xl"
                   />
-                  <p className="mt-1 text-xs text-gray-500">
-                    예: &quot;5월 첫 방문인데, 서울에서 숙소를 어디에 잡는 게
-                    좋을까요?&quot;
-                  </p>
                 </div>
 
                 {/* 카테고리 */}
@@ -188,9 +184,9 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                     placeholder="Add details like travel dates, budget, preferences, and anything else locals should know."
                     className="rounded-xl"
                   />
-                  <p className="mt-1 text-xs text-gray-500">
-                    구체적으로 쓸수록, 더 좋은 답변을 받을 가능성이 높아요. 여행
-                    날짜, 동행 인원, 예산, 선호 스타일 등을 적어주세요.
+                  <p className="mt-1 text-sm text-gray-500">
+                    The more specifically you write, the more likely you are to
+                    get a better answer
                   </p>
                 </div>
 
@@ -200,10 +196,6 @@ I'd love some recommendations on which neighborhood to stay in (Hongdae, Myeongd
                     Photos (optional)
                   </label>
                   <div className="flex flex-col items-start gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-3 text-xs text-gray-500">
-                    <p>
-                      여행 일정 캡처, 숙소 후보 스크린샷 등 이미지를 첨부할 수
-                      있어요.
-                    </p>
                     <Button
                       type="button"
                       variant="outline"
