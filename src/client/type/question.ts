@@ -10,9 +10,8 @@ export interface QuestionSummaryResponse {
   excerpt: string;
   category: string;
   viewCount: number;
-  replies: number;
+  // replies: number;
   createdAt: string;
-  updatedAt: string;
 }
 
 export interface QuestionDetailResponse {
