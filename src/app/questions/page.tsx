@@ -129,12 +129,15 @@ export default function QuestionsPage() {
                   {/* 작성자 */}
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={q.authorAvatar} alt={q.authorName} />
-                      <AvatarFallback>{q.authorName[0]}</AvatarFallback>
+                      <AvatarImage
+                        src={q.authorAvatarUrl}
+                        alt={q.authorDisplayName}
+                      />
+                      <AvatarFallback>{q.authorDisplayName[0]}</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold text-gray-900">
-                        {q.authorName}
+                        {q.authorDisplayName}
                       </span>
                       <span className="text-xs text-gray-500">
                         {q.createdAt}
@@ -150,7 +153,7 @@ export default function QuestionsPage() {
                     </div>
                     <div className="flex items-center gap-1 text-xs text-gray-500">
                       <MessageCircle className="h-3.5 w-3.5" />
-                      <span>{q.replies}</span>
+                      {/*<span>{q.replies}</span>*/}
                     </div>
                   </div>
                 </CardFooter>
