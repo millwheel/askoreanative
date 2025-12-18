@@ -1,22 +1,19 @@
-export type UUID = string;
-export type Timestamp = string;
-
-export interface MeResponse {
+export type MeResponse = {
   id: string;
   email: string;
   displayName: string;
   role: string;
-  avatarUrl: string;
-}
+  avatarUrl: string | null;
+};
 
-export interface UserProfileResponse {
-  id: UUID;
+export type UserProfileResponse = {
+  id: string;
   email: string;
   name: string;
   displayName: string;
   role: string;
-  avatarUrl: string;
-}
+  avatarUrl: string | null;
+};
 
 export type UserProfileRequest = {
   name: string;
