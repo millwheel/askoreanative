@@ -2,14 +2,9 @@ import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/server/supabase/config";
 import { QuestionSummaryResponse } from "@/client/type/question";
 import { TopicSummaryResponse } from "@/client/type/topic";
+import { makeExcerpt } from "@/util/excerpt";
 
 const PAGE_SIZE = 20;
-
-function makeExcerpt(text: string, maxLen = 140) {
-  const t = (text ?? "").trim().replace(/\s+/g, " ");
-  if (t.length <= maxLen) return t;
-  return t.slice(0, maxLen - 1) + "…";
-}
 
 export async function GET(req: Request) {
   const supabase = await getSupabaseServerClient();
