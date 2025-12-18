@@ -1,3 +1,5 @@
+import { TopicSummaryResponse } from "@/client/type/topic";
+
 export type QuestionStatus = "OPEN" | "ANSWERED" | "CLOSED";
 
 export type QuestionSummaryResponse = {
@@ -6,9 +8,9 @@ export type QuestionSummaryResponse = {
   authorAvatarUrl: string | null;
   title: string;
   excerpt: string;
-  category: string;
   viewCount: number;
   createdAt: string;
+  topics: TopicSummaryResponse[];
 };
 
 export type QuestionDetailResponse = {
@@ -17,9 +19,9 @@ export type QuestionDetailResponse = {
   authorAvatarUrl: string | null;
   title: string;
   description: string;
-  category: string;
   viewCount: number;
   status: QuestionStatus;
   createdAt: string;
   updatedAt: string;
+  topics: TopicSummaryResponse[];
 };

@@ -6,3 +6,9 @@ export type TopicResponse = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TopicSummaryResponse = {
+  id: number;
+  slug: string;
+  name: string;
+};
