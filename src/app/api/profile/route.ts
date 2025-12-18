@@ -7,14 +7,14 @@ export async function GET() {
   if (!result.ok) return result.res;
   const { supabase, user } = result;
 
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile, error: error } = await supabase
     .from("user_profile")
     .select("name, display_name, role, avatar_url")
     .eq("id", user.id)
     .single();
 
-  if (profileError) {
-    return NextResponse.json({ error: profileError.message }, { status: 500 });
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   return NextResponse.json({
