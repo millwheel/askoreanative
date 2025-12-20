@@ -12,6 +12,10 @@
   --primary-dark: oklch(0.5397 0.0882 184.75);
   --primary-foreground: oklch(1 0 0);
 
+  --secondary: oklch(0.965 0.01 190);
+  --secondary-hover: oklch(0.94 0.015 190);
+  --secondary-foreground: oklch(0.2046 0 0);
+
   /* Surface Colors (원본: #f4fbfa 계열) */
   --surface: oklch(98.2% 0.009 192.4);
   --surface-light: oklch(99.6% 0.005 192.4);
@@ -32,8 +36,6 @@
   --card-foreground: oklch(14.5% 0 0);
   --popover: oklch(100% 0 0);
   --popover-foreground: oklch(14.5% 0 0);
-  --secondary: oklch(97% 0 0);
-  --secondary-foreground: oklch(20.5% 0 0);
   --muted: oklch(97% 0 0);
   --muted-foreground: oklch(55.6% 0 0);
   --accent: oklch(97% 0 0);
@@ -55,6 +57,10 @@
   --color-primary-dark: var(--primary-dark);
   --color-primary-foreground: var(--primary-foreground);
 
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
+
   /* Surface Colors */
   --color-surface: var(--surface);
   --color-surface-light: var(--surface-light);
@@ -73,8 +79,6 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
