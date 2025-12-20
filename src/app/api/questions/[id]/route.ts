@@ -9,9 +9,10 @@ import type {
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
-  const questionId = Number(params.id);
+  const { id } = await context.params;
+  const questionId = Number(id);
 
   if (!questionId) {
     return NextResponse.json({ error: "Invalid id" }, { status: 400 });
