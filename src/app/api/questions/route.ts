@@ -158,6 +158,7 @@ export async function POST(req: Request) {
       .in("id", topicIds);
 
     if (topicCheckError) {
+      console.error(topicCheckError.message);
       return NextResponse.json(
         { error: topicCheckError.message },
         { status: 500 },
@@ -195,6 +196,7 @@ export async function POST(req: Request) {
     .single();
 
   if (insertQuestionError) {
+    console.error(insertQuestionError.message);
     return NextResponse.json(
       { error: insertQuestionError.message },
       { status: 500 },
@@ -211,10 +213,11 @@ export async function POST(req: Request) {
     }));
 
     const { error: insertMappingError } = await supabase
-      .from("question_topic")
+      .from("question_topic_mapping")
       .insert(mappingRows);
 
     if (insertMappingError) {
+      console.error(insertMappingError.message);
       return NextResponse.json(
         {
           error: insertMappingError.message,

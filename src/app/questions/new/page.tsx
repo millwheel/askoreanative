@@ -120,7 +120,7 @@ export default function NewQuestionPage() {
     <main className="min-h-screen">
       {/* 헤더 */}
       <section className="border-b border-border bg-white">
-        <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6">
+        <div className="mx-auto flex max-w-4xl flex-col gap-2 px-4 py-6">
           <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
             Ask a Question
           </h1>
@@ -128,7 +128,7 @@ export default function NewQuestionPage() {
       </section>
 
       {/* 본문 */}
-      <section className="mx-auto max-w-5xl px-4 py-8">
+      <section className="mx-auto max-w-4xl px-4 py-8">
         <Card>
           <CardContent className="p-6">
             {errorMessage && (
@@ -166,14 +166,13 @@ export default function NewQuestionPage() {
                     variant="ghost"
                     className="h-8 rounded-full px-3 text-xs"
                     onClick={() => setSelectedTopicIds([])}
-                    disabled={selectedTopicIds.length === 0}
                   >
                     Clear
                   </Button>
                 </div>
 
                 {loadingTopics ? (
-                  <div className="text-sm text-gray-500">Loading topics...</div>
+                  <div className="text-sm text-gray-500"></div>
                 ) : topics.length === 0 ? (
                   <div className="text-sm text-gray-500">
                     No topics available.
@@ -191,7 +190,7 @@ export default function NewQuestionPage() {
                         >
                           <Badge
                             variant={selected ? "default" : "secondary"}
-                            className="rounded-full px-3 py-1"
+                            className="rounded-full px-3 py-1 cursor-pointer"
                           >
                             {t.name}
                           </Badge>
