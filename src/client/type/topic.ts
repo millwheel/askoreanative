@@ -12,3 +12,9 @@ export type TopicSummaryResponse = {
   slug: string;
   name: string;
 };
+
+export type TopicQueryDto = {
+  id: number;
+  slug: string;
+  name: string;
+};

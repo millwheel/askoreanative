@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/server/supabase/config";
-import { QuestionSummaryResponse } from "@/client/type/question";
-import { TopicSummaryResponse } from "@/client/type/topic";
+import {
+  QuestionIdTopicQueryDto,
+  QuestionSummaryResponse,
+} from "@/client/type/question";
+import { TopicQueryDto, TopicSummaryResponse } from "@/client/type/topic";
 import { makeExcerpt } from "@/util/excerpt";
+import { pushToMap } from "@/util/mapUtils";
 
 const PAGE_SIZE = 20;
 
@@ -42,7 +46,7 @@ export async function GET(req: Request) {
   >(profiles.map((p) => [p.id, p]));
 
   // 3) question_topic + topic join
-  const { data: qts, error: qtErr } = await supabase
+  const { data: questionTopicMapping, error: qtErr } = await supabase
     .from("question_topic_mapping")
     .select("question_id, topic:topic_id(id, slug, name)")
     .in("question_id", questionIds);
@@ -51,33 +55,35 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: qtErr.message }, { status: 500 });
   }
 
-  const topicsByQuestionId = new Map<number, TopicSummaryResponse[]>();
-  for (const row of qts ?? []) {
-    const topic = row.topic as {
-      id: number;
-      slug: string;
-      name: string;
-    } | null;
-    if (!topic) continue;
+  const topicsByQuestionId = new Map<number, TopicQueryDto[]>();
 
-    const list = topicsByQuestionId.get(row.question_id) ?? [];
-    list.push({ id: topic.id, slug: topic.slug, name: topic.name });
-    topicsByQuestionId.set(row.question_id, list);
+  for (const qtr of (questionTopicMapping ?? []) as QuestionIdTopicQueryDto[]) {
+    const topics: TopicQueryDto[] = qtr.topic ?? [];
+    for (const topic of topics) {
+      pushToMap(topicsByQuestionId, qtr.question_id, topic);
+    }
   }
 
   // 4) 응답 조립
   const result: QuestionSummaryResponse[] = questions.map((q) => {
     const profile = profileMap.get(q.author_id);
 
+    const topics: TopicSummaryResponse[] =
+      topicsByQuestionId.get(q.id)?.map((topicQuery) => ({
+        id: topicQuery.id,
+        slug: topicQuery.slug,
+        name: topicQuery.name,
+      })) ?? [];
+
     return {
       id: q.id,
-      authorDisplayName: profile?.display_name ?? "Unknown",
+      authorDisplayName: profile?.display_name ?? "",
       authorAvatarUrl: profile?.avatar_url ?? null,
       title: q.title,
-      excerpt: makeExcerpt(q.description ?? ""),
-      viewCount: q.view_count ?? 0,
+      excerpt: makeExcerpt(q.description),
+      viewCount: q.view_count,
       createdAt: q.created_at,
-      topics: topicsByQuestionId.get(q.id) ?? [],
+      topics: topics,
     };
   });
 

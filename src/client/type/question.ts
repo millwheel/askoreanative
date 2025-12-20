@@ -1,4 +1,4 @@
-import { TopicSummaryResponse } from "@/client/type/topic";
+import { TopicQueryDto, TopicSummaryResponse } from "@/client/type/topic";
 
 export type QuestionStatus = "OPEN" | "ANSWERED" | "CLOSED";
 
@@ -24,4 +24,9 @@ export type QuestionDetailResponse = {
   createdAt: string;
   updatedAt: string;
   topics: TopicSummaryResponse[];
+};
+
+export type QuestionIdTopicQueryDto = {
+  question_id: number;
+  topic: TopicQueryDto[] | null;
 };
