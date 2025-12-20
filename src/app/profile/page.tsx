@@ -103,7 +103,10 @@ export default function ProfilePage() {
               <p className="text-sm text-gray-600 py-1">{profile.email}</p>
             </div>
             <Avatar className="h-20 w-20">
-              <AvatarImage src={profile.avatarUrl} alt={profile.displayName} />
+              <AvatarImage
+                src={profile.avatarUrl ?? undefined}
+                alt={profile.displayName}
+              />
               <AvatarFallback>{profile.displayName[0]}</AvatarFallback>
             </Avatar>
           </div>

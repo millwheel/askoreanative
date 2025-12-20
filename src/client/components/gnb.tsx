@@ -50,7 +50,7 @@ export function GlobalNavigationBar() {
                 <Link href="/profile" className="hover:opacity-80 transition">
                   <Avatar className="h-10 w-10">
                     <AvatarImage
-                      src={user.avatarUrl}
+                      src={user.avatarUrl ?? undefined}
                       alt={user.displayName}
                     />
                     <AvatarFallback>{user.displayName[0]}</AvatarFallback>
