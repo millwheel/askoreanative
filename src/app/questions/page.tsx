@@ -1,15 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { CATEGORIES } from "@/client/data/filter";
 import { QUESTIONS } from "@/client/data/question";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,26 +18,17 @@ import Link from "next/link";
 
 export default function QuestionsPage() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<string>("All Categories");
 
   const filteredQuestions = useMemo(() => {
-    let result = [...QUESTIONS];
+    const keyword = search.trim().toLowerCase();
+    if (!keyword) return QUESTIONS;
 
-    if (category !== "All Categories") {
-      result = result.filter((q) => q.category === category);
-    }
-
-    if (search.trim()) {
-      const keyword = search.toLowerCase();
-      result = result.filter(
-        (q) =>
-          q.title.toLowerCase().includes(keyword) ||
-          q.excerpt.toLowerCase().includes(keyword),
-      );
-    }
-
-    return result;
-  }, [search, category]);
+    return QUESTIONS.filter(
+      (q) =>
+        q.title.toLowerCase().includes(keyword) ||
+        q.excerpt.toLowerCase().includes(keyword),
+    );
+  }, [search]);
 
   return (
     <main className="min-h-screen">
@@ -67,35 +50,18 @@ export default function QuestionsPage() {
         </div>
       </section>
 
-      {/* 필터 영역 */}
+      {/* 검색 영역 */}
       <section className="border-b border-border-light">
         <div className="mx-auto max-w-5xl px-4 py-4">
-          <div className="space-y-3 md:flex md:items-center md:gap-3 md:space-y-0">
-            {/* Search row: always inline */}
-            <div className="flex flex-1 items-center gap-2">
-              <Input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search questions about Korea..."
-                className="flex-1 rounded-full"
-              />
-              <Button className="rounded-full px-4">🔍</Button>
-            </div>
-
-            {/* Category: full width on mobile, fixed on md+ */}
-            <Select value={category} onValueChange={setCategory}>
-              <SelectTrigger className="w-full rounded-full md:w-52">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {CATEGORIES.map((c) => (
-                  <SelectItem key={c} value={c}>
-                    {c}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex items-center gap-2">
+            <Input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search questions about Korea..."
+              className="flex-1 rounded-full"
+            />
+            <Button className="rounded-full px-4">🔍</Button>
           </div>
         </div>
       </section>
@@ -105,7 +71,7 @@ export default function QuestionsPage() {
         {filteredQuestions.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center text-sm text-gray-500">
-              No questions found. Try a different keyword or category.
+              No questions found. Try a different keyword.
             </CardContent>
           </Card>
         ) : (
@@ -113,11 +79,21 @@ export default function QuestionsPage() {
             {filteredQuestions.map((q) => (
               <Card key={q.id} className="transition hover:shadow-md">
                 <CardHeader>
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex flex-col gap-2">
                     <CardTitle className="text-base">{q.title}</CardTitle>
-                    <Badge variant="secondary" className="whitespace-nowrap">
-                      {q.category}
-                    </Badge>
+
+                    {/* topics */}
+                    <div className="flex flex-wrap gap-2">
+                      {q.topics?.map((t) => (
+                        <Badge
+                          key={`${q.id}-${t.slug}`}
+                          variant="secondary"
+                          className="whitespace-nowrap text-xs"
+                        >
+                          {t.name}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                 </CardHeader>
 
@@ -130,10 +106,12 @@ export default function QuestionsPage() {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
                       <AvatarImage
-                        src={q.authorAvatarUrl}
+                        src={q.authorAvatarUrl ?? undefined}
                         alt={q.authorDisplayName}
                       />
-                      <AvatarFallback>{q.authorDisplayName[0]}</AvatarFallback>
+                      <AvatarFallback>
+                        {q.authorDisplayName?.[0] ?? "U"}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold text-gray-900">
@@ -145,7 +123,7 @@ export default function QuestionsPage() {
                     </div>
                   </div>
 
-                  {/* 통계 + 버튼 */}
+                  {/* 통계 */}
                   <div className="flex items-center gap-6">
                     <div className="flex items-center gap-1 text-xs text-gray-500">
                       <Eye className="h-3.5 w-3.5" />

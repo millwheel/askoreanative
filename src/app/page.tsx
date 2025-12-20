@@ -87,9 +87,20 @@ export default function HomePage() {
           {QUESTIONS.map((q) => (
             <Card key={q.id} className="transition hover:shadow-md">
               <CardHeader>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col gap-2">
                   <CardTitle className="text-base">{q.title}</CardTitle>
-                  <Badge variant="secondary">{q.category}</Badge>
+
+                  <div className="flex flex-wrap gap-2">
+                    {q.topics.map((topic) => (
+                      <Badge
+                        key={topic.id}
+                        variant="secondary"
+                        className="text-xs"
+                      >
+                        {topic.name}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               </CardHeader>
 
@@ -102,7 +113,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-3">
                   <Avatar className="h-8 w-8">
                     <AvatarImage
-                      src={q.authorAvatarUrl}
+                      src={q.authorAvatarUrl ?? undefined}
                       alt={q.authorDisplayName}
                     />
                     <AvatarFallback>{q.authorDisplayName[0]}</AvatarFallback>

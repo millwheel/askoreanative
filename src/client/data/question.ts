@@ -9,7 +9,18 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
     title: "What are the best seasonal festivals in Seoul?",
     excerpt:
       "I'm planning to visit Seoul in spring and would love to experience some traditional festivals...",
-    category: "Cultural Insights",
+    topics: [
+      {
+        id: 11,
+        slug: "travel",
+        name: "Travel",
+      },
+      {
+        id: 12,
+        slug: "culture",
+        name: "Culture",
+      },
+    ],
     viewCount: 127,
     // replies: 5,
     createdAt: "2 hours ago",
@@ -22,7 +33,18 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
     title: "Is T-money card still the best option for public transport?",
     excerpt:
       "I'll be in Korea for 10 days and I'm wondering if I should buy a T-money card or use a different option...",
-    category: "Transportation",
+    topics: [
+      {
+        id: 11,
+        slug: "travel",
+        name: "Travel",
+      },
+      {
+        id: 6,
+        slug: "transportation",
+        name: "Transportation",
+      },
+    ],
     viewCount: 89,
     // replies: 3,
     createdAt: "5 hours ago",
@@ -35,7 +57,18 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
     title: "Where can I find the best Korean BBQ in Hongdae?",
     excerpt:
       "I'm staying near Hongdae and would love some recommendations for authentic Korean BBQ restaurants...",
-    category: "Food & Dining",
+    topics: [
+      {
+        id: 11,
+        slug: "travel",
+        name: "Travel",
+      },
+      {
+        id: 14,
+        slug: "food",
+        name: "Food",
+      },
+    ],
     viewCount: 214,
     createdAt: "1 day ago",
     // replies: 8,
@@ -48,7 +81,18 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
     title: "Is it safe to travel alone in Seoul at night?",
     excerpt:
       "I'm a solo female traveler and I'm wondering about safety when going back to my hotel late...",
-    category: "Safety",
+    topics: [
+      {
+        id: 11,
+        slug: "travel",
+        name: "Travel",
+      },
+      {
+        id: 13,
+        slug: "safety",
+        name: "Safety",
+      },
+    ],
     viewCount: 301,
     createdAt: "2 days ago",
     // replies: 12,
