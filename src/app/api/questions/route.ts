@@ -48,7 +48,7 @@ export async function GET(req: Request) {
   >(profiles.map((p) => [p.id, p]));
 
   // 3) question_topic + topic join
-  const { data: questionTopicMapping, error: qtErr } = await supabase
+  const { data: questionTopicMappings, error: qtErr } = await supabase
     .from("question_topic_mapping")
     .select("question_id, topic:topic_id(id, slug, name)")
     .in("question_id", questionIds);
@@ -57,20 +57,26 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: qtErr.message }, { status: 500 });
   }
 
-  const topicsByQuestionId = new Map<number, TopicQueryDto[]>();
-
-  for (const qtr of (questionTopicMapping ?? []) as QuestionIdTopicQueryDto[]) {
-    const topics: TopicQueryDto[] = qtr.topic ?? [];
-    for (const topic of topics) {
-      pushToMap(topicsByQuestionId, qtr.question_id, topic);
-    }
-  }
+  const topicsByQuestionId = (
+    questionTopicMappings as QuestionIdTopicQueryDto[]
+  )
+    .flatMap((questionIdQueryDto) =>
+      (questionIdQueryDto.topic ?? []).map(
+        (topic) => [questionIdQueryDto.question_id, topic] as const,
+      ),
+    )
+    .reduce((map, [questionId, topicQueryDto]) => {
+      const topicQueryDtos = map.get(questionId);
+      if (topicQueryDtos) topicQueryDtos.push(topicQueryDto);
+      else map.set(questionId, [topicQueryDto]);
+      return map;
+    }, new Map<number, TopicQueryDto[]>());
 
   // 4) 응답 조립
   const result: QuestionSummaryResponse[] = questions.map((q) => {
     const profile = profileMap.get(q.author_id);
 
-    const topics: TopicSummaryResponse[] =
+    const topicSummaries: TopicSummaryResponse[] =
       topicsByQuestionId.get(q.id)?.map((topicQuery) => ({
         id: topicQuery.id,
         slug: topicQuery.slug,
@@ -85,13 +91,14 @@ export async function GET(req: Request) {
       excerpt: makeExcerpt(q.description),
       viewCount: q.view_count,
       createdAt: q.created_at,
-      topics: topics,
+      topics: topicSummaries,
     };
   });
 
   return NextResponse.json(result);
 }
 
+// --------------- POST -------------------
 const MAX_TITLE_LEN = 100;
 const MAX_DESC_LEN = 30000;
 
