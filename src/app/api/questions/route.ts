@@ -8,7 +8,6 @@ import {
 } from "@/type/question";
 import { TopicQueryDto, TopicSummaryResponse } from "@/type/topic";
 import { makeExcerpt } from "@/util/excerpt";
-import { pushToMap } from "@/util/mapUtils";
 
 const PAGE_SIZE = 20;
 

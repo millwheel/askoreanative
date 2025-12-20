@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,19 +14,6 @@ function formatDateTime(iso: string) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
   return d.toLocaleString();
-}
-
-function statusLabel(status: QuestionStatus) {
-  switch (status) {
-    case "OPEN":
-      return "Open";
-    case "ANSWERED":
-      return "Answered";
-    case "CLOSED":
-      return "Closed";
-    default:
-      return status;
-  }
 }
 
 export default function QuestionDetailPage() {
