@@ -1,6 +1,6 @@
 import { getSupabaseServerClient } from "@/server/supabase/config";
 import { NextResponse } from "next/server";
-import { TopicResponse } from "@/client/type/topic";
+import { TopicResponse } from "@/type/topic";
 
 export async function GET() {
   const supabase = await getSupabaseServerClient();

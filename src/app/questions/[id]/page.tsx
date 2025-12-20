@@ -6,7 +6,9 @@ import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { QuestionDetailResponse, QuestionStatus } from "@/client/type/question";
+import { Copy } from "lucide-react";
+import { QuestionDetailResponse, QuestionStatus } from "@/type/question";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function formatDateTime(iso: string) {
   const d = new Date(iso);
@@ -30,10 +32,7 @@ function statusLabel(status: QuestionStatus) {
 export default function QuestionDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-
   const id = params?.id;
-  const questionId = useMemo(() => Number(id), [id]);
-
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState<QuestionDetailResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -64,7 +63,7 @@ export default function QuestionDetailPage() {
 
         const data: QuestionDetailResponse = await res.json();
         setQuestion(data);
-      } catch (e) {
+      } catch {
         setErrorMessage("Network error. Please try again.");
         setQuestion(null);
       } finally {
@@ -82,20 +81,7 @@ export default function QuestionDetailPage() {
             <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
               Question
             </h1>
-
-            <Button
-              type="button"
-              variant="secondary"
-              className="rounded-full"
-              onClick={() => router.push("/questions")}
-            >
-              Back
-            </Button>
           </div>
-
-          {!Number.isNaN(questionId) && (
-            <div className="text-xs text-gray-500">ID: {questionId}</div>
-          )}
         </div>
       </section>
 
@@ -106,9 +92,9 @@ export default function QuestionDetailPage() {
             {/* 로딩 */}
             {loading && (
               <div className="space-y-3">
-                <div className="h-6 w-2/3 rounded bg-gray-100" />
-                <div className="h-4 w-1/3 rounded bg-gray-100" />
-                <div className="h-24 w-full rounded bg-gray-100" />
+                <div className="h-7 w-3/4 rounded bg-gray-100" />
+                <div className="h-4 w-2/3 rounded bg-gray-100" />
+                <div className="h-28 w-full rounded bg-gray-100" />
               </div>
             )}
 
@@ -139,98 +125,66 @@ export default function QuestionDetailPage() {
             {/* 데이터 */}
             {!loading && !errorMessage && question && (
               <div className="space-y-6">
-                {/* 상단 메타 */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge className="rounded-full px-3 py-1">
-                    {statusLabel(question.status)}
-                  </Badge>
+                {/* 1) 제목 */}
+                <h2 className="text-2xl font-semibold tracking-tight text-gray-900 md:text-3xl">
+                  {question.title}
+                </h2>
 
-                  <span className="text-xs text-gray-500">
-                    👁 {question.viewCount}
-                  </span>
-
-                  <span className="text-xs text-gray-500">
-                    Posted: {formatDateTime(question.createdAt)}
-                  </span>
-
+                {/* 2) 조회수, 작성일자, 수정일자 */}
+                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                  <span>view {question.viewCount}</span>
+                  <span>·</span>
+                  <span>Posted {formatDateTime(question.createdAt)}</span>
                   {question.updatedAt && (
-                    <span className="text-xs text-gray-500">
-                      Updated: {formatDateTime(question.updatedAt)}
-                    </span>
+                    <>
+                      <span>·</span>
+                      <span>Updated {formatDateTime(question.updatedAt)}</span>
+                    </>
                   )}
                 </div>
 
-                {/* 제목 */}
-                <div className="space-y-2">
-                  <h2 className="text-xl font-semibold text-gray-900 md:text-2xl">
-                    {question.title}
-                  </h2>
+                {/* 3) 작성자 아바타, 작성자 display name */}
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage
+                      src={question.authorAvatarUrl ?? undefined}
+                      alt={question.authorDisplayName}
+                    />
+                    <AvatarFallback>
+                      {(question.authorDisplayName || "U")
+                        .slice(0, 1)
+                        .toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
 
-                  <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
-                    <span className="font-medium text-gray-800">
-                      {question.authorDisplayName || "Unknown"}
-                    </span>
+                  <div className="text-sm font-medium text-gray-900">
+                    {question.authorDisplayName || "Unknown"}
                   </div>
                 </div>
 
-                {/* 토픽 */}
-                <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-800">
-                    Topics
+                {/* 4) 태그 */}
+                {question.topics.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {question.topics.map((t) => (
+                      <Badge
+                        key={t.id}
+                        variant="secondary"
+                        className="rounded-full px-3 py-1"
+                      >
+                        {t.name}
+                      </Badge>
+                    ))}
                   </div>
+                )}
 
-                  {question.topics.length === 0 ? (
-                    <div className="text-sm text-gray-500">No topics.</div>
-                  ) : (
-                    <div className="flex flex-wrap gap-2">
-                      {question.topics.map((t) => (
-                        <Badge
-                          key={t.id}
-                          variant="secondary"
-                          className="rounded-full px-3 py-1"
-                        >
-                          {t.name}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* 본문 */}
-                <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-800">
-                    Description
+                {/* 5) 본문 */}
+                {question.description?.trim() ? (
+                  <div className="whitespace-pre-wrap text-sm leading-7 text-gray-900">
+                    {question.description}
                   </div>
-
-                  {question.description?.trim() ? (
-                    <div className="whitespace-pre-wrap text-sm leading-6 text-gray-800">
-                      {question.description}
-                    </div>
-                  ) : (
-                    <div className="text-sm text-gray-500">No description.</div>
-                  )}
-                </div>
-
-                {/* 하단 액션 */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-                  <Button
-                    className="rounded-full"
-                    onClick={() => router.push("/questions")}
-                  >
-                    Back to Questions
-                  </Button>
-
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="rounded-full"
-                    onClick={() => {
-                      navigator.clipboard?.writeText?.(window.location.href);
-                    }}
-                  >
-                    Copy link
-                  </Button>
-                </div>
+                ) : (
+                  <div className="text-sm text-gray-500">No content.</div>
+                )}
               </div>
             )}
           </CardContent>

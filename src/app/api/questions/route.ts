@@ -5,8 +5,8 @@ import {
   QuestionIdTopicQueryDto,
   QuestionStatus,
   QuestionSummaryResponse,
-} from "@/client/type/question";
-import { TopicQueryDto, TopicSummaryResponse } from "@/client/type/topic";
+} from "@/type/question";
+import { TopicQueryDto, TopicSummaryResponse } from "@/type/topic";
 import { makeExcerpt } from "@/util/excerpt";
 import { pushToMap } from "@/util/mapUtils";
 

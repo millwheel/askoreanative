@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { UserProfileResponse } from "@/client/type/user";
+import { UserProfileResponse } from "@/type/user";
 
 const fetcher = async (url: string): Promise<UserProfileResponse | null> => {
   const res = await fetch(url, { credentials: "include" });

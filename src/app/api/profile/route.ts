@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { UserProfileRequest } from "@/client/type/user";
+import { UserProfileRequest } from "@/type/user";
 import { getUserWithSupabase } from "@/server/requireUser";
 
 export async function GET() {

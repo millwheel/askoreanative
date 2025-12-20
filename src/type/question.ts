@@ -1,4 +1,4 @@
-import { TopicQueryDto, TopicSummaryResponse } from "@/client/type/topic";
+import { TopicQueryDto, TopicSummaryResponse } from "@/type/topic";
 
 export type QuestionStatus = "OPEN" | "ANSWERED" | "CLOSED";
 

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/server/supabase/config";
-import type { TopicQueryDto, TopicSummaryResponse } from "@/client/type/topic";
+import type { TopicQueryDto, TopicSummaryResponse } from "@/type/topic";
 import type {
   QuestionDetailResponse,
   QuestionIdTopicQueryDto,
   QuestionStatus,
-} from "@/client/type/question";
+} from "@/type/question";
 
 export async function GET(
   _req: Request,
