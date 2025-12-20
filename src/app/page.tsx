@@ -26,7 +26,7 @@ export default function HomePage() {
     <main className="min-h-screen">
       {/* Hero 영역 */}
       <section className="bg-primary text-white">
-        <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20">
+        <div className="mx-auto flex max-w-4xl flex-col items-center px-4 py-16 text-center sm:py-20">
           <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             Welcome to Korea Travel Q&amp;A
           </h1>
@@ -43,7 +43,7 @@ export default function HomePage() {
 
       {/* 검색 바 */}
       <section className="-mt-7">
-        <div className="mx-auto max-w-5xl px-4">
+        <div className="mx-auto max-w-4xl px-4">
           <div className="rounded-2xl bg-white p-4 shadow-md space-y-3 md:flex md:items-center md:gap-3 md:space-y-0">
             {/* 검색 영역 */}
             <div className="flex flex-1 items-center gap-2">
@@ -73,7 +73,7 @@ export default function HomePage() {
       </section>
 
       {/* Recent Questions */}
-      <section className="mx-auto mt-10 max-w-5xl px-4 pb-16">
+      <section className="mx-auto mt-10 max-w-4xl px-4 pb-16">
         <div className="mb-4 flex items-center justify-between gap-4">
           <h2 className="text-lg font-semibold text-foreground">
             Recent Questions

@@ -34,7 +34,7 @@ export default function QuestionsPage() {
     <main className="min-h-screen">
       {/* 상단 타이틀 영역 */}
       <section className="border-b border-border bg-white">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-4xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
               Browse Questions
@@ -52,7 +52,7 @@ export default function QuestionsPage() {
 
       {/* 검색 영역 */}
       <section className="border-b border-border-light">
-        <div className="mx-auto max-w-5xl px-4 py-4">
+        <div className="mx-auto max-w-4xl px-4 py-4">
           <div className="flex items-center gap-2">
             <Input
               type="text"
@@ -67,7 +67,7 @@ export default function QuestionsPage() {
       </section>
 
       {/* 질문 리스트 */}
-      <section className="mx-auto max-w-5xl px-4 py-8">
+      <section className="mx-auto max-w-4xl px-4 py-8">
         {filteredQuestions.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center text-sm text-gray-500">
