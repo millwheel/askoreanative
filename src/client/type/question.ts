@@ -13,6 +13,13 @@ export type QuestionSummaryResponse = {
   topics: TopicSummaryResponse[];
 };
 
+export type QuestionCreateRequest = {
+  title: string;
+  description?: string | null;
+  status?: QuestionStatus;
+  topicIds?: number[] | null;
+};
+
 export type QuestionDetailResponse = {
   id: number;
   authorDisplayName: string;

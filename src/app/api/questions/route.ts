@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/server/supabase/config";
 import {
+  QuestionCreateRequest,
   QuestionIdTopicQueryDto,
+  QuestionStatus,
   QuestionSummaryResponse,
 } from "@/client/type/question";
 import { TopicQueryDto, TopicSummaryResponse } from "@/client/type/topic";
@@ -88,4 +90,146 @@ export async function GET(req: Request) {
   });
 
   return NextResponse.json(result);
+}
+
+const MAX_TITLE_LEN = 100;
+const MAX_DESC_LEN = 30000;
+
+export async function POST(req: Request) {
+  const supabase = await getSupabaseServerClient();
+
+  // 1) 로그인 체크
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError) {
+    return NextResponse.json({ error: userError.message }, { status: 401 });
+  }
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // 2) 바디 파싱 및 question 유효성 검증
+  let body: QuestionCreateRequest;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const title = (body.title ?? "").trim();
+  const description = (body.description ?? "").trim();
+  const status: QuestionStatus = "OPEN";
+
+  if (!title) {
+    return NextResponse.json({ error: "title is required" }, { status: 400 });
+  }
+  if (title.length > MAX_TITLE_LEN) {
+    return NextResponse.json(
+      { error: `title must be <= ${MAX_TITLE_LEN} chars` },
+      { status: 400 },
+    );
+  }
+  if (description.length > MAX_DESC_LEN) {
+    return NextResponse.json(
+      { error: `description must be <= ${MAX_DESC_LEN} chars` },
+      { status: 400 },
+    );
+  }
+
+  // 3) topicIds 유효성 검증
+  const topicIds =
+    body.topicIds && Array.isArray(body.topicIds)
+      ? Array.from(
+          new Set(
+            body.topicIds
+              .map((x) => Number(x))
+              .filter((x) => Number.isFinite(x) && x > 0),
+          ),
+        )
+      : [];
+
+  if (topicIds.length > 0) {
+    const { data: existingTopics, error: topicCheckError } = await supabase
+      .from("topic")
+      .select("id")
+      .in("id", topicIds);
+
+    if (topicCheckError) {
+      return NextResponse.json(
+        { error: topicCheckError.message },
+        { status: 500 },
+      );
+    }
+
+    const existingTopicIds = new Set((existingTopics ?? []).map((t) => t.id));
+    const missing = topicIds.filter((id) => !existingTopicIds.has(id));
+    if (missing.length > 0) {
+      return NextResponse.json(
+        {
+          error: "Some topicIds do not exist",
+          missingTopicIds: missing,
+        },
+        { status: 400 },
+      );
+    }
+  }
+
+  // 4) question insert
+  const now = new Date().toISOString();
+
+  const { data: insertedQuestion, error: insertQuestionError } = await supabase
+    .from("question")
+    .insert({
+      author_id: user.id,
+      title,
+      description: description,
+      view_count: 0,
+      status,
+      created_at: now,
+      updated_at: now,
+    })
+    .select("id")
+    .single();
+
+  if (insertQuestionError) {
+    return NextResponse.json(
+      { error: insertQuestionError.message },
+      { status: 500 },
+    );
+  }
+
+  // 5) question_topic insert
+  if (topicIds.length > 0) {
+    const mappingRows = topicIds.map((topicId) => ({
+      question_id: insertedQuestion.id,
+      topic_id: topicId,
+      created_at: now,
+      updated_at: now,
+    }));
+
+    const { error: insertMappingError } = await supabase
+      .from("question_topic")
+      .insert(mappingRows);
+
+    if (insertMappingError) {
+      return NextResponse.json(
+        {
+          error: insertMappingError.message,
+          questionId: insertedQuestion.id,
+        },
+        { status: 500 },
+      );
+    }
+  }
+
+  return NextResponse.json(
+    {
+      questionId: insertedQuestion.id,
+      topicIds,
+    },
+    { status: 201 },
+  );
 }
