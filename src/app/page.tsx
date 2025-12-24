@@ -1,14 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { CATEGORIES } from "@/client/data/filter";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -94,20 +86,6 @@ export default function HomePage() {
               />
               <Button className="rounded-full px-4">🔍</Button>
             </div>
-
-            {/* 카테고리 */}
-            <Select>
-              <SelectTrigger className="w-full rounded-full md:w-52">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {CATEGORIES.map((c) => (
-                  <SelectItem key={c} value={c}>
-                    {c}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
         </div>
       </section>
