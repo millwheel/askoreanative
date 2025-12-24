@@ -25,6 +25,7 @@ import { QuestionSummaryResponse } from "@/type/question";
 import { Eye, MessageCircle } from "lucide-react";
 
 export default function HomePage() {
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [questions, setQuestions] = useState<QuestionSummaryResponse[]>([]);
@@ -49,6 +50,15 @@ export default function HomePage() {
       setLoading(false);
     })();
   }, []);
+
+  const keyword = search.trim().toLowerCase();
+  const filteredQuestions = !keyword
+    ? questions
+    : questions.filter(
+        (q) =>
+          q.title.toLowerCase().includes(keyword) ||
+          q.excerpt.toLowerCase().includes(keyword),
+      );
 
   return (
     <main className="min-h-screen">
@@ -77,6 +87,8 @@ export default function HomePage() {
             <div className="flex flex-1 items-center gap-2">
               <Input
                 type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search questions about Korea..."
                 className="flex-1 rounded-full"
               />
@@ -152,7 +164,7 @@ export default function HomePage() {
 
         {!loading && !errorMessage && (
           <div className="space-y-4">
-            {questions.map((q) => (
+            {filteredQuestions.map((q) => (
               <Card key={q.id} className="transition hover:shadow-md">
                 <CardHeader>
                   <div className="flex flex-col gap-2">
