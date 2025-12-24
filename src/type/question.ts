@@ -35,5 +35,5 @@ export type QuestionDetailResponse = {
 
 export type QuestionIdTopicQueryDto = {
   question_id: number;
-  topic: TopicQueryDto[] | null;
+  topic: TopicQueryDto | TopicQueryDto[] | null;
 };

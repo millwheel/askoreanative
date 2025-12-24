@@ -1,6 +1,7 @@
+"use client";
+
 import Link from "next/link";
 import { CATEGORIES } from "@/client/data/filter";
-import { QUESTIONS } from "@/client/data/question";
 import {
   Select,
   SelectContent,
@@ -19,9 +20,36 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { QuestionSummaryResponse } from "@/type/question";
+import { Eye, MessageCircle } from "lucide-react";
 
 export default function HomePage() {
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [questions, setQuestions] = useState<QuestionSummaryResponse[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      setErrorMessage(null);
+
+      const res = await fetch(`/api/questions?offset=0`, { method: "GET" });
+
+      if (!res.ok) {
+        setQuestions([]);
+        setErrorMessage(`Failed to load questions (${res.status})`);
+        setLoading(false);
+        return;
+      }
+
+      const data = (await res.json()) as QuestionSummaryResponse[];
+
+      setQuestions(data);
+      setLoading(false);
+    })();
+  }, []);
+
   return (
     <main className="min-h-screen">
       {/* Hero 영역 */}
@@ -83,64 +111,82 @@ export default function HomePage() {
           </Button>
         </div>
 
-        <div className="space-y-4">
-          {QUESTIONS.map((q) => (
-            <Card key={q.id} className="transition hover:shadow-md">
-              <CardHeader>
-                <div className="flex flex-col gap-2">
-                  <CardTitle className="text-base">{q.title}</CardTitle>
+        {loading && (
+          <div className="space-y-3">
+            <div className="h-20 w-full rounded-xl bg-gray-100" />
+            <div className="h-20 w-full rounded-xl bg-gray-100" />
+            <div className="h-20 w-full rounded-xl bg-gray-100" />
+          </div>
+        )}
 
-                  <div className="flex flex-wrap gap-2">
-                    {q.topics.map((topic) => (
-                      <Badge
-                        key={topic.id}
-                        variant="secondary"
-                        className="text-xs"
-                      >
-                        {topic.name}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </CardHeader>
+        {!loading && errorMessage && (
+          <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+            {errorMessage}
+          </div>
+        )}
 
-              <CardContent>
-                <p className="text-sm text-gray-600">{q.excerpt}</p>
-              </CardContent>
+        {!loading && !errorMessage && (
+          <div className="space-y-4">
+            {questions.map((q) => (
+              <Card key={q.id} className="transition hover:shadow-md">
+                <CardHeader>
+                  <div className="flex flex-col gap-2">
+                    <CardTitle className="text-base">{q.title}</CardTitle>
 
-              <CardFooter className="flex flex-wrap items-center justify-between gap-3">
-                {/* 작성자 */}
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage
-                      src={q.authorAvatarUrl ?? undefined}
-                      alt={q.authorDisplayName}
-                    />
-                    <AvatarFallback>{q.authorDisplayName[0]}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-foreground">
-                      {q.authorDisplayName}
-                    </span>
-                    <span className="text-xs text-gray-500">{q.createdAt}</span>
+                    <div className="flex flex-wrap gap-2">
+                      {q.topics.map((topic) => (
+                        <Badge
+                          key={topic.id}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {topic.name}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </CardHeader>
 
-                {/* 통계 */}
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <span>👁</span>
-                    <span>{q.viewCount}</span>
+                <CardContent>
+                  <p className="text-sm text-gray-600">{q.excerpt}</p>
+                </CardContent>
+
+                <CardFooter className="flex flex-wrap items-center justify-between gap-3">
+                  {/* 작성자 */}
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage
+                        src={q.authorAvatarUrl ?? undefined}
+                        alt={q.authorDisplayName}
+                      />
+                      <AvatarFallback>{q.authorDisplayName[0]}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-semibold text-foreground">
+                        {q.authorDisplayName}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {q.createdAt}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <span>💬</span>
-                    {/*<span>{q.replies}</span>*/}
+
+                  {/* 통계 */}
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <Eye className="h-3.5 w-3.5" />
+                      <span>{q.viewCount}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <MessageCircle className="h-3.5 w-3.5" />
+                      {/*<span>{q.replies}</span>*/}
+                    </div>
                   </div>
-                </div>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );

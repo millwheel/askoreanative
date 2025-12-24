@@ -40,8 +40,7 @@ export default function QuestionsPage() {
               Browse Questions
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              Find real questions from travelers and answers from local Korean
-              experts.
+              Find real questions from travelers and answers from local Korean.
             </p>
           </div>
           <Button asChild className="rounded-full">

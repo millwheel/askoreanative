@@ -6,8 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Copy } from "lucide-react";
-import { QuestionDetailResponse, QuestionStatus } from "@/type/question";
+import { QuestionDetailResponse } from "@/type/question";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function formatDateTime(iso: string) {
@@ -31,31 +30,21 @@ export default function QuestionDetailPage() {
       setLoading(true);
       setErrorMessage(null);
 
-      try {
-        const res = await fetch(`/api/questions/${id}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
+      const res = await fetch(`/api/questions/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
 
-        if (!res.ok) {
-          const data = await res.json().catch(() => null);
-          const msg =
-            typeof data?.error === "string"
-              ? data.error
-              : `Failed to load question (HTTP ${res.status})`;
-          setErrorMessage(msg);
-          setQuestion(null);
-          return;
-        }
-
-        const data: QuestionDetailResponse = await res.json();
-        setQuestion(data);
-      } catch {
-        setErrorMessage("Network error. Please try again.");
+      if (!res.ok) {
+        setErrorMessage(`Failed to load question (${res.status})`);
         setQuestion(null);
-      } finally {
         setLoading(false);
+        return;
       }
+
+      const data: QuestionDetailResponse = await res.json();
+      setQuestion(data);
+      setLoading(false);
     })();
   }, [id]);
 

@@ -58,18 +58,20 @@ export async function GET(req: Request) {
 
   const topicsByQuestionId = (
     questionTopicMappings as QuestionIdTopicQueryDto[]
-  )
-    .flatMap((questionIdQueryDto) =>
-      (questionIdQueryDto.topic ?? []).map(
-        (topic) => [questionIdQueryDto.question_id, topic] as const,
-      ),
-    )
-    .reduce((map, [questionId, topicQueryDto]) => {
-      const topicQueryDtos = map.get(questionId);
-      if (topicQueryDtos) topicQueryDtos.push(topicQueryDto);
-      else map.set(questionId, [topicQueryDto]);
-      return map;
-    }, new Map<number, TopicQueryDto[]>());
+  ).reduce((map, row) => {
+    const topics = row.topic
+      ? Array.isArray(row.topic)
+        ? row.topic
+        : [row.topic]
+      : [];
+
+    if (topics.length === 0) return map;
+
+    const arr = map.get(row.question_id);
+    if (arr) arr.push(...topics);
+    else map.set(row.question_id, [...topics]);
+    return map;
+  }, new Map<number, TopicQueryDto[]>());
 
   // 4) 응답 조립
   const result: QuestionSummaryResponse[] = questions.map((q) => {
