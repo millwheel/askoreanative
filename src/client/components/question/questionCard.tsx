@@ -13,60 +13,60 @@ import { QuestionSummaryResponse } from "@/type/question";
 
 export function QuestionCard({ q }: { q: QuestionSummaryResponse }) {
   return (
-    <Card className="transition hover:shadow-md">
-      <CardHeader>
-        <div className="flex flex-col gap-2">
-          <CardTitle className="text-base">
-            <Link href={`/questions/${q.id}`} className="hover:underline">
+    <Link href={`/questions/${q.id}`} className="block">
+      <Card className="transition hover:shadow-md">
+        <CardHeader>
+          <div className="flex flex-col gap-2">
+            <CardTitle className="text-base hover:underline">
               {q.title}
-            </Link>
-          </CardTitle>
+            </CardTitle>
 
-          <div className="flex flex-wrap gap-2">
-            {q.topics?.map((t) => (
-              <Badge
-                key={`${q.id}-${t.slug}`}
-                variant="secondary"
-                className="whitespace-nowrap text-xs"
-              >
-                {t.name}
-              </Badge>
-            ))}
+            <div className="flex flex-wrap gap-2">
+              {q.topics?.map((t) => (
+                <Badge
+                  key={`${q.id}-${t.slug}`}
+                  variant="secondary"
+                  className="whitespace-nowrap text-xs"
+                >
+                  {t.name}
+                </Badge>
+              ))}
+            </div>
           </div>
-        </div>
-      </CardHeader>
+        </CardHeader>
 
-      <CardContent>
-        <p className="text-sm text-gray-600">{q.excerpt}</p>
-      </CardContent>
+        <CardContent>
+          <p className="text-sm text-gray-600">{q.excerpt}</p>
+        </CardContent>
 
-      <CardFooter className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
-            <AvatarImage
-              src={q.authorAvatarUrl ?? undefined}
-              alt={q.authorDisplayName}
-            />
-            <AvatarFallback>{q.authorDisplayName?.[0] ?? "U"}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-gray-900">
-              {q.authorDisplayName}
-            </span>
-            <span className="text-xs text-gray-500">{q.createdAt}</span>
+        <CardFooter className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src={q.authorAvatarUrl ?? undefined}
+                alt={q.authorDisplayName}
+              />
+              <AvatarFallback>{q.authorDisplayName?.[0] ?? "U"}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold text-gray-900">
+                {q.authorDisplayName}
+              </span>
+              <span className="text-xs text-gray-500">{q.createdAt}</span>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-1 text-xs text-gray-500">
-            <Eye className="h-3.5 w-3.5" />
-            <span>{q.viewCount}</span>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <Eye className="h-3.5 w-3.5" />
+              <span>{q.viewCount}</span>
+            </div>
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <MessageCircle className="h-3.5 w-3.5" />
+            </div>
           </div>
-          <div className="flex items-center gap-1 text-xs text-gray-500">
-            <MessageCircle className="h-3.5 w-3.5" />
-          </div>
-        </div>
-      </CardFooter>
-    </Card>
+        </CardFooter>
+      </Card>
+    </Link>
   );
 }
