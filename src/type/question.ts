@@ -15,7 +15,7 @@ export type QuestionSummaryResponse = {
 
 export type QuestionCreateRequest = {
   title: string;
-  body?: string | null;
+  description?: string | null;
   status?: QuestionStatus;
   topicIds?: number[] | null;
 };
@@ -25,7 +25,7 @@ export type QuestionDetailResponse = {
   authorDisplayName: string;
   authorAvatarUrl: string | null;
   title: string;
-  body: string;
+  description: string;
   viewCount: number;
   status: QuestionStatus;
   createdAt: string;

@@ -63,7 +63,7 @@ export default function NewQuestionPage() {
     e.preventDefault();
 
     const titleTrimmed = title.trim();
-    const bodyTrimmed = body.trim();
+    const descriptionTrimmed = body.trim();
 
     if (!titleTrimmed) {
       toast.error("Please enter title");
@@ -71,7 +71,7 @@ export default function NewQuestionPage() {
       return;
     }
 
-    if (!bodyTrimmed) {
+    if (!descriptionTrimmed) {
       toast.error("Please enter body");
       console.error("Body is required.");
       return;
@@ -79,7 +79,7 @@ export default function NewQuestionPage() {
 
     const payload: QuestionCreateRequest = {
       title: titleTrimmed,
-      body: bodyTrimmed ? bodyTrimmed : null,
+      description: descriptionTrimmed ? descriptionTrimmed : null,
       topicIds: selectedTopicIds.length > 0 ? selectedTopicIds : null,
     };
 
@@ -144,7 +144,6 @@ export default function NewQuestionPage() {
                   className="rounded-xl"
                   maxLength={100}
                 />
-                <div className="text-xs text-gray-500">{title.length}/100</div>
               </div>
 
               {/* 토픽(복수 선택) */}
