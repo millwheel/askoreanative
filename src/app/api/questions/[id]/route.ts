@@ -69,7 +69,7 @@ export async function GET(
     authorDisplayName: profile.display_name,
     authorAvatarUrl: profile.avatar_url ?? null,
     title: q.title,
-    description: q.description ?? "",
+    body: q.description ?? "",
     viewCount: q.view_count ?? 0,
     status: q.status as QuestionStatus,
     createdAt: q.created_at,

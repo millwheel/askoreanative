@@ -8,27 +8,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-type TopicResponse = {
-  id: number;
-  slug: string;
-  name: string;
-  description: string | null;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type CreateQuestionRequest = {
-  title: string;
-  description?: string | null;
-  topicIds?: number[] | null;
-};
+import { TopicResponse } from "@/type/topic";
+import { QuestionCreateRequest } from "@/type/question";
 
 export default function NewQuestionPage() {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [body, setBody] = useState("");
 
   const [topics, setTopics] = useState<TopicResponse[]>([]);
   const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([]);
@@ -37,9 +24,6 @@ export default function NewQuestionPage() {
   const [submitting, setSubmitting] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const titleTrimmed = useMemo(() => title.trim(), [title]);
-  const descriptionTrimmed = useMemo(() => description.trim(), [description]);
 
   // 1) topic 목록 로드
   useEffect(() => {
@@ -59,8 +43,6 @@ export default function NewQuestionPage() {
 
       const data = await res.json();
 
-      console.log(data);
-
       const list: TopicResponse[] = Array.isArray(data)
         ? data
         : (data.topics ?? []);
@@ -79,14 +61,22 @@ export default function NewQuestionPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const titleTrimmed = title.trim();
+    const bodyTrimmed = body.trim();
+
     if (!titleTrimmed) {
       console.error("Title is required.");
       return;
     }
 
-    const payload: CreateQuestionRequest = {
+    if (!bodyTrimmed) {
+      console.error("Body is required.");
+      return;
+    }
+
+    const payload: QuestionCreateRequest = {
       title: titleTrimmed,
-      description: descriptionTrimmed ? descriptionTrimmed : null,
+      body: bodyTrimmed ? bodyTrimmed : null,
       topicIds: selectedTopicIds.length > 0 ? selectedTopicIds : null,
     };
 
@@ -150,9 +140,7 @@ export default function NewQuestionPage() {
                   className="rounded-xl"
                   maxLength={100}
                 />
-                <div className="text-xs text-gray-500">
-                  {titleTrimmed.length}/100
-                </div>
+                <div className="text-xs text-gray-500">{title.length}/100</div>
               </div>
 
               {/* 토픽(복수 선택) */}
@@ -207,15 +195,12 @@ export default function NewQuestionPage() {
                   Description
                 </label>
                 <Textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
                   placeholder="Add details like travel dates, budget, preferences, and anything else."
                   className="rounded-xl"
                   rows={10}
                 />
-                <div className="text-xs text-gray-500">
-                  {descriptionTrimmed.length} / 30000
-                </div>
               </div>
 
               {/* 버튼 */}
