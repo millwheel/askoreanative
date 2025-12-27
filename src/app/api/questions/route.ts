@@ -20,7 +20,7 @@ export async function GET(req: Request) {
   // 1) question 목록
   const { data: questions, error: questionError } = await supabase
     .from("question")
-    .select("id, author_id, title, description, view_count, created_at")
+    .select("id, author_id, title, content, view_count, created_at")
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 
@@ -89,7 +89,7 @@ export async function GET(req: Request) {
       authorDisplayName: profile?.display_name ?? "",
       authorAvatarUrl: profile?.avatar_url ?? null,
       title: q.title,
-      excerpt: makeExcerpt(q.description),
+      excerpt: makeExcerpt(q.content),
       viewCount: q.view_count,
       createdAt: q.created_at,
       topics: topicSummaries,
@@ -128,7 +128,7 @@ export async function POST(req: Request) {
   }
 
   const title = (body.title ?? "").trim();
-  const description = (body.description ?? "").trim();
+  const content = (body.content ?? "").trim();
   const status: QuestionStatus = "OPEN";
 
   if (!title) {
@@ -140,9 +140,9 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
-  if (description.length > MAX_DESC_LEN) {
+  if (content.length > MAX_DESC_LEN) {
     return NextResponse.json(
-      { error: `description must be <= ${MAX_DESC_LEN} chars` },
+      { error: `content must be <= ${MAX_DESC_LEN} chars` },
       { status: 400 },
     );
   }
@@ -194,7 +194,7 @@ export async function POST(req: Request) {
     .insert({
       author_id: user.id,
       title,
-      description: description,
+      content: content,
       view_count: 0,
       status,
       created_at: now,

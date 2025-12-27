@@ -24,7 +24,7 @@ export async function GET(
   const { data: q, error: qErr } = await supabase
     .from("question")
     .select(
-      "id, author_id, title, description, view_count, status, created_at, updated_at",
+      "id, author_id, title, content, view_count, status, created_at, updated_at",
     )
     .eq("id", questionId)
     .single();
@@ -69,7 +69,7 @@ export async function GET(
     authorDisplayName: profile.display_name,
     authorAvatarUrl: profile.avatar_url ?? null,
     title: q.title,
-    description: q.description ?? "",
+    content: q.content ?? "",
     viewCount: q.view_count ?? 0,
     status: q.status as QuestionStatus,
     createdAt: q.created_at,

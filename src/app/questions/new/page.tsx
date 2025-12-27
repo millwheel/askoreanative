@@ -16,7 +16,7 @@ export default function NewQuestionPage() {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [content, setContent] = useState("");
 
   const [topics, setTopics] = useState<TopicResponse[]>([]);
   const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([]);
@@ -63,7 +63,7 @@ export default function NewQuestionPage() {
     e.preventDefault();
 
     const titleTrimmed = title.trim();
-    const descriptionTrimmed = body.trim();
+    const contentTrimmed = content.trim();
 
     if (!titleTrimmed) {
       toast.error("Please enter title");
@@ -71,15 +71,15 @@ export default function NewQuestionPage() {
       return;
     }
 
-    if (!descriptionTrimmed) {
-      toast.error("Please enter body");
+    if (!contentTrimmed) {
+      toast.error("Please enter content");
       console.error("Body is required.");
       return;
     }
 
     const payload: QuestionCreateRequest = {
       title: titleTrimmed,
-      description: descriptionTrimmed ? descriptionTrimmed : null,
+      content: contentTrimmed ? contentTrimmed : null,
       topicIds: selectedTopicIds.length > 0 ? selectedTopicIds : null,
     };
 
@@ -198,8 +198,8 @@ export default function NewQuestionPage() {
                   Description
                 </label>
                 <Textarea
-                  value={body}
-                  onChange={(e) => setBody(e.target.value)}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
                   placeholder="Add details like travel dates, budget, preferences, and anything else."
                   className="rounded-xl"
                   rows={10}

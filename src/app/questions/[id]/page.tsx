@@ -154,9 +154,9 @@ export default function QuestionDetailPage() {
                 )}
 
                 {/* 5) 본문 */}
-                {question.description?.trim() ? (
+                {question.content?.trim() ? (
                   <div className="whitespace-pre-wrap text-sm leading-7 text-gray-900">
-                    {question.description}
+                    {question.content}
                   </div>
                 ) : (
                   <div className="text-sm text-gray-500">No content.</div>
