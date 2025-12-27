@@ -1,3 +1,8 @@
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import apiClient from "./apiClient";
+import { ApiResult } from "./apiResult";
+import { ApiError } from "@/type/error";
+
 function fallbackApiError(
   message: string,
   status: number | null = null,
@@ -55,6 +60,14 @@ export function apiPut<T>(
   config?: AxiosRequestConfig,
 ) {
   return wrap<T>(apiClient.put<T>(url, body, config));
+}
+
+export function apiPatch<T>(
+  url: string,
+  body?: unknown,
+  config?: AxiosRequestConfig,
+) {
+  return wrap<T>(apiClient.patch<T>(url, body, config));
 }
 
 export function apiDelete<T>(url: string, config?: AxiosRequestConfig) {

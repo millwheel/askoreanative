@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QuestionDetailResponse } from "@/type/question";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { apiGet } from "@/lib/api/api";
 
 function formatDateTime(iso: string) {
   const d = new Date(iso);
@@ -30,19 +31,19 @@ export default function QuestionDetailPage() {
       setLoading(true);
       setErrorMessage(null);
 
-      const res = await fetch(`/api/questions/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      const { data, error, status } = await apiGet<QuestionDetailResponse>(
+        `/questions/${id}`,
+      );
 
-      if (!res.ok) {
-        setErrorMessage(`Failed to load question (${res.status})`);
+      if (error || !data) {
+        setErrorMessage(
+          `Failed to load question${status ? ` (${status})` : ""}`,
+        );
         setQuestion(null);
         setLoading(false);
         return;
       }
 
-      const data: QuestionDetailResponse = await res.json();
       setQuestion(data);
       setLoading(false);
     })();
