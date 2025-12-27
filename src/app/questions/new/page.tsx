@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { TopicResponse } from "@/type/topic";
 import { QuestionCreateRequest } from "@/type/question";
 import toast from "react-hot-toast";
+import { apiGet, apiPost } from "@/lib/api/api";
 
 export default function NewQuestionPage() {
   const router = useRouter();
@@ -26,22 +27,17 @@ export default function NewQuestionPage() {
     (async () => {
       setLoadingTopics(true);
 
-      const res = await fetch("/api/topics", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      const { data, error } = await apiGet<TopicResponse[]>("/topics");
 
-      if (!res.ok) {
-        console.error("Failed to load topics:", res.status);
+      if (error || !data) {
+        console.error("Failed to load topics:", error?.message);
         setLoadingTopics(false);
         return;
       }
 
-      const data = await res.json();
-
       const list: TopicResponse[] = Array.isArray(data)
         ? data
-        : (data.topics ?? []);
+        : [];
 
       setTopics(list);
       setLoadingTopics(false);
@@ -65,29 +61,16 @@ export default function NewQuestionPage() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/questions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
+      const { data, error } = await apiPost<{
+        questionId?: number;
+        question?: { id: number };
+      }>("/questions", payload);
 
-      if (!res.ok) {
-        let message = "Failed to create question.";
-
-        try {
-          const errorBody = await res.json();
-          if (typeof errorBody?.error === "string") {
-            message = errorBody.error;
-          }
-        } catch {
-          // JSON 파싱 실패 시 기본 메시지
-        }
-
+      if (error || !data) {
+        const message = error?.message ?? "Failed to create question.";
         toast.error(message);
         return;
       }
-      const data = await res.json();
 
       const questionId: number | null =
         (typeof data?.questionId === "number" ? data.questionId : null) ??

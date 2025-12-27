@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useProfile } from "@/client/hook/useProfile";
+import { apiPatch } from "@/lib/api/api";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -58,18 +59,13 @@ export default function ProfilePage() {
     setSaving(true);
 
     try {
-      const res = await fetch("/api/profile", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          name: name.trim(),
-          displayName: displayName.trim(),
-        }),
+      const { error } = await apiPatch("/profile", {
+        name: name.trim(),
+        displayName: displayName.trim(),
       });
 
-      if (!res.ok) {
-        setError("Failed to update profile.");
+      if (error) {
+        setError(error.message ?? "Failed to update profile.");
         return;
       }
 
