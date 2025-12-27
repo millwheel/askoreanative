@@ -1,7 +1,7 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import apiClient from "./apiClient";
 import { ApiResult } from "./apiResult";
-import { ApiError } from "@/type/error";
+import { ApiError } from "@/lib/axios/apiError";
 
 function fallbackApiError(
   message: string,

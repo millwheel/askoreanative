@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { TopicResponse } from "@/type/topic";
 import { QuestionCreateRequest } from "@/type/question";
 import toast from "react-hot-toast";
-import { apiGet, apiPost } from "@/lib/api/api";
+import { apiGet, apiPost } from "@/lib/axios/api";
 
 export default function NewQuestionPage() {
   const router = useRouter();
@@ -35,9 +35,7 @@ export default function NewQuestionPage() {
         return;
       }
 
-      const list: TopicResponse[] = Array.isArray(data)
-        ? data
-        : [];
+      const list: TopicResponse[] = Array.isArray(data) ? data : [];
 
       setTopics(list);
       setLoadingTopics(false);

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QuestionDetailResponse } from "@/type/question";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { apiGet } from "@/lib/api/api";
+import { apiGet } from "@/lib/axios/api";
 
 function formatDateTime(iso: string) {
   const d = new Date(iso);

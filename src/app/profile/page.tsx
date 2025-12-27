@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useProfile } from "@/client/hook/useProfile";
-import { apiPatch } from "@/lib/api/api";
+import { apiPatch } from "@/lib/axios/api";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -70,7 +70,7 @@ export default function ProfilePage() {
       }
 
       await mutate();
-      await globalMutate("/api/me");
+      await globalMutate("/axios/me");
       setSuccess("Profile updated successfully.");
     } catch (e) {
       setError("Could not update profile.");
