@@ -66,14 +66,12 @@ export default function NewQuestionPage() {
     const contentTrimmed = content.trim();
 
     if (!titleTrimmed) {
-      toast.error("Please enter title");
-      console.error("Title is required.");
+      toast.error("Please enter the title");
       return;
     }
 
     if (!contentTrimmed) {
-      toast.error("Please enter content");
-      console.error("Body is required.");
+      toast.error("Please enter the content");
       return;
     }
 
@@ -94,7 +92,6 @@ export default function NewQuestionPage() {
 
       if (!res.ok) {
         toast.error("Failed to create question.");
-        console.error("Failed to create question:", res.status);
         return;
       }
 
@@ -142,7 +139,7 @@ export default function NewQuestionPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="What would you like to ask about Korea?"
                   className="rounded-xl"
-                  maxLength={100}
+                  maxLength={110}
                 />
               </div>
 
@@ -195,14 +192,13 @@ export default function NewQuestionPage() {
               {/* 상세 */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Description
+                  Content
                 </label>
                 <Textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Add details like travel dates, budget, preferences, and anything else."
-                  className="rounded-xl"
-                  rows={10}
+                  placeholder="Add details of anything you're curious about."
+                  className="rounded-xl min-h-[340px] resize-none"
                 />
               </div>
 
