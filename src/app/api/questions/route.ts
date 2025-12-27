@@ -140,6 +140,9 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
+  if (!content) {
+    return NextResponse.json({ error: "content is required" }, { status: 400 });
+  }
   if (content.length > MAX_DESC_LEN) {
     return NextResponse.json(
       { error: `content must be <= ${MAX_DESC_LEN} chars` },

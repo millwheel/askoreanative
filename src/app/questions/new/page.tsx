@@ -14,17 +14,12 @@ import toast from "react-hot-toast";
 
 export default function NewQuestionPage() {
   const router = useRouter();
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
   const [topics, setTopics] = useState<TopicResponse[]>([]);
   const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([]);
-
   const [loadingTopics, setLoadingTopics] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // 1) topic 목록 로드
   useEffect(() => {
@@ -62,22 +57,9 @@ export default function NewQuestionPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const titleTrimmed = title.trim();
-    const contentTrimmed = content.trim();
-
-    if (!titleTrimmed) {
-      toast.error("Please enter the title");
-      return;
-    }
-
-    if (!contentTrimmed) {
-      toast.error("Please enter the content");
-      return;
-    }
-
     const payload: QuestionCreateRequest = {
-      title: titleTrimmed,
-      content: contentTrimmed ? contentTrimmed : null,
+      title: title,
+      content: content,
       topicIds: selectedTopicIds.length > 0 ? selectedTopicIds : null,
     };
 
@@ -91,10 +73,20 @@ export default function NewQuestionPage() {
       });
 
       if (!res.ok) {
-        toast.error("Failed to create question.");
+        let message = "Failed to create question.";
+
+        try {
+          const errorBody = await res.json();
+          if (typeof errorBody?.error === "string") {
+            message = errorBody.error;
+          }
+        } catch {
+          // JSON 파싱 실패 시 기본 메시지
+        }
+
+        toast.error(message);
         return;
       }
-
       const data = await res.json();
 
       const questionId: number | null =
@@ -122,12 +114,6 @@ export default function NewQuestionPage() {
       <section className="mx-auto max-w-4xl px-4 py-8">
         <Card>
           <CardContent className="p-6">
-            {errorMessage && (
-              <div className="mb-4 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
-                {errorMessage}
-              </div>
-            )}
-
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* 제목 */}
               <div className="space-y-2">
@@ -139,7 +125,7 @@ export default function NewQuestionPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="What would you like to ask about Korea?"
                   className="rounded-xl"
-                  maxLength={110}
+                  maxLength={100}
                 />
               </div>
 
