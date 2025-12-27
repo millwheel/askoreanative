@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TopicResponse } from "@/type/topic";
 import { QuestionCreateRequest } from "@/type/question";
+import toast from "react-hot-toast";
 
 export default function NewQuestionPage() {
   const router = useRouter();
@@ -65,11 +66,13 @@ export default function NewQuestionPage() {
     const bodyTrimmed = body.trim();
 
     if (!titleTrimmed) {
+      toast.error("Please enter title");
       console.error("Title is required.");
       return;
     }
 
     if (!bodyTrimmed) {
+      toast.error("Please enter body");
       console.error("Body is required.");
       return;
     }
@@ -90,6 +93,7 @@ export default function NewQuestionPage() {
       });
 
       if (!res.ok) {
+        toast.error("Failed to create question.");
         console.error("Failed to create question:", res.status);
         return;
       }
