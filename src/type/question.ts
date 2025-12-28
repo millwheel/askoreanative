@@ -20,6 +20,10 @@ export type QuestionCreateRequest = {
   topicIds?: number[] | null;
 };
 
+export type QuestionCreateResponse = {
+  questionId?: number;
+};
+
 export type QuestionDetailResponse = {
   id: number;
   authorDisplayName: string;
