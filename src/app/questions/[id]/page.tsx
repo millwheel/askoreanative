@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QuestionDetailResponse } from "@/type/question";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { apiGet } from "@/lib/axios/api";
+import { apiGet, apiPost } from "@/lib/axios/api";
 import { useMe } from "@/client/hook/useMe";
 import { AnswerResponse } from "@/type/answer";
 import { formatDateTime } from "@/util/dateTime";
@@ -51,6 +51,14 @@ export default function QuestionDetailPage() {
       setquestion(data);
       setQuestionLoading(false);
     })();
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+
+    apiPost(`/questions/${id}/view`).catch(() => {
+      // 조회수 실패는 UX에 영향 주지 않도록 조용히 무시
+    });
   }, [id]);
 
   // 답변들 호출
