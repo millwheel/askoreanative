@@ -6,8 +6,8 @@ import Link from "next/link";
 import { useQuestions } from "@/client/hook/useQuestions";
 import { QuestionSearchBar } from "@/client/components/question/questionSearchBar";
 import { ErrorBanner } from "@/client/components/errorBanner";
-import { QuestionList } from "@/client/components/question/questionList";
-import { QuestionLoading } from "@/client/components/question/questionLoading";
+import { QuestionSummaryList } from "@/client/components/question/questionSummaryList";
+import { QuestionSummaryLoading } from "@/client/components/question/questionSummaryLoading";
 import { useMe } from "@/client/hook/useMe";
 
 export default function QuestionsPage() {
@@ -46,10 +46,10 @@ export default function QuestionsPage() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 py-8">
-        {loading && <QuestionLoading />}
+        {loading && <QuestionSummaryLoading />}
         {!loading && errorMessage && <ErrorBanner message={errorMessage} />}
         {!loading && !errorMessage && (
-          <QuestionList questions={filteredQuestions} />
+          <QuestionSummaryList questions={filteredQuestions} />
         )}
       </section>
     </main>

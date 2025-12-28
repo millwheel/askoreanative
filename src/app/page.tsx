@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { useQuestions } from "@/client/hook/useQuestions";
 import { QuestionSearchBar } from "@/client/components/question/questionSearchBar";
 import { ErrorBanner } from "@/client/components/errorBanner";
-import { QuestionList } from "@/client/components/question/questionList";
-import { QuestionLoading } from "@/client/components/question/questionLoading";
+import { QuestionSummaryList } from "@/client/components/question/questionSummaryList";
+import { QuestionSummaryLoading } from "@/client/components/question/questionSummaryLoading";
 import { useMe } from "@/client/hook/useMe";
 
 export default function HomePage() {
@@ -72,10 +72,10 @@ export default function HomePage() {
           )}
         </div>
 
-        {loading && <QuestionLoading />}
+        {loading && <QuestionSummaryLoading />}
         {!loading && errorMessage && <ErrorBanner message={errorMessage} />}
         {!loading && !errorMessage && (
-          <QuestionList questions={filteredQuestions.slice(0, 3)} />
+          <QuestionSummaryList questions={filteredQuestions.slice(0, 3)} />
         )}
       </section>
     </main>
