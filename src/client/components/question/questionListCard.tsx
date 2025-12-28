@@ -11,7 +11,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Eye, MessageCircle } from "lucide-react";
 import { QuestionSummaryResponse } from "@/type/question";
 
-export function QuestionCard({ q }: { q: QuestionSummaryResponse }) {
+export function QuestionListCard({ q }: { q: QuestionSummaryResponse }) {
   return (
     <Link href={`/questions/${q.id}`} className="block">
       <Card className="transition hover:shadow-md">

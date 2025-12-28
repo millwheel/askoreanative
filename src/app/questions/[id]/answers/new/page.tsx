@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import toast from "react-hot-toast";
 import { apiPost } from "@/lib/axios/api";
 import { AnswerCreateRequest, AnswerCreateResponse } from "@/type/answer";
+import { QuestionContextPanel } from "@/client/components/question/questionContextPanel";
 
 export default function NewAnswerPage() {
   const router = useRouter();
@@ -75,23 +76,11 @@ export default function NewAnswerPage() {
       </section>
 
       {/* 본문 */}
-      <section className="mx-auto max-w-4xl px-4 py-8">
+      <section className="mx-auto max-w-4xl px-4 py-8 space-y-6">
+        <QuestionContextPanel questionId={questionId} />
         <Card>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* 내용 */}
-              <div className="space-y-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  내용 <span className="text-primary">*</span>
-                </label>
-                <Textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="답변 내용을 질문자의 언어로 여기에 작성해주세요. 질문자가 고마워할 것입니다!"
-                  className="rounded-xl min-h-[340px] resize-none"
-                />
-              </div>
-
               {/* 제목 */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-800">
@@ -103,6 +92,19 @@ export default function NewAnswerPage() {
                   placeholder="답변 내용을 한 문장으로 요약해주세요"
                   className="rounded-xl"
                   maxLength={100}
+                />
+              </div>
+
+              {/* 내용 */}
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-800">
+                  내용 <span className="text-primary">*</span>
+                </label>
+                <Textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="답변 내용을 질문자의 언어로 여기에 작성해주세요. 질문자가 고마워할 것입니다!"
+                  className="rounded-xl min-h-[340px] resize-none"
                 />
               </div>
 

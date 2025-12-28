@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { QuestionSummaryResponse } from "@/type/question";
-import { QuestionCard } from "./questionCard";
+import { QuestionListCard } from "./questionListCard";
 
 export function QuestionList({
   questions,
@@ -20,7 +20,7 @@ export function QuestionList({
   return (
     <div className="space-y-4">
       {questions.map((q) => (
-        <QuestionCard key={q.id} q={q} />
+        <QuestionListCard key={q.id} q={q} />
       ))}
     </div>
   );
