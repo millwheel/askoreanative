@@ -9,6 +9,7 @@ export type QuestionSummaryResponse = {
   title: string;
   excerpt: string;
   viewCount: number;
+  answerCount: number;
   createdAt: string;
   topics: TopicSummaryResponse[];
 };

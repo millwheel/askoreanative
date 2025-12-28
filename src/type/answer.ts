@@ -30,3 +30,8 @@ export type AnswerQueryDto = {
   created_at: string;
   updated_at: string;
 };
+
+export type AnswerCountQueryDto = {
+  question_id: number;
+  answer_count: number;
+};

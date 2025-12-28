@@ -8,6 +8,7 @@ import {
 } from "@/type/question";
 import { TopicQueryDto, TopicSummaryResponse } from "@/type/topic";
 import { makeExcerpt } from "@/util/excerpt";
+import { AnswerCountQueryDto } from "@/type/answer";
 
 const PAGE_SIZE = 20;
 
@@ -73,7 +74,25 @@ export async function GET(req: Request) {
     return map;
   }, new Map<number, TopicQueryDto[]>());
 
-  // 4) 응답 조립
+  // 4) 답변 개수 파악
+  const { data, error: answerErr } = await supabase.rpc("get_answer_counts", {
+    question_ids: questionIds,
+  });
+
+  if (answerErr) {
+    return NextResponse.json({ error: answerErr.message }, { status: 500 });
+  }
+
+  const answerCounts = (data ?? []) as AnswerCountQueryDto[];
+
+  const answerCountMap = new Map<number, number>(
+    (answerCounts ?? []).map((r) => [
+      Number(r.question_id),
+      Number(r.answer_count),
+    ]),
+  );
+
+  // 5) 응답 조립
   const result: QuestionSummaryResponse[] = questions.map((q) => {
     const profile = profileMap.get(q.author_id);
 
@@ -91,6 +110,7 @@ export async function GET(req: Request) {
       title: q.title,
       excerpt: makeExcerpt(q.content),
       viewCount: q.view_count,
+      answerCount: answerCountMap.get(q.id) ?? 0,
       createdAt: q.created_at,
       topics: topicSummaries,
     };

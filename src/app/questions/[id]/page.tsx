@@ -255,7 +255,7 @@ export default function QuestionDetailPage() {
             {/* 답변 없음 */}
             {!answersLoading && !answersError && answers.length === 0 && (
               <div className="rounded-2xl border bg-white p-6 text-sm text-gray-600">
-                No answers yet. Be the first to answer!
+                No answers yet.
               </div>
             )}
 

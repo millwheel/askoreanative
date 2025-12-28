@@ -63,6 +63,7 @@ export function QuestionSummaryCard({ q }: { q: QuestionSummaryResponse }) {
             </div>
             <div className="flex items-center gap-1 text-xs text-gray-500">
               <MessageCircle className="h-3.5 w-3.5" />
+              <span>{q.answerCount}</span>
             </div>
           </div>
         </CardFooter>
