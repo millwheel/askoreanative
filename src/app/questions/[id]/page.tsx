@@ -162,6 +162,26 @@ export default function QuestionDetailPage() {
                 ) : (
                   <div className="text-sm text-gray-500">No content.</div>
                 )}
+
+                {/* 6) 액션: 답변 작성 */}
+                <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
+                  <Button
+                    className="rounded-full"
+                    onClick={() =>
+                      router.push(`/questions/${question.id}/answers/new`)
+                    }
+                  >
+                    Write Answer
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    className="rounded-full"
+                    onClick={() => router.push("/questions")}
+                  >
+                    Back to list
+                  </Button>
+                </div>
               </div>
             )}
           </CardContent>
