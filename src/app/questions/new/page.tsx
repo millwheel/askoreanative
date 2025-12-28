@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TopicResponse } from "@/type/topic";
-import { QuestionCreateRequest } from "@/type/question";
+import { QuestionCreateRequest, QuestionCreateResponse } from "@/type/question";
 import toast from "react-hot-toast";
-import { apiGet, apiPost } from "@/lib/api/api";
+import { apiGet, apiPost } from "@/lib/axios/api";
 
 export default function NewQuestionPage() {
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function NewQuestionPage() {
   const [loadingTopics, setLoadingTopics] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // 1) topic 목록 로드
+  // topic 목록 로드
   useEffect(() => {
     (async () => {
       setLoadingTopics(true);
@@ -35,9 +35,7 @@ export default function NewQuestionPage() {
         return;
       }
 
-      const list: TopicResponse[] = Array.isArray(data)
-        ? data
-        : [];
+      const list: TopicResponse[] = Array.isArray(data) ? data : [];
 
       setTopics(list);
       setLoadingTopics(false);
@@ -50,6 +48,7 @@ export default function NewQuestionPage() {
     );
   };
 
+  // question 생성
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -61,22 +60,23 @@ export default function NewQuestionPage() {
 
     setSubmitting(true);
     try {
-      const { data, error } = await apiPost<{
-        questionId?: number;
-        question?: { id: number };
-      }>("/questions", payload);
+      const { data, error } = await apiPost<QuestionCreateResponse>(
+        "/questions",
+        payload,
+      );
 
-      if (error || !data) {
-        const message = error?.message ?? "Failed to create question.";
-        toast.error(message);
+      if (error) {
+        toast.error(error.message ?? "Failed to create question.");
         return;
       }
 
-      const questionId: number | null =
-        (typeof data?.questionId === "number" ? data.questionId : null) ??
-        (typeof data?.question?.id === "number" ? data.question.id : null);
+      if (!data?.questionId) {
+        toast.error("Invalid server response.");
+        router.replace("/questions");
+        return;
+      }
 
-      router.replace(questionId ? `/questions/${questionId}` : "/questions");
+      router.replace(`/questions/${data.questionId}`);
     } finally {
       setSubmitting(false);
     }

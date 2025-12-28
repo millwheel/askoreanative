@@ -242,7 +242,6 @@ export async function POST(req: Request) {
   return NextResponse.json(
     {
       questionId: insertedQuestion.id,
-      topicIds,
     },
     { status: 201 },
   );

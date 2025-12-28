@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QuestionDetailResponse } from "@/type/question";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { apiGet } from "@/lib/api/api";
+import { apiGet } from "@/lib/axios/api";
 
 function formatDateTime(iso: string) {
   const d = new Date(iso);
@@ -162,6 +162,26 @@ export default function QuestionDetailPage() {
                 ) : (
                   <div className="text-sm text-gray-500">No content.</div>
                 )}
+
+                {/* 6) 액션: 답변 작성 */}
+                <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
+                  <Button
+                    className="rounded-full"
+                    onClick={() =>
+                      router.push(`/questions/${question.id}/answers/new`)
+                    }
+                  >
+                    Write Answer
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    className="rounded-full"
+                    onClick={() => router.push("/questions")}
+                  >
+                    Back to list
+                  </Button>
+                </div>
               </div>
             )}
           </CardContent>

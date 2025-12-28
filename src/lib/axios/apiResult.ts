@@ -1,4 +1,4 @@
-import type { ApiError } from "@/type/error";
+import type { ApiError } from "@/lib/axios/apiError";
 
 export type ApiResult<T> = {
   data: T | null;
