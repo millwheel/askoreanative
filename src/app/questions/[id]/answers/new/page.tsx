@@ -66,10 +66,10 @@ export default function NewAnswerPage() {
       <section className="border-b border-border bg-white">
         <div className="mx-auto flex max-w-4xl flex-col gap-2 px-4 py-6">
           <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
-            Write an Answer
+            답변 작성하기
           </h1>
           <p className="text-sm text-gray-500">
-            Be kind, be specific, and help the questioner.
+            상세한 답변으로 질문자를 도와주세요
           </p>
         </div>
       </section>
@@ -79,30 +79,30 @@ export default function NewAnswerPage() {
         <Card>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* 제목 */}
-              <div className="space-y-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  Title <span className="text-primary">*</span>
-                </label>
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Summarize your answer in one line."
-                  className="rounded-xl"
-                  maxLength={100}
-                />
-              </div>
-
               {/* 내용 */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Content <span className="text-primary">*</span>
+                  내용 <span className="text-primary">*</span>
                 </label>
                 <Textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Explain clearly. Add steps, examples, and context if useful."
+                  placeholder="답변 내용을 질문자의 언어로 여기에 작성해주세요. 질문자가 고마워할 것입니다!"
                   className="rounded-xl min-h-[340px] resize-none"
+                />
+              </div>
+
+              {/* 제목 */}
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-800">
+                  제목 <span className="text-primary">*</span>
+                </label>
+                <Input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="답변 내용을 한 문장으로 요약해주세요"
+                  className="rounded-xl"
+                  maxLength={100}
                 />
               </div>
 
