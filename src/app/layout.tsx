@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { GlobalNavigationBar } from "@/client/components/gnb";
 import ToastProvider from "@/client/provider/toastProvider";
@@ -33,6 +34,7 @@ export default function RootLayout({
         <GlobalNavigationBar />
         {children}
         <ToastProvider />
+        <Analytics />
       </body>
     </html>
   );
