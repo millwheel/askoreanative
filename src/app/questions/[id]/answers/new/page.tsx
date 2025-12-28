@@ -14,9 +14,10 @@ import { QuestionContextPanel } from "@/client/components/question/questionConte
 
 export default function NewAnswerPage() {
   const router = useRouter();
-  const params = useParams<{ questionId: string }>();
+  const params = useParams<{ id: string }>();
+  const questionId = Number(params?.id);
 
-  const questionId = Number(params.questionId);
+  console.log(questionId);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -24,12 +25,6 @@ export default function NewAnswerPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!Number.isFinite(questionId) || questionId <= 0) {
-      toast.error("Invalid questionId.");
-      router.replace("/questions");
-      return;
-    }
 
     const payload: AnswerCreateRequest = {
       questionId,

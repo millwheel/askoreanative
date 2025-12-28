@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,27 +15,16 @@ function formatDateTime(iso: string) {
 
 export type QuestionContextPanelProps = {
   questionId: number;
-  defaultHeightPx?: number;
-  minHeightPx?: number;
-  maxHeightPx?: number;
   className?: string;
 };
 
 export function QuestionContextPanel({
   questionId,
-  defaultHeightPx = 220,
-  minHeightPx = 160,
-  maxHeightPx = 520,
   className,
 }: QuestionContextPanelProps) {
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState<QuestionDetailResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const contentText = useMemo(
-    () => (question?.content ?? "").trim(),
-    [question],
-  );
 
   useEffect(() => {
     if (!Number.isFinite(questionId) || questionId <= 0) return;
@@ -84,10 +73,13 @@ export function QuestionContextPanel({
         {/* 데이터 */}
         {!loading && !errorMessage && question && (
           <div className="space-y-4">
-            {/* 제목 (상세페이지보다 한 단계 작은 톤) */}
-            <div className="text-lg font-semibold leading-snug text-gray-900 md:text-xl">
+            <h2 className="text-sm font-semibold text-gray-500 tracking-wide">
+              질문 내용
+            </h2>
+
+            <h3 className="text-lg font-semibold leading-snug text-gray-900 md:text-xl">
               {question.title}
-            </div>
+            </h3>
 
             {/* 메타 */}
             <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
@@ -135,18 +127,11 @@ export function QuestionContextPanel({
               </div>
             )}
 
-            {/* 본문: 전체 렌더링 + 높이 제한 + 드래그 리사이즈 */}
+            {/* 본문 */}
             <div className="rounded-xl border bg-gray-50/60">
-              <div
-                className="resize-y overflow-auto p-4 text-sm leading-7 text-gray-900"
-                style={{
-                  height: defaultHeightPx,
-                  minHeight: minHeightPx,
-                  maxHeight: maxHeightPx,
-                }}
-              >
-                {contentText ? (
-                  <div className="whitespace-pre-wrap">{contentText}</div>
+              <div className="h-[300px] overflow-auto p-4 text-sm leading-7 text-gray-900">
+                {question.content ? (
+                  <div className="whitespace-pre-wrap">{question.content}</div>
                 ) : (
                   <div className="text-gray-500">No content.</div>
                 )}
