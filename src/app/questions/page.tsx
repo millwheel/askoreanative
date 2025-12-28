@@ -6,12 +6,14 @@ import Link from "next/link";
 import { useQuestions } from "@/client/hook/useQuestions";
 import { QuestionSearchBar } from "@/client/components/question/questionSearchBar";
 import { ErrorBanner } from "@/client/components/errorBanner";
-import { QuestionList } from "@/client/components/question/questionList";
-import { QuestionLoading } from "@/client/components/question/questionLoading";
+import { QuestionSummaryList } from "@/client/components/question/questionSummaryList";
+import { QuestionSummaryLoading } from "@/client/components/question/questionSummaryLoading";
+import { useMe } from "@/client/hook/useMe";
 
 export default function QuestionsPage() {
   const { search, setSearch, loading, errorMessage, filteredQuestions } =
     useQuestions({ initialOffset: 0 });
+  const { user, loading: userLoading } = useMe();
 
   return (
     <main className="min-h-screen">
@@ -25,9 +27,11 @@ export default function QuestionsPage() {
               Find real questions from travelers and answers from local Korean.
             </p>
           </div>
-          <Button asChild className="rounded-full">
-            <Link href="/questions/new">Ask new question</Link>
-          </Button>
+          {!userLoading && user && (
+            <Button asChild className="rounded-full">
+              <Link href="/questions/new">Ask new question</Link>
+            </Button>
+          )}
         </div>
       </section>
 
@@ -42,10 +46,10 @@ export default function QuestionsPage() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 py-8">
-        {loading && <QuestionLoading />}
+        {loading && <QuestionSummaryLoading />}
         {!loading && errorMessage && <ErrorBanner message={errorMessage} />}
         {!loading && !errorMessage && (
-          <QuestionList questions={filteredQuestions} />
+          <QuestionSummaryList questions={filteredQuestions} />
         )}
       </section>
     </main>

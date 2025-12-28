@@ -8,50 +8,90 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QuestionDetailResponse } from "@/type/question";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { apiGet } from "@/lib/axios/api";
-
-function formatDateTime(iso: string) {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleString();
-}
+import { apiGet, apiPost } from "@/lib/axios/api";
+import { useMe } from "@/client/hook/useMe";
+import { AnswerResponse } from "@/type/answer";
+import { formatDateTime } from "@/util/dateTime";
+import { AnswerLoading } from "@/client/components/answer/answerLoading";
+import { ThumbsUp } from "lucide-react";
 
 export default function QuestionDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const id = params?.id;
-  const [loading, setLoading] = useState(true);
-  const [question, setQuestion] = useState<QuestionDetailResponse | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [questionLoading, setQuestionLoading] = useState(true);
+  const [question, setquestion] = useState<QuestionDetailResponse | null>(null);
+  const [questionError, setQuestionError] = useState<string | null>(null);
+  const [answers, setAnswers] = useState<AnswerResponse[]>([]);
+  const [answersLoading, setAnswersLoading] = useState(false);
+  const [answersError, setAnswersError] = useState<string | null>(null);
+  const { user, loading: userLoading } = useMe();
 
+  // 질문 상세 호출
   useEffect(() => {
     if (!id) return;
 
     (async () => {
-      setLoading(true);
-      setErrorMessage(null);
+      setQuestionLoading(true);
+      setQuestionError(null);
 
       const { data, error, status } = await apiGet<QuestionDetailResponse>(
         `/questions/${id}`,
       );
 
       if (error || !data) {
-        setErrorMessage(
+        setQuestionError(
           `Failed to load question${status ? ` (${status})` : ""}`,
         );
-        setQuestion(null);
-        setLoading(false);
+        setquestion(null);
+        setQuestionLoading(false);
         return;
       }
 
-      setQuestion(data);
-      setLoading(false);
+      setquestion(data);
+      setQuestionLoading(false);
     })();
   }, [id]);
 
+  useEffect(() => {
+    if (!id) return;
+
+    apiPost(`/questions/${id}/view`).catch(() => {
+      // 조회수 실패는 UX에 영향 주지 않도록 조용히 무시
+    });
+  }, [id]);
+
+  // 답변들 호출
+  useEffect(() => {
+    if (!question?.id) return;
+
+    (async () => {
+      setAnswersLoading(true);
+      setAnswersError(null);
+      setAnswers([]);
+
+      const { data, error, status } = await apiGet<AnswerResponse[]>(
+        `/answers?questionId=${question.id}`,
+      );
+
+      if (error || !data) {
+        setAnswersError(
+          `Failed to load answers${status ? ` (${status})` : ""}`,
+        );
+        setAnswers([]);
+        setAnswersLoading(false);
+        return;
+      }
+
+      setAnswers(data);
+      setAnswersLoading(false);
+    })();
+  }, [question?.id]);
+
+  const canRenderAnswers = !questionLoading && !questionError && !!question;
   return (
     <main className="min-h-screen">
-      {/* 헤더 */}
+      {/* ================= Header ================= */}
       <section className="border-b border-border bg-white">
         <div className="mx-auto flex max-w-4xl flex-col gap-2 px-4 py-6">
           <div className="flex items-center justify-between gap-3">
@@ -62,12 +102,12 @@ export default function QuestionDetailPage() {
         </div>
       </section>
 
-      {/* 본문 */}
+      {/* ================= Question ================= */}
       <section className="mx-auto max-w-4xl px-4 py-8">
         <Card>
           <CardContent className="p-6">
-            {/* 로딩 */}
-            {loading && (
+            {/* 질문 로딩 */}
+            {questionLoading && (
               <div className="space-y-3">
                 <div className="h-7 w-3/4 rounded bg-gray-100" />
                 <div className="h-4 w-2/3 rounded bg-gray-100" />
@@ -75,11 +115,11 @@ export default function QuestionDetailPage() {
               </div>
             )}
 
-            {/* 에러 */}
-            {!loading && errorMessage && (
+            {/* 질문 에러 */}
+            {!questionLoading && questionError && (
               <div className="space-y-4">
                 <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
-                  {errorMessage}
+                  {questionError}
                 </div>
                 <div className="flex gap-2">
                   <Button
@@ -99,15 +139,13 @@ export default function QuestionDetailPage() {
               </div>
             )}
 
-            {/* 데이터 */}
-            {!loading && !errorMessage && question && (
+            {/* 질문 상세 */}
+            {!questionLoading && !questionError && question && (
               <div className="space-y-6">
-                {/* 1) 제목 */}
                 <h2 className="text-2xl font-semibold tracking-tight text-gray-900 md:text-3xl">
                   {question.title}
                 </h2>
 
-                {/* 2) 조회수, 작성일자, 수정일자 */}
                 <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
                   <span>view {question.viewCount}</span>
                   <span>·</span>
@@ -120,7 +158,6 @@ export default function QuestionDetailPage() {
                   )}
                 </div>
 
-                {/* 3) 작성자 아바타, 작성자 display name */}
                 <div className="flex items-center gap-3">
                   <Avatar className="h-9 w-9">
                     <AvatarImage
@@ -139,7 +176,6 @@ export default function QuestionDetailPage() {
                   </div>
                 </div>
 
-                {/* 4) 태그 */}
                 {question.topics.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {question.topics.map((t) => (
@@ -154,7 +190,6 @@ export default function QuestionDetailPage() {
                   </div>
                 )}
 
-                {/* 5) 본문 */}
                 {question.content?.trim() ? (
                   <div className="whitespace-pre-wrap text-sm leading-7 text-gray-900">
                     {question.content}
@@ -163,16 +198,17 @@ export default function QuestionDetailPage() {
                   <div className="text-sm text-gray-500">No content.</div>
                 )}
 
-                {/* 6) 액션: 답변 작성 */}
                 <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
-                  <Button
-                    className="rounded-full"
-                    onClick={() =>
-                      router.push(`/questions/${question.id}/answers/new`)
-                    }
-                  >
-                    Write Answer
-                  </Button>
+                  {!userLoading && user && (
+                    <Button
+                      className="rounded-full"
+                      onClick={() =>
+                        router.push(`/questions/${question.id}/answers/new`)
+                      }
+                    >
+                      Write Answer
+                    </Button>
+                  )}
 
                   <Button
                     variant="secondary"
@@ -186,6 +222,112 @@ export default function QuestionDetailPage() {
             )}
           </CardContent>
         </Card>
+      </section>
+
+      {/* ================= Answers ================= */}
+      <section className="mx-auto max-w-4xl px-4 pb-12">
+        {canRenderAnswers && question && (
+          <div className="space-y-4">
+            <div>
+              <div className="text-lg font-semibold text-gray-900">
+                {answersLoading ? "Loading..." : `${answers.length} answer(s)`}
+              </div>
+            </div>
+
+            {/* 답변 로딩 */}
+            {answersLoading && <AnswerLoading />}
+
+            {/* 답변 에러 */}
+            {!answersLoading && answersError && (
+              <div className="space-y-3">
+                <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+                  {answersError}
+                </div>
+                <Button
+                  className="rounded-full"
+                  onClick={() => router.refresh()}
+                >
+                  Retry
+                </Button>
+              </div>
+            )}
+
+            {/* 답변 없음 */}
+            {!answersLoading && !answersError && answers.length === 0 && (
+              <div className="rounded-2xl border bg-white p-6 text-sm text-gray-600">
+                No answers yet.
+              </div>
+            )}
+
+            {/* 답변 리스트 */}
+            {!answersLoading && !answersError && answers.length > 0 && (
+              <div className="space-y-4">
+                {answers.map((a) => (
+                  <Card key={a.id} className="rounded-2xl">
+                    <CardContent className="p-5">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-9 w-9">
+                            <AvatarImage
+                              src={a.authorAvatarUrl ?? undefined}
+                              alt={a.authorDisplayName}
+                            />
+                            <AvatarFallback>
+                              {(a.authorDisplayName || "U")
+                                .slice(0, 1)
+                                .toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {a.authorDisplayName || "Unknown"}
+                            </div>
+                            <div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                              <span>{formatDateTime(a.createdAt)}</span>
+                              {a.updatedAt && a.updatedAt !== a.createdAt && (
+                                <>
+                                  <span>·</span>
+                                  <span>
+                                    Updated {formatDateTime(a.updatedAt)}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <Badge
+                          variant="secondary"
+                          className="flex items-center gap-1 rounded-full px-3 py-1 text-xs cursor-pointer"
+                        >
+                          <ThumbsUp className="h-3.5 w-3.5" />
+                          {a.upvoteCount}
+                        </Badge>
+                      </div>
+
+                      {a.title?.trim() && (
+                        <div className="mt-4 text-base font-semibold text-gray-900">
+                          {a.title}
+                        </div>
+                      )}
+
+                      {a.content?.trim() ? (
+                        <div className="mt-3 whitespace-pre-wrap text-sm leading-7 text-gray-900">
+                          {a.content}
+                        </div>
+                      ) : (
+                        <div className="mt-3 text-sm text-gray-500">
+                          No content.
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </section>
     </main>
   );

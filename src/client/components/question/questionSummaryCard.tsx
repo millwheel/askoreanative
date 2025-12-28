@@ -11,7 +11,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Eye, MessageCircle } from "lucide-react";
 import { QuestionSummaryResponse } from "@/type/question";
 
-export function QuestionCard({ q }: { q: QuestionSummaryResponse }) {
+export function QuestionSummaryCard({ q }: { q: QuestionSummaryResponse }) {
   return (
     <Link href={`/questions/${q.id}`} className="block">
       <Card className="transition hover:shadow-md">
@@ -63,6 +63,7 @@ export function QuestionCard({ q }: { q: QuestionSummaryResponse }) {
             </div>
             <div className="flex items-center gap-1 text-xs text-gray-500">
               <MessageCircle className="h-3.5 w-3.5" />
+              <span>{q.answerCount}</span>
             </div>
           </div>
         </CardFooter>

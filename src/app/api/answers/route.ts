@@ -1,11 +1,85 @@
 import { NextResponse } from "next/server";
-import type { AnswerCreateRequest, AnswerCreateResponse } from "@/type/answer";
+import type {
+  AnswerCreateRequest,
+  AnswerCreateResponse,
+  AnswerQueryDto,
+  AnswerResponse,
+} from "@/type/answer";
 import { getSupabaseServerClient } from "@/server/supabase/config";
 
+export async function GET(req: Request) {
+  const supabase = await getSupabaseServerClient();
+  const url = new URL(req.url);
+  const questionIdRaw = url.searchParams.get("questionId");
+  const questionId = Number(questionIdRaw);
+
+  if (!questionIdRaw || Number.isNaN(questionId) || questionId <= 0) {
+    return NextResponse.json(
+      { error: "Invalid or missing questionId." },
+      { status: 400 },
+    );
+  }
+
+  // 1) answer 목록
+  const { data: answers, error: answerError } = await supabase
+    .from("answer")
+    .select(
+      "id, question_id, author_id, title, content, upvote_count, created_at, updated_at",
+    )
+    .eq("question_id", questionId)
+    .order("created_at", { ascending: false });
+
+  if (answerError) {
+    return NextResponse.json({ error: answerError.message }, { status: 500 });
+  }
+
+  const answerRows = (answers ?? []) as AnswerQueryDto[];
+
+  // 답변 없으면 바로 리턴
+  if (answerRows.length === 0) {
+    const result: AnswerResponse[] = [];
+    return NextResponse.json(result);
+  }
+
+  // 2) 작성자 프로필
+  const authorIds = [...new Set(answerRows.map((a) => a.author_id))];
+
+  const { data: profiles, error: profileError } = await supabase
+    .from("user_profile")
+    .select("id, display_name, avatar_url")
+    .in("id", authorIds);
+
+  if (profileError) {
+    return NextResponse.json({ error: profileError.message }, { status: 500 });
+  }
+
+  const profileMap = new Map<
+    string,
+    { display_name: string; avatar_url: string | null }
+  >((profiles ?? []).map((p) => [p.id, p]));
+
+  // 3) 응답 조립
+  const result: AnswerResponse[] = answerRows.map((a) => {
+    const profile = profileMap.get(a.author_id);
+
+    return {
+      id: a.id,
+      questionId: a.question_id,
+      authorDisplayName: profile?.display_name ?? "",
+      authorAvatarUrl: profile?.avatar_url ?? null,
+      title: a.title,
+      content: a.content,
+      upvoteCount: a.upvote_count ?? 0,
+      createdAt: a.created_at,
+      updatedAt: a.updated_at,
+    };
+  });
+
+  return NextResponse.json(result);
+}
+// ---------------- POST ----------------
 const MAX_TITLE_LEN = 100;
 const MAX_CONTENT_LEN = 30000;
-
-// ---------------- POST ----------------
 export async function POST(req: Request) {
   const supabase = await getSupabaseServerClient();
 

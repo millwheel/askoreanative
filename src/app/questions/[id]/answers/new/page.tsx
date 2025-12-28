@@ -10,12 +10,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import toast from "react-hot-toast";
 import { apiPost } from "@/lib/axios/api";
 import { AnswerCreateRequest, AnswerCreateResponse } from "@/type/answer";
+import { QuestionContextPanel } from "@/client/components/question/questionContextPanel";
 
 export default function NewAnswerPage() {
   const router = useRouter();
-  const params = useParams<{ questionId: string }>();
-
-  const questionId = Number(params.questionId);
+  const params = useParams<{ id: string }>();
+  const questionId = Number(params?.id);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -23,12 +23,6 @@ export default function NewAnswerPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!Number.isFinite(questionId) || questionId <= 0) {
-      toast.error("Invalid questionId.");
-      router.replace("/questions");
-      return;
-    }
 
     const payload: AnswerCreateRequest = {
       questionId,
@@ -66,28 +60,29 @@ export default function NewAnswerPage() {
       <section className="border-b border-border bg-white">
         <div className="mx-auto flex max-w-4xl flex-col gap-2 px-4 py-6">
           <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
-            Write an Answer
+            답변 작성하기
           </h1>
           <p className="text-sm text-gray-500">
-            Be kind, be specific, and help the questioner.
+            상세한 답변으로 질문자를 도와주세요
           </p>
         </div>
       </section>
 
       {/* 본문 */}
-      <section className="mx-auto max-w-4xl px-4 py-8">
+      <section className="mx-auto max-w-4xl px-4 py-8 space-y-6">
+        <QuestionContextPanel questionId={questionId} />
         <Card>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* 제목 */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Title <span className="text-primary">*</span>
+                  제목 <span className="text-primary">*</span>
                 </label>
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Summarize your answer in one line."
+                  placeholder="답변 내용을 한 문장으로 요약해주세요"
                   className="rounded-xl"
                   maxLength={100}
                 />
@@ -96,12 +91,12 @@ export default function NewAnswerPage() {
               {/* 내용 */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Content <span className="text-primary">*</span>
+                  내용 <span className="text-primary">*</span>
                 </label>
                 <Textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Explain clearly. Add steps, examples, and context if useful."
+                  placeholder="답변 내용을 질문자의 언어로 여기에 작성해주세요. 질문자가 고마워할 것입니다!"
                   className="rounded-xl min-h-[340px] resize-none"
                 />
               </div>
