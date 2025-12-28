@@ -17,8 +17,6 @@ export default function NewAnswerPage() {
   const params = useParams<{ id: string }>();
   const questionId = Number(params?.id);
 
-  console.log(questionId);
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
