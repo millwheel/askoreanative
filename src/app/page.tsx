@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useQuestions } from "@/client/hook/useQuestions";
 import { QuestionSearchBar } from "@/client/components/question/questionSearchBar";
 import { ErrorBanner } from "@/client/components/errorBanner";
@@ -11,9 +12,18 @@ import { QuestionLoading } from "@/client/components/question/questionLoading";
 import { useMe } from "@/client/hook/useMe";
 
 export default function HomePage() {
+  const router = useRouter();
   const { search, setSearch, loading, errorMessage, filteredQuestions } =
     useQuestions({ initialOffset: 0 });
   const { user, loading: userLoading } = useMe();
+
+  const handleAskClick = () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+    router.push("/questions/new");
+  };
 
   return (
     <main className="min-h-screen">
@@ -27,8 +37,13 @@ export default function HomePage() {
             authentic travel advice, cultural insights, and practical tips for
             your journey.
           </p>
-          <Button asChild variant="secondary" className="mt-8 rounded-full">
-            <Link href="/questions/new">Ask Your First Question</Link>
+          <Button
+            variant="secondary"
+            className="mt-8 rounded-full"
+            disabled={userLoading}
+            onClick={handleAskClick}
+          >
+            Ask Your First Question
           </Button>
         </div>
       </section>

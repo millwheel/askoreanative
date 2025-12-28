@@ -14,16 +14,23 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">로그인</CardTitle>
+          <CardTitle className="text-2xl text-center">
+            SignUp & SingIn
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          <p className="text-center text-sm text-muted-foreground">
+            It only takes{" "}
+            <span className="font-medium text-foreground">10 seconds</span>.
+          </p>
+
           <Button
             onClick={handleGoogleLogin}
             variant="outline"
-            className="w-full"
+            className="w-full flex items-center gap-2"
           >
             <Image src="/google.svg" alt="Google" width={16} height={16} />
-            Google login
+            Continue with Google
           </Button>
         </CardContent>
       </Card>
