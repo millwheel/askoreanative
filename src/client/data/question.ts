@@ -22,7 +22,7 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
       },
     ],
     viewCount: 127,
-    // replies: 5,
+    answerCount: 0,
     createdAt: "2 hours ago",
   },
   {
@@ -46,7 +46,7 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
       },
     ],
     viewCount: 89,
-    // replies: 3,
+    answerCount: 0,
     createdAt: "5 hours ago",
   },
   {
@@ -71,7 +71,7 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
     ],
     viewCount: 214,
     createdAt: "1 day ago",
-    // replies: 8,
+    answerCount: 0,
   },
   {
     id: 4,
@@ -95,6 +95,6 @@ export const QUESTIONS: QuestionSummaryResponse[] = [
     ],
     viewCount: 301,
     createdAt: "2 days ago",
-    // replies: 12,
+    answerCount: 0,
   },
 ];
