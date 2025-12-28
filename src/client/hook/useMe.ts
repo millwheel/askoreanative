@@ -11,7 +11,7 @@ const fetcher = async (url: string): Promise<MeResponse | null> => {
 
 export function useMe() {
   const { data, error, isLoading, mutate } = useSWR<MeResponse | null>(
-    "/axios/me",
+    "/api/me",
     fetcher,
     {
       revalidateOnFocus: false,

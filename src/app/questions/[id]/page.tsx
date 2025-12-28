@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { QuestionDetailResponse } from "@/type/question";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { apiGet } from "@/lib/axios/api";
+import { useMe } from "@/client/hook/useMe";
 
 function formatDateTime(iso: string) {
   const d = new Date(iso);
@@ -23,6 +24,7 @@ export default function QuestionDetailPage() {
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState<QuestionDetailResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { user, loading: userLoading } = useMe();
 
   useEffect(() => {
     if (!id) return;
@@ -165,14 +167,16 @@ export default function QuestionDetailPage() {
 
                 {/* 6) 액션: 답변 작성 */}
                 <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
-                  <Button
-                    className="rounded-full"
-                    onClick={() =>
-                      router.push(`/questions/${question.id}/answers/new`)
-                    }
-                  >
-                    Write Answer
-                  </Button>
+                  {!userLoading && user && (
+                    <Button
+                      className="rounded-full"
+                      onClick={() =>
+                        router.push(`/questions/${question.id}/answers/new`)
+                      }
+                    >
+                      Write Answer
+                    </Button>
+                  )}
 
                   <Button
                     variant="secondary"

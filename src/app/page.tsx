@@ -8,10 +8,12 @@ import { QuestionSearchBar } from "@/client/components/question/questionSearchBa
 import { ErrorBanner } from "@/client/components/errorBanner";
 import { QuestionList } from "@/client/components/question/questionList";
 import { QuestionLoading } from "@/client/components/question/questionLoading";
+import { useMe } from "@/client/hook/useMe";
 
 export default function HomePage() {
   const { search, setSearch, loading, errorMessage, filteredQuestions } =
     useQuestions({ initialOffset: 0 });
+  const { user, loading: userLoading } = useMe();
 
   return (
     <main className="min-h-screen">
@@ -48,9 +50,11 @@ export default function HomePage() {
           <h2 className="text-lg font-semibold text-foreground">
             Recent Questions
           </h2>
-          <Button asChild className="rounded-full">
-            <Link href="/questions/new">Ask new question</Link>
-          </Button>
+          {!userLoading && user && (
+            <Button asChild className="rounded-full">
+              <Link href="/questions/new">Ask new question</Link>
+            </Button>
+          )}
         </div>
 
         {loading && <QuestionLoading />}
