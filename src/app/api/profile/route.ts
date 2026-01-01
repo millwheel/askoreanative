@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { UserProfileRequest } from "@/type/user";
-import { getUserWithSupabase } from "@/server/requireUser";
+import { getUserAndSupabase } from "@/server/userSupabase";
 
 export async function GET() {
-  const result = await getUserWithSupabase();
-  if (!result.ok) return result.res;
-  const { supabase, user } = result;
+  const userSupabase = await getUserAndSupabase();
+  if (!userSupabase.ok) return userSupabase.res;
+  const { supabase, user } = userSupabase;
 
   const { data: profile, error: error } = await supabase
     .from("user_profile")
@@ -27,12 +27,12 @@ export async function GET() {
   });
 }
 
-export async function PATCH(req: Request) {
-  const result = await getUserWithSupabase();
+export async function PUT(req: Request) {
+  const result = await getUserAndSupabase();
   if (!result.ok) return result.res;
   const { supabase, user } = result;
 
-  const { name, displayName } = (await req.json()) as UserProfileRequest;
+  const { displayName } = (await req.json()) as UserProfileRequest;
 
   // Validation
   if (!displayName) {
@@ -42,17 +42,17 @@ export async function PATCH(req: Request) {
     );
   }
 
-  if ((name && name.length > 20) || displayName.length > 20) {
+  if (displayName.length > 20) {
     return NextResponse.json(
-      { error: "name or displayName too long" },
+      { error: "displayName too long" },
       { status: 400 },
     );
   }
 
+  // Execute
   const { error } = await supabase
     .from("user_profile")
     .update({
-      name,
       display_name: displayName,
       updated_at: new Date().toISOString(),
     })

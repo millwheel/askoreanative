@@ -16,6 +16,9 @@ export type UserProfileResponse = {
 };
 
 export type UserProfileRequest = {
-  name: string;
   displayName: string;
+};
+
+export type UserProfileAvatarRequest = {
+  avatarUrl: string | null;
 };

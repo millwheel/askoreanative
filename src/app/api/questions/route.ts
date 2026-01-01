@@ -9,6 +9,7 @@ import {
 import { TopicQueryDto, TopicSummaryResponse } from "@/type/topic";
 import { makeExcerpt } from "@/util/excerpt";
 import { AnswerCountQueryDto } from "@/type/answer";
+import { getUserAndSupabase } from "@/server/userSupabase";
 
 const PAGE_SIZE = 20;
 
@@ -124,20 +125,10 @@ const MAX_TITLE_LEN = 100;
 const MAX_DESC_LEN = 30000;
 
 export async function POST(req: Request) {
-  const supabase = await getSupabaseServerClient();
-
-  // 1) 로그인 체크
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError) {
-    return NextResponse.json({ error: userError.message }, { status: 401 });
-  }
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // 1) 로그인 체크 & supabase client 준비
+  const userSupabase = await getUserAndSupabase();
+  if (!userSupabase.ok) return userSupabase.res;
+  const { supabase, user } = userSupabase;
 
   // 2) 바디 파싱 및 question 유효성 검증
   let body: QuestionCreateRequest;

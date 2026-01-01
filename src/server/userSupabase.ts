@@ -7,7 +7,7 @@ type Fail = { ok: false; res: NextResponse };
 
 export type GetUserWithSupabaseResult = Ok | Fail;
 
-export async function getUserWithSupabase(): Promise<GetUserWithSupabaseResult> {
+export async function getUserAndSupabase(): Promise<GetUserWithSupabaseResult> {
   const supabase = await getSupabaseServerClient();
 
   const {

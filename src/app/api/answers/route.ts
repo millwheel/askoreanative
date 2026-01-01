@@ -6,6 +6,7 @@ import type {
   AnswerResponse,
 } from "@/type/answer";
 import { getSupabaseServerClient } from "@/server/supabase/config";
+import { getUserAndSupabase } from "@/server/userSupabase";
 
 export async function GET(req: Request) {
   const supabase = await getSupabaseServerClient();
@@ -81,20 +82,10 @@ export async function GET(req: Request) {
 const MAX_TITLE_LEN = 100;
 const MAX_CONTENT_LEN = 30000;
 export async function POST(req: Request) {
-  const supabase = await getSupabaseServerClient();
-
-  // 1) 로그인 체크
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError) {
-    return NextResponse.json({ error: userError.message }, { status: 401 });
-  }
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // 1) 로그인 체크 & supabase client 준비
+  const userSupabase = await getUserAndSupabase();
+  if (!userSupabase.ok) return userSupabase.res;
+  const { supabase, user } = userSupabase;
 
   // 2) body 파싱 및 answer 유효성 검증
   let body: AnswerCreateRequest;
