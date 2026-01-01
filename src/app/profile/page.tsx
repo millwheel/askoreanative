@@ -64,7 +64,6 @@ export default function ProfilePage() {
     try {
       const payload: UserProfileRequest = {
         displayName: displayName.trim(),
-        avatarUrl: avatarUrl ?? null,
       };
       const { error } = await apiPut("/profile", {
         payload,

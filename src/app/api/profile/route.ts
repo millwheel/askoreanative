@@ -32,7 +32,7 @@ export async function PUT(req: Request) {
   if (!result.ok) return result.res;
   const { supabase, user } = result;
 
-  const { displayName, avatarUrl } = (await req.json()) as UserProfileRequest;
+  const { displayName } = (await req.json()) as UserProfileRequest;
 
   // Validation
   if (!displayName) {
@@ -49,17 +49,12 @@ export async function PUT(req: Request) {
     );
   }
 
-  if (avatarUrl && !avatarUrl.startsWith("https://")) {
-    return NextResponse.json({ error: "invalid avatarUrl" }, { status: 400 });
-  }
-
   // Execute
   const { error } = await supabase
     .from("user_profile")
     .update({
       display_name: displayName,
       updated_at: new Date().toISOString(),
-      avatar_url: avatarUrl,
     })
     .eq("id", user.id);
 
