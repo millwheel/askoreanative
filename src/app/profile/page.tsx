@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { mutate as globalMutate } from "swr";
 
@@ -27,8 +27,13 @@ export default function ProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const avatarObjectUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!loading && !profile) {
@@ -45,10 +50,8 @@ export default function ProfilePage() {
 
   const isDirty = useMemo(() => {
     if (!profile) return false;
-    return (
-      displayName !== profile.displayName || avatarUrl !== profile.avatarUrl
-    );
-  }, [displayName, avatarUrl, profile]);
+    return displayName !== profile.displayName;
+  }, [displayName, profile]);
 
   const canSave = useMemo(() => {
     return isDirty && !saving && displayName.trim().length > 0;
@@ -85,6 +88,66 @@ export default function ProfilePage() {
     }
   };
 
+  const uploadAvatar = async (file: File) => {
+    if (!profile) return;
+
+    setError(null);
+    setSuccess(null);
+    setUploadingAvatar(true);
+
+    // 로컬 미리보기
+    if (avatarObjectUrlRef.current) {
+      URL.revokeObjectURL(avatarObjectUrlRef.current);
+      avatarObjectUrlRef.current = null;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    avatarObjectUrlRef.current = objectUrl;
+    setAvatarUrl(objectUrl);
+
+    try {
+      // 서버 업로드
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      const { data, error } = await apiPut<{ avatarUrl: string }>(
+        "/profile/avatar",
+        formData,
+      );
+
+      if (error || !data?.avatarUrl) {
+        setError(error?.message ?? "Failed to upload avatar.");
+        await mutate();
+        await globalMutate("/axios/me");
+        return;
+      }
+
+      // 3) 서버 URL로 교체
+      if (avatarObjectUrlRef.current) {
+        URL.revokeObjectURL(avatarObjectUrlRef.current);
+        avatarObjectUrlRef.current = null;
+      }
+
+      setAvatarUrl(data.avatarUrl ?? null);
+
+      await mutate();
+      await globalMutate("/axios/me");
+
+      setSuccess("Avatar updated.");
+    } catch (e) {
+      setError("Failed to upload avatar.");
+      await mutate(); // 서버 기준 상태로 동기화
+    } finally {
+      setUploadingAvatar(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const openAvatarPicker = () => {
+    if (uploadingAvatar) return; // 업로드 중이면 무시
+    fileInputRef.current?.click();
+  };
+
   if (loading) {
     return (
       <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
@@ -117,14 +180,25 @@ export default function ProfilePage() {
               <label className="text-sm font-medium text-gray-700">Email</label>
               <p className="text-sm text-gray-600 py-1">{profile.email}</p>
             </div>
-            <Avatar className="h-20 w-20">
-              <AvatarImage
-                src={profile.avatarUrl ?? undefined}
-                alt={profile.displayName}
-              />
-              <AvatarFallback>{profile.displayName[0]}</AvatarFallback>
-            </Avatar>
+            <div className="cursor-pointer" onClick={openAvatarPicker}>
+              <Avatar className="h-20 w-20">
+                <AvatarImage src={avatarUrl ?? undefined} alt={displayName} />
+                <AvatarFallback>{displayName[0]}</AvatarFallback>
+              </Avatar>
+            </div>
           </div>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              uploadAvatar(file);
+            }}
+          />
 
           {/* Name */}
           <div>
