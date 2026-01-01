@@ -39,21 +39,21 @@ export async function PUT(req: Request) {
     );
   }
 
-  const folderPrefix = `${user.id}/`;
+  const folder = user.id;
 
   /* -------------------------------------------------
    * 1) 기존 프로필 이미지 전부 삭제
    * ------------------------------------------------- */
   const { data: existingFiles, error: listErr } = await supabase.storage
     .from(BUCKET)
-    .list(folderPrefix);
+    .list(folder);
 
   if (listErr) {
     return NextResponse.json({ error: listErr.message }, { status: 500 });
   }
 
   if (existingFiles && existingFiles.length > 0) {
-    const pathsToRemove = existingFiles.map((f) => `${folderPrefix}${f.name}`);
+    const pathsToRemove = existingFiles.map((f) => `${folder}/${f.name}`);
 
     const { error: removeErr } = await supabase.storage
       .from(BUCKET)
@@ -67,7 +67,7 @@ export async function PUT(req: Request) {
   /* -------------------------------------------------
    * 2) 새 이미지 업로드 (원본 파일명 유지)
    * ------------------------------------------------- */
-  const uploadPath = `${folderPrefix}${file.name}`;
+  const uploadPath = `${folder}/${file.name}`;
 
   const { error: uploadErr } = await supabase.storage
     .from(BUCKET)
