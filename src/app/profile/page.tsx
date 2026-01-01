@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useProfile } from "@/client/hook/useProfile";
-import { apiPatch } from "@/lib/axios/api";
+import { apiPut } from "@/lib/axios/api";
+import { UserProfileRequest } from "@/type/user";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -23,12 +24,14 @@ export default function ProfilePage() {
 
   const [name, setName] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!loading && profile === null) {
+    if (!loading && !profile) {
       router.replace("/login");
     }
   }, [loading, profile, router]);
@@ -37,31 +40,34 @@ export default function ProfilePage() {
     if (!profile) return;
     setName(profile.name ?? "");
     setDisplayName(profile.displayName ?? "");
+    setAvatarUrl(profile.avatarUrl ?? null);
   }, [profile]);
 
   const isDirty = useMemo(() => {
     if (!profile) return false;
-    return name !== profile.name || displayName !== profile.displayName;
-  }, [name, displayName, profile]);
+    return (
+      displayName !== profile.displayName || avatarUrl !== profile.avatarUrl
+    );
+  }, [displayName, avatarUrl, profile]);
 
   const canSave = useMemo(() => {
-    return (
-      isDirty &&
-      !saving &&
-      name.trim().length > 0 &&
-      displayName.trim().length > 0
-    );
-  }, [isDirty, saving, name, displayName]);
+    return isDirty && !saving && displayName.trim().length > 0;
+  }, [isDirty, saving, displayName]);
 
   const handleSave = async () => {
+    if (!profile) return;
+
     setError(null);
     setSuccess(null);
     setSaving(true);
 
     try {
-      const { error } = await apiPatch("/profile", {
-        name: name.trim(),
+      const payload: UserProfileRequest = {
         displayName: displayName.trim(),
+        avatarUrl: avatarUrl ?? null,
+      };
+      const { error } = await apiPut("/profile", {
+        payload,
       });
 
       if (error) {
@@ -80,7 +86,21 @@ export default function ProfilePage() {
     }
   };
 
-  if (loading || !profile) return null;
+  if (loading) {
+    return (
+      <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
+        <p className="text-sm text-gray-500">Loading profile…</p>
+      </main>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
+        <p className="text-sm text-gray-500">Redirecting to login…</p>
+      </main>
+    );
+  }
 
   return (
     <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
@@ -110,11 +130,7 @@ export default function ProfilePage() {
           {/* Name */}
           <div>
             <label className="mb-2 block text-sm font-medium">Name</label>
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="rounded-full"
-            />
+            <Input value={name} className="rounded-full" disabled />
           </div>
 
           {/* Display name */}

@@ -27,12 +27,12 @@ export async function GET() {
   });
 }
 
-export async function PATCH(req: Request) {
+export async function PUT(req: Request) {
   const result = await getUserAndSupabase();
   if (!result.ok) return result.res;
   const { supabase, user } = result;
 
-  const { name, displayName } = (await req.json()) as UserProfileRequest;
+  const { displayName, avatarUrl } = (await req.json()) as UserProfileRequest;
 
   // Validation
   if (!displayName) {
@@ -42,19 +42,24 @@ export async function PATCH(req: Request) {
     );
   }
 
-  if ((name && name.length > 20) || displayName.length > 20) {
+  if (displayName.length > 20) {
     return NextResponse.json(
-      { error: "name or displayName too long" },
+      { error: "displayName too long" },
       { status: 400 },
     );
   }
 
+  if (avatarUrl && !avatarUrl.startsWith("https://")) {
+    return NextResponse.json({ error: "invalid avatarUrl" }, { status: 400 });
+  }
+
+  // Execute
   const { error } = await supabase
     .from("user_profile")
     .update({
-      name,
       display_name: displayName,
       updated_at: new Date().toISOString(),
+      avatar_url: avatarUrl,
     })
     .eq("id", user.id);
 
