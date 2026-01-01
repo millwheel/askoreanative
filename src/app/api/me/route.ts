@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
-import { getSupabaseServerClient } from "@/server/supabase/config";
+import { getUserAndSupabase } from "@/server/userSupabase";
 
 export async function GET() {
-  const supabase = await getSupabaseServerClient();
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError)
-    return NextResponse.json({ error: userError.message }, { status: 401 });
-  if (!user) return NextResponse.json(null, { status: 200 });
+  // 1) 로그인 체크 & supabase client 준비
+  const userSupabase = await getUserAndSupabase();
+  if (!userSupabase.ok) return userSupabase.res;
+  const { supabase, user } = userSupabase;
 
   const { data: profile, error: profileError } = await supabase
     .from("user_profile")

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { UserProfileRequest } from "@/type/user";
-import { getUserWithSupabase } from "@/server/requireUser";
+import { getUserAndSupabase } from "@/server/userSupabase";
 
 export async function GET() {
-  const result = await getUserWithSupabase();
-  if (!result.ok) return result.res;
-  const { supabase, user } = result;
+  const userSupabase = await getUserAndSupabase();
+  if (!userSupabase.ok) return userSupabase.res;
+  const { supabase, user } = userSupabase;
 
   const { data: profile, error: error } = await supabase
     .from("user_profile")
@@ -28,7 +28,7 @@ export async function GET() {
 }
 
 export async function PATCH(req: Request) {
-  const result = await getUserWithSupabase();
+  const result = await getUserAndSupabase();
   if (!result.ok) return result.res;
   const { supabase, user } = result;
 
